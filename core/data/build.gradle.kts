@@ -1,43 +1,23 @@
+@file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
+
+import com.yapp.fitrun.setNamespace
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.fitrun.android.library)
 }
 
 android {
-    namespace = "com.yapp.core.data"
-    compileSdk = 34
-
-    defaultConfig {
-        minSdk = 33
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+    setNamespace("core.data")
 }
 
+// Add library
 dependencies {
+    implementations(
+        project(path = ":core:network"),
+        project(path = ":core:datastore"),
+        project(path = ":core:domain"),
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+        libs.retrofit.core,
+        libs.retrofit.kotlin.serialization
+    )
 }
