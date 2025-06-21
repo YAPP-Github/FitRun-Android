@@ -57,6 +57,9 @@ retrofit = "2.11.0"
 # desugar
 androidDesugarJdkLibs = "2.1.5"
 
+# kakao login
+kakao-core = "2.12.1"
+
 [libraries]
 # gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp"}
@@ -126,6 +129,9 @@ retrofit-kotlin-serialization = { module = "com.squareup.retrofit2:converter-kot
 # verify (detekt)
 verify-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 verify-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+
+# kakao login
+kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
 
 # plugin
 plugin-kotlin-serializationPlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
