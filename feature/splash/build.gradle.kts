@@ -3,18 +3,17 @@
 import com.yapp.fitrun.setNamespace
 
 plugins {
-    alias(libs.plugins.fitrun.android.library)
+    alias(libs.plugins.fitrun.android.feature)
     alias(libs.plugins.fitrun.android.compose)
 }
 
 android {
-    setNamespace("core.design_system")
+    setNamespace("feature.splash")
 }
 
 // Add library
 dependencies {
     implementations(
-        libs.androidx.core.ktx,
-        libs.androidx.appcompat
+        libs.androidx.core.ktx
     )
 }
