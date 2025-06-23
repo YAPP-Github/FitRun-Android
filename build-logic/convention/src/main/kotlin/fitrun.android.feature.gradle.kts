@@ -21,6 +21,7 @@ configureHiltAndroid()
 
 dependencies {
     implementation(findLibrary("hilt.navigation.compose"))
+    implementation(findLibrary("androidx.compose.navigation"))
     implementation(findLibrary("androidx.lifecycle.viewModelCompose"))
     implementation(findLibrary("androidx.lifecycle.runtimeCompose"))
     implementation(findLibrary("orbit.viewmodel"))

@@ -5,15 +5,14 @@ import com.yapp.fitrun.setNamespace
 plugins {
     alias(libs.plugins.fitrun.android.feature)
     alias(libs.plugins.fitrun.android.compose)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    setNamespace("feature.login")
+    setNamespace("feature.main")
 }
 
 // Add library
 dependencies {
     implementations(libs.androidx.core.ktx)
-    implementations(libs.kotlinx.serialization.json)
+    implementations(project(path = ":feature:login"))
 }

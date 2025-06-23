@@ -1,7 +1,6 @@
 package com.yapp.fitrun.feature.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,9 +27,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoginScreen() {
-    Scaffold(
-
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
