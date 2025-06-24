@@ -4,6 +4,7 @@
     <bytecodeTargetLevel target="21">
       <module name="build-logic.main" target="17" />
       <module name="build-logic.test" target="17" />
+      <module name="FitRun-android.core.navigation" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
