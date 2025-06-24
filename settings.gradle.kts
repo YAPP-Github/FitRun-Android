@@ -52,4 +52,3 @@ include(
     ":feature:splash",
     ":feature:main",
 )
-include(":feature:main")
