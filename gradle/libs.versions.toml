@@ -61,6 +61,9 @@ androidDesugarJdkLibs = "2.1.5"
 # kakao login
 kakao-core = "2.12.1"
 
+# splash
+androidx-splash = "1.0.1"
+
 [libraries]
 # gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp"}
@@ -134,6 +137,9 @@ verify-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plug
 
 # kakao login
 kakao-auth = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-core" }
+
+# splash
+androidx-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splash" }
 
 # plugin
 plugin-kotlin-serializationPlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }

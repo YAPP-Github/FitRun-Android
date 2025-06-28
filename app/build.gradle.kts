@@ -56,6 +56,7 @@ dependencies {
         project(path = ":feature:login"),
         project(path = ":feature:splash"),
         project(path = ":feature:main"),
+        project(path = ":feature:navigator"),
 
         // library
         libs.androidx.core.ktx,

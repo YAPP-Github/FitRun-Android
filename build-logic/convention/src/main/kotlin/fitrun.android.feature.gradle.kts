@@ -26,4 +26,7 @@ dependencies {
     implementation(findLibrary("androidx.lifecycle.runtimeCompose"))
     implementation(findLibrary("orbit.viewmodel"))
     implementation(findLibrary("orbit.compose"))
+
+    implementation(project(path = ":core:design-system"))
+    implementation(project(path = ":core:common"))
 }
