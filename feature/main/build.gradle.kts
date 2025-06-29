@@ -13,6 +13,10 @@ android {
 
 // Add library
 dependencies {
-    implementations(libs.androidx.core.ktx)
-    implementations(project(path = ":feature:login"))
+    implementations(
+        libs.androidx.core.ktx,
+
+        project(path = ":feature:login"),
+        project(path = ":feature:navigator"),
+    )
 }

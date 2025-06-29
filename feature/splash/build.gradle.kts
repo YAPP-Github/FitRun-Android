@@ -14,6 +14,9 @@ android {
 // Add library
 dependencies {
     implementations(
-        libs.androidx.core.ktx
+        libs.androidx.core.ktx,
+        libs.androidx.splash,
+
+        project(path = ":feature:navigator"),
     )
 }

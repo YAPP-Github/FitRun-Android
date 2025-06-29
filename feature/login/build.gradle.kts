@@ -14,6 +14,10 @@ android {
 
 // Add library
 dependencies {
-    implementations(libs.androidx.core.ktx)
-    implementations(libs.kotlinx.serialization.json)
+    implementations(
+        libs.androidx.core.ktx,
+        libs.kotlinx.serialization.json,
+
+        project(path = ":feature:navigator"),
+    )
 }
