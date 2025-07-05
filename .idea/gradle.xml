@@ -39,6 +39,7 @@
             <option value="$PROJECT_DIR$/feature/main" />
             <option value="$PROJECT_DIR$/feature/navigator" />
             <option value="$PROJECT_DIR$/feature/splash" />
+            <option value="$PROJECT_DIR$/feature/workthrough" />
           </set>
         </option>
       </GradleProjectSettings>
