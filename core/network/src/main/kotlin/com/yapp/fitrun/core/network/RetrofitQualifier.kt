@@ -1,11 +1,11 @@
-package com.yapp.fitrun.core.common
+package com.yapp.fitrun.core.network
 
 import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class LoginNavigator
+annotation class AuthOkHttpClient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class MainNavigator
+annotation class BaseOkHttpClient
