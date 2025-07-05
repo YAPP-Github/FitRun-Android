@@ -4,8 +4,7 @@ import com.yapp.fitrun.setNamespace
 
 plugins {
     alias(libs.plugins.fitrun.android.library)
-    alias(libs.plugins.fitrun.kotlin.hilt)
-    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.fitrun.android.hilt)
 }
 
 android {
@@ -16,6 +15,7 @@ android {
 dependencies {
     implementations(
         libs.androidx.core.ktx,
-        libs.kotlinx.serialization.json
+        libs.kotlinx.serialization.json,
+        libs.datastore
     )
 }

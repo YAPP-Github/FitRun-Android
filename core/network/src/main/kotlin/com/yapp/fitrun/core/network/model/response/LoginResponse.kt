@@ -1,0 +1,36 @@
+package com.yapp.fitrun.core.network.model.response
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class LoginResponse(
+    @SerialName("tokenResponse")
+    val tokenResponse: TokenResponse,
+    @SerialName("user")
+    val user: User,
+    @SerialName("isNew")
+    val isNew: Boolean
+)
+
+@Serializable
+data class TokenResponse(
+    @SerialName("accessToken")
+    val accessToken: String,
+    @SerialName("refreshToken")
+    val refreshToken: String
+)
+
+@Serializable
+data class User(
+    @SerialName("id")
+    val id: Long,
+    @SerialName("name")
+    val name: String,
+    @SerialName("email")
+    val email: String,
+    @SerialName("profileImage")
+    val profileImage: String?,
+    @SerialName("provider")
+    val provider: String
+)

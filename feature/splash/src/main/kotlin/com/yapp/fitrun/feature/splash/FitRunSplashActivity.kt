@@ -17,10 +17,9 @@ import javax.inject.Inject
 class FitRunSplashActivity : ComponentActivity() {
     private val viewModel: FitRunSplashViewModel by viewModels()
 
-    //TODO: set Login navigator
-//    @LoginNavigator
-//    @Inject
-//    lateinit var loginNavigator: INavigator
+    @LoginNavigator
+    @Inject
+    lateinit var loginNavigator: INavigator
 
     @MainNavigator
     @Inject
@@ -34,10 +33,10 @@ class FitRunSplashActivity : ComponentActivity() {
         setContent {
             FitRunsSplashRoute(
                 navigateToLogin = {
-//                    loginNavigator.navigateFrom(
-//                        activity = this,
-//                        withFinish = true,
-//                    )
+                    loginNavigator.navigateFrom(
+                        activity = this,
+                        withFinish = true,
+                    )
                 },
                 navigateToMain = {
                     mainNavigator.navigateFrom(

@@ -5,6 +5,7 @@ import com.yapp.fitrun.configureComposeFeature
 
 plugins {
     alias(libs.plugins.fitrun.android.library)
+    alias(libs.plugins.fitrun.android.compose)
     alias(libs.plugins.fitrun.kotlin.hilt)
 }
 
