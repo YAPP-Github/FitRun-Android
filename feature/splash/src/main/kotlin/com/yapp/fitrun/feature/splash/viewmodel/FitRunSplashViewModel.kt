@@ -2,7 +2,7 @@ package com.yapp.fitrun.feature.splash.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yapp.fitrun.core.data.local.TokenManager
+import com.yapp.fitrun.core.data.local.TokenRepositoryImpl
 import com.yapp.fitrun.core.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FitRunSplashViewModel @Inject constructor(
-    private val tokenManager: TokenManager,
+    private val tokenRepositoryImpl: TokenRepositoryImpl,
     private val authRepository: AuthRepository
 ) : ViewModel(), ContainerHost<FitRunSplashState, FitRunSplashSideEffect> {
 
@@ -41,8 +41,8 @@ class FitRunSplashViewModel @Inject constructor(
         delay(1500)
 
         // 토큰 존재 여부 확인
-        val accessToken = tokenManager.getAccessTokenSync()
-        val refreshToken = tokenManager.getRefreshTokenSync()
+        val accessToken = tokenRepositoryImpl.getAccessTokenSync()
+        val refreshToken = tokenRepositoryImpl.getRefreshTokenSync()
 
         when {
             accessToken.isNullOrEmpty() || refreshToken.isNullOrEmpty() -> {
@@ -67,15 +67,12 @@ class FitRunSplashViewModel @Inject constructor(
                     reduce {
                         state.copy(
                             isLoading = false,
-                            userId = loginResult.user.id
                         )
                     }
 
                     // 메인 화면으로 이동
                     intent {
-                        postSideEffect(FitRunSplashSideEffect.AutoLoginSuccess(
-                            userId = loginResult.user.id
-                        ))
+                        postSideEffect(FitRunSplashSideEffect.AutoLoginSuccess)
                     }
                 },
                 onFailure = { error ->
@@ -83,7 +80,7 @@ class FitRunSplashViewModel @Inject constructor(
                     reduce { state.copy(isLoading = false) }
 
                     // 토큰 만료 또는 유효하지 않음 - 모든 토큰 삭제
-                    tokenManager.clearAll()
+                    tokenRepositoryImpl.clearAll()
 
                     intent {
                         postSideEffect(FitRunSplashSideEffect.AutoLoginFail)

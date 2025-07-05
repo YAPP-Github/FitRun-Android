@@ -25,7 +25,7 @@ import androidx.compose.runtime.getValue
 @Composable
 internal fun FitRunsSplashRoute(
     navigateToLogin: () -> Unit,
-    navigateToMain: (userId: Long) -> Unit,
+    navigateToMain: () -> Unit,
     viewModel: FitRunSplashViewModel = hiltViewModel(),
 ) {
     val state by viewModel.collectAsState()
@@ -37,7 +37,7 @@ internal fun FitRunsSplashRoute(
                 // 토큰 검증 중 - UI 상태 업데이트 등
             }
             is FitRunSplashSideEffect.AutoLoginSuccess -> {
-                navigateToMain(sideEffect.userId)
+                navigateToMain()
             }
             is FitRunSplashSideEffect.AutoLoginFail -> {
                 navigateToLogin()
