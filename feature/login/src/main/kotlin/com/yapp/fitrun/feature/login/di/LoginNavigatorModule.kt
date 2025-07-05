@@ -3,6 +3,8 @@ package com.yapp.fitrun.feature.login.di
 import android.app.Activity
 import android.content.Intent
 import com.yapp.fitrun.core.common.LoginNavigator
+import com.yapp.fitrun.core.common.extension.startActivityWithAnimation
+import com.yapp.fitrun.feature.login.LoginActivity
 import com.yapp.fitrun.feature.navigator.INavigator
 import dagger.Binds
 import dagger.Module
@@ -18,7 +20,10 @@ internal class LoginNavigatorImpl @Inject constructor() : INavigator {
         withFinish: Boolean,
         intentBuilder: Intent.() -> Intent,
     ) {
-        // TODO: LoginActivity
+        activity.startActivityWithAnimation<LoginActivity>(
+            withFinish = withFinish,
+            intentBuilder = intentBuilder,
+        )
     }
 }
 
