@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FitRun</string>
+
+    <!--    WorkThrough-->
+    <string name="work_through_1_title">나에게 꼭 맞는 러닝 플랜</string>
+    <string name="work_through_1_description">처음 시작하는 러닝, 나의 체력에 맞춘\n루틴으로 가볍게 시작하세요.</string>
+    <string name="work_through_2_title">오늘도, 나만의 속도로</string>
+    <string name="work_through_2_description">언제든지 원하는 시간과 장소에서\n당신의 속도로 꾸준히 달릴 수 있게 도와드릴게요.</string>
+    <string name="work_through_3_title">매일 쌓이는 나만의 성장기록</string>
+    <string name="work_through_next">다음</string>
+    <string name="work_through_start">시작하기</string>
+
 </resources>
