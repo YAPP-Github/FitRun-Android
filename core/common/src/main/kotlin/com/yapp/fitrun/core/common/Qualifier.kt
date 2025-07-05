@@ -9,3 +9,11 @@ annotation class LoginNavigator
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class MainNavigator
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthOkHttpClient
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class BaseOkHttpClient
