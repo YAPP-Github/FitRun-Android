@@ -17,7 +17,9 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
-
+        libs.kakao.auth,
         project(path = ":feature:navigator"),
+        project(path = ":core:data"),
+        project(path = ":core:domain"),
     )
 }

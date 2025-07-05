@@ -18,5 +18,7 @@ dependencies {
         libs.androidx.splash,
 
         project(path = ":feature:navigator"),
+        project(path = ":core:data"),
+        project(path = ":core:domain"),
     )
 }
