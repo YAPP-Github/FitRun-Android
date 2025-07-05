@@ -18,24 +18,33 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashViewModel
 import com.yapp.fitrun.core.design_system.R
 import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashSideEffect
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
+import androidx.compose.runtime.getValue
 
 @Composable
 internal fun FitRunsSplashRoute(
     navigateToLogin: () -> Unit,
-    navigateToMain: () -> Unit,
+    navigateToMain: (userId: Long) -> Unit,
     viewModel: FitRunSplashViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(viewModel) {
-        viewModel.container.sideEffectFlow.collect { sideEffect ->
-            when (sideEffect) {
-                is FitRunSplashSideEffect.ValidateToken -> {
-                    // TODO: set auto login intent
-                }
-                is FitRunSplashSideEffect.AutoLoginSuccess -> navigateToMain()
-                is FitRunSplashSideEffect.AutoLoginFail -> navigateToLogin()
+    val state by viewModel.collectAsState()
+
+    // Side Effects 처리
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is FitRunSplashSideEffect.ValidateToken -> {
+                // 토큰 검증 중 - UI 상태 업데이트 등
+            }
+            is FitRunSplashSideEffect.AutoLoginSuccess -> {
+                navigateToMain(sideEffect.userId)
+            }
+            is FitRunSplashSideEffect.AutoLoginFail -> {
+                navigateToLogin()
             }
         }
     }
+
     FitRunSplashScreen()
 }
 
