@@ -20,7 +20,7 @@ android {
 dependencies {
     implementations(
         project(path = ":core:datastore"),
-        project(path = ":core:common"),
+        project(path = ":core:domain"),
         libs.retrofit.core,
         libs.retrofit.kotlin.serialization,
         libs.okhttp3.core,

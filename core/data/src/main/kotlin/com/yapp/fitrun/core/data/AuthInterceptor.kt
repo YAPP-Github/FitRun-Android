@@ -1,13 +1,13 @@
 package com.yapp.fitrun.core.data
 
-import com.yapp.fitrun.core.data.local.TokenManager
+import com.yapp.fitrun.core.data.local.TokenRepositoryImpl
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
-    private val tokenManager: TokenManager
+    private val tokenRepositoryImpl: TokenRepositoryImpl
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -19,7 +19,7 @@ class AuthInterceptor @Inject constructor(
         }
 
         // 토큰 추가
-        val token = runBlocking { tokenManager.getAccessTokenSync() }
+        val token = runBlocking { tokenRepositoryImpl.getAccessTokenSync() }
 
         val request = original.newBuilder().apply {
             token?.let {

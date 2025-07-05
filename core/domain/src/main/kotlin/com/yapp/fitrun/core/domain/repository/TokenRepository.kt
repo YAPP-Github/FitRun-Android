@@ -1,6 +1,6 @@
-package com.yapp.fitrun.core.common
+package com.yapp.fitrun.core.domain.repository
 
-interface TokenProvider {
+interface TokenRepository {
     suspend fun getAccessTokenSync(): String?
     suspend fun getRefreshTokenSync(): String?
     suspend fun saveTokens(accessToken: String, refreshToken: String)

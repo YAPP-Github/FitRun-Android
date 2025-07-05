@@ -1,6 +1,6 @@
 package com.yapp.fitrun.core.data
 
-import com.yapp.fitrun.core.data.local.TokenManager
+import com.yapp.fitrun.core.data.local.TokenRepositoryImpl
 import com.yapp.fitrun.core.data.mapper.toDomainModel
 import com.yapp.fitrun.core.domain.model.LoginResult
 import com.yapp.fitrun.core.domain.repository.AuthRepository
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val authApiService: AuthApiService,
-    private val tokenManager: TokenManager,
+    private val tokenRepositoryImpl: TokenRepositoryImpl,
     private val json: Json
 ) : AuthRepository {
     override suspend fun loginWithKakao(
@@ -37,7 +37,7 @@ class AuthRepositoryImpl @Inject constructor(
 
             // 토큰 및 사용자 정보 저장
             val loginResponse = response.result
-            tokenManager.saveLoginInfo(
+            tokenRepositoryImpl.saveLoginInfo(
                 accessToken = loginResponse.tokenResponse.accessToken,
                 refreshToken = loginResponse.tokenResponse.refreshToken,
             )
@@ -63,11 +63,11 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun logout(): Result<Unit> {
         return try {
             authApiService.logout()
-            tokenManager.clearAll() // 모든 저장 데이터 삭제
+            tokenRepositoryImpl.clearAll() // 모든 저장 데이터 삭제
             Result.success(Unit)
         } catch (e: Exception) {
             // 로그아웃은 실패해도 로컬 데이터는 삭제
-            tokenManager.clearAll()
+            tokenRepositoryImpl.clearAll()
             Result.failure(e)
         }
     }
@@ -81,7 +81,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
 
             // 새 토큰 저장
-            tokenManager.saveTokens(
+            tokenRepositoryImpl.saveTokens(
                 accessToken = response.result.tokenResponse.accessToken,
                 refreshToken = response.result.tokenResponse.refreshToken
             )

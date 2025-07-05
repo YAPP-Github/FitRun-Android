@@ -1,8 +1,8 @@
 package com.yapp.fitrun.core.network.di
 
-import com.yapp.fitrun.core.common.AuthOkHttpClient
-import com.yapp.fitrun.core.common.BaseOkHttpClient
-import com.yapp.fitrun.core.common.TokenProvider
+import com.yapp.fitrun.core.domain.repository.TokenRepository
+import com.yapp.fitrun.core.network.AuthOkHttpClient
+import com.yapp.fitrun.core.network.BaseOkHttpClient
 import com.yapp.fitrun.core.network.BuildConfig
 import com.yapp.fitrun.core.network.api.AuthApiService
 import dagger.Module
@@ -37,7 +37,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideAuthInterceptor(tokenProvider: TokenProvider): Interceptor = Interceptor { chain ->
+    fun provideAuthInterceptor(tokenRepository: TokenRepository): Interceptor = Interceptor { chain ->
         val original = chain.request()
 
         // 로그인 API는 토큰 불필요
@@ -46,7 +46,7 @@ object NetworkModule {
         }
 
         // 토큰 추가
-        val token = runBlocking { tokenProvider.getAccessTokenSync() }
+        val token = runBlocking { tokenRepository.getAccessTokenSync() }
 
         val request = original.newBuilder().apply {
             token?.let {

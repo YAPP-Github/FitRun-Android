@@ -1,31 +1,21 @@
 package com.yapp.fitrun.core.data.di
 
-import com.yapp.fitrun.core.data.AuthRepositoryImpl
-import com.yapp.fitrun.core.data.local.TokenManager
-import com.yapp.fitrun.core.domain.repository.AuthRepository
-import com.yapp.fitrun.core.network.api.AuthApiService
+import com.yapp.fitrun.core.domain.repository.TokenRepository
+import com.yapp.fitrun.core.data.local.TokenRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideAuthRepository(
-        authApiService: AuthApiService,
-        tokenManager: TokenManager,
-        json: Json
-    ): AuthRepository {
-        return AuthRepositoryImpl(
-            authApiService = authApiService,
-            tokenManager = tokenManager,
-            json = json
-        )
-    }
+    abstract fun bindTokenRepository(
+        tokenRepositoryImpl: TokenRepositoryImpl
+    ): TokenRepository
+
 }

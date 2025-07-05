@@ -1,6 +1,6 @@
 package com.yapp.fitrun.core.data
 
-import com.yapp.fitrun.core.data.local.TokenManager
+import com.yapp.fitrun.core.data.local.TokenRepositoryImpl
 import com.yapp.fitrun.core.network.api.AuthApiService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -11,7 +11,7 @@ import okhttp3.Route
 import javax.inject.Inject
 
 class TokenAuthenticator @Inject constructor(
-    private val tokenManager: TokenManager,
+    private val tokenRepositoryImpl: TokenRepositoryImpl,
     private val authApiService: AuthApiService,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -23,7 +23,7 @@ class TokenAuthenticator @Inject constructor(
             return null
         }
 
-        val refreshToken = runBlocking { tokenManager.refreshToken.first() }
+        val refreshToken = runBlocking { tokenRepositoryImpl.refreshToken.first() }
             ?: return null
 
         return runBlocking {
@@ -32,12 +32,12 @@ class TokenAuthenticator @Inject constructor(
                 val apiResponse = authApiService.refreshToken(refreshToken)
 
                 if (apiResponse.code != "SUCCESS") {
-                    tokenManager.clearTokens()
+                    tokenRepositoryImpl.clearTokens()
                     return@runBlocking null
                 }
 
                 // 새 토큰 저장
-                tokenManager.saveTokens(
+                tokenRepositoryImpl.saveTokens(
                     accessToken = apiResponse.result.tokenResponse.accessToken,
                     refreshToken = apiResponse.result.tokenResponse.refreshToken
                 )
@@ -50,7 +50,7 @@ class TokenAuthenticator @Inject constructor(
                     .build()
             } catch (e: Exception) {
                 // 토큰 갱신 실패 시 로그인 화면으로 이동하도록 처리
-                tokenManager.clearTokens()
+                tokenRepositoryImpl.clearTokens()
                 null
             }
         }

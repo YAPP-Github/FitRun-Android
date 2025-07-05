@@ -1,11 +1,9 @@
 package com.yapp.fitrun.core.data.local
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.yapp.fitrun.core.common.TokenProvider
+import com.yapp.fitrun.core.domain.repository.TokenRepository
 import com.yapp.fitrun.core.datastore.datasource.authDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -15,9 +13,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TokenManager @Inject constructor(
+class TokenRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-): TokenProvider {
+): TokenRepository {
     private companion object {
         val ACCESS_TOKEN_KEY = stringPreferencesKey("access_token")
         val REFRESH_TOKEN_KEY = stringPreferencesKey("refresh_token")
