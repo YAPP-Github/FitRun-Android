@@ -1,8 +1,7 @@
-package com.yapp.fitrun.main
+package com.yapp.fitrun.feature.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.yapp.fitrun.feature.login.navigation.LoginRoute

@@ -1,4 +1,4 @@
-package com.yapp.fitrun.main.component
+package com.yapp.fitrun.feature.main.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.yapp.fitrun.feature.login.navigation.loginNavGraph
-import com.yapp.fitrun.main.MainNavigator
+import com.yapp.fitrun.feature.main.MainNavigator
 
 @Composable
 internal fun MainNavHost(
