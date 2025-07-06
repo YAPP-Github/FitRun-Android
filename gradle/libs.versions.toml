@@ -55,6 +55,9 @@ gradle-dependency-handler-extensions = "1.1.0"
 # retrofit
 retrofit = "2.11.0"
 
+# okhttp3
+okhttp3 = "4.12.0"
+
 # desugar
 androidDesugarJdkLibs = "2.1.5"
 
@@ -64,9 +67,12 @@ kakao-core = "2.12.1"
 # splash
 androidx-splash = "1.0.1"
 
+# datastore
+datastore = "1.1.7"
+
 [libraries]
 # gradle
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp"}
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
@@ -131,6 +137,13 @@ coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 
+# okhttp3
+okhttp3-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
+okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
+
+# datastore
+datastore = {group = "androidx.datastore", name  = "datastore-preferences", version.ref = "datastore"}
+
 # verify (detekt)
 verify-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 verify-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
@@ -150,7 +163,7 @@ gradle-dependency-handler-extensions = { id = "land.sungbin.dependency.handler.e
 
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 verify-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
