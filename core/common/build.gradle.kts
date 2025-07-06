@@ -9,8 +9,6 @@ plugins {
     alias(libs.plugins.fitrun.kotlin.hilt)
 }
 
-configureComposeFeature()
-
 android {
     setNamespace("core.common")
 }

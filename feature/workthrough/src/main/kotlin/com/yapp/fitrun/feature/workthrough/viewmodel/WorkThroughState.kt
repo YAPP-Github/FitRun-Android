@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.workthrough.viewmodel
 
 data class WorkThroughState(
-    val isLoading: Boolean = true,
+    val titleTextList: List<Int> = emptyList(),
+    val descriptionTextList: List<Int> = emptyList(),
 )
