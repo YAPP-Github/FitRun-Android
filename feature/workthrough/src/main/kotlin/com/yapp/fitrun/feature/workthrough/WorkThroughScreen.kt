@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yapp.fitrun.core.designsystem.InteractiveSecondary
 import com.yapp.fitrun.feature.workthrough.viewmodel.WorkThroughViewModel
-import com.yapp.fitrun.core.design_system.R
+import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Head_head1_Bold

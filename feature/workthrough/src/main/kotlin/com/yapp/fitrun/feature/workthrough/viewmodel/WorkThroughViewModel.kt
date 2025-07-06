@@ -7,7 +7,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
-import com.yapp.fitrun.core.design_system.R
+import com.yapp.fitrun.core.designsystem.R
 import org.orbitmvi.orbit.syntax.simple.reduce
 
 @HiltViewModel
