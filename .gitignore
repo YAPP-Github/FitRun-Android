@@ -20,6 +20,7 @@ build/
 # User-specific configurations
 .idea/*
 /.idea/*
+.idea
 
 # OS-specific files
 .DS_Store
