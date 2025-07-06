@@ -175,21 +175,21 @@ internal fun WorkThroughScreen(
             ),
             onClick = {
                 if (pagerState.currentPage == 2) {
+                    onButtonClick()
+                }
+                else {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
-                }
-                else {
-                    onButtonClick()
                 }
             },
         ) {
             Text(
                 text =
                     if (pagerState.currentPage == 2)
-                        stringResource(id = R.string.work_through_next)
+                        stringResource(id = R.string.work_through_start)
                     else
-                        stringResource(id = R.string.work_through_start),
+                        stringResource(id = R.string.work_through_next),
                 textAlign = TextAlign.Center,
                 color = InteractiveInverse,
                 style = Body_body3_semiBold,
