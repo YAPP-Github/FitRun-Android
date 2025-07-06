@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    setNamespace("core.design_system")
+    setNamespace("core.designSystem")
 }
 
 // Add library

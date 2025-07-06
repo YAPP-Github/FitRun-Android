@@ -18,8 +18,9 @@ dependencies {
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
         libs.kakao.auth,
-        project(path = ":feature:navigator"),
-        project(path = ":core:data"),
-        project(path = ":core:domain"),
+
+        projects.feature.navigator,
+        projects.core.data,
+        projects.core.domain,
     )
 }
