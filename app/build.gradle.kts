@@ -43,21 +43,21 @@ android {
 dependencies {
     implementations(
         // core
-        project(path = ":core:common"),
-        project(path = ":core:data"),
-        project(path = ":core:datastore"),
-        project(path = ":core:design-system"),
-        project(path = ":core:domain"),
-        project(path = ":core:network"),
-        project(path = ":core:ui"),
+        projects.core.common,
+        projects.core.data,
+        projects.core.datastore,
+        projects.core.designSystem,
+        projects.core.domain,
+        projects.core.network,
+        projects.core.ui,
 
         // feature
-        project(path = ":feature:home"),
-        project(path = ":feature:login"),
-        project(path = ":feature:splash"),
-        project(path = ":feature:main"),
-        project(path = ":feature:navigator"),
-        project(path = ":feature:workthrough"),
+        projects.feature.home,
+        projects.feature.login,
+        projects.feature.splash,
+        projects.feature.main,
+        projects.feature.navigator,
+        projects.feature.workthrough,
 
         // library
         libs.androidx.core.ktx,

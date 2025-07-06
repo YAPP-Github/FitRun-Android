@@ -14,10 +14,11 @@ android {
 // Add library
 dependencies {
     implementations(
-        project(path = ":core:common"),
-        project(path = ":core:network"),
-        project(path = ":core:datastore"),
-        project(path = ":core:domain"),
+        projects.core.common,
+        projects.core.network,
+        projects.core.datastore,
+        projects.core.domain,
+
         libs.retrofit.core,
         libs.retrofit.kotlin.serialization,
         libs.kotlinx.serialization.json,
