@@ -1,9 +1,9 @@
-import com.yapp.fitrun.configureKotlin
+import com.yapp.fitrun.configureKotlinJvm
 import com.yapp.fitrun.configureKotest
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
-configureKotlin()
+configureKotlinJvm()
 configureKotest()

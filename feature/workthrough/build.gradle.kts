@@ -1,22 +1,21 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 import com.yapp.fitrun.setNamespace
-import com.yapp.fitrun.configureComposeFeature
 
 plugins {
-    alias(libs.plugins.fitrun.android.library)
+    alias(libs.plugins.fitrun.android.feature)
     alias(libs.plugins.fitrun.android.compose)
-    alias(libs.plugins.fitrun.kotlin.hilt)
 }
 
 android {
-    setNamespace("core.common")
+    setNamespace("feature.workthrough")
 }
 
 // Add library
 dependencies {
     implementations(
         libs.androidx.core.ktx,
-        libs.androidx.appcompat
+
+        project(path = ":feature:navigator"),
     )
 }
