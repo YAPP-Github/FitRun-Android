@@ -1,4 +1,4 @@
-package com.yapp.fitrun.main
+package com.yapp.fitrun.feature.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

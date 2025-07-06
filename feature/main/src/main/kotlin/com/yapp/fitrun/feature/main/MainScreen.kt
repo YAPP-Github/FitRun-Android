@@ -1,8 +1,8 @@
-package com.yapp.fitrun.main
+package com.yapp.fitrun.feature.main
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import com.yapp.fitrun.main.component.MainNavHost
+import com.yapp.fitrun.feature.main.component.MainNavHost
 
 @Composable
 internal fun MainScreen(
