@@ -46,7 +46,7 @@ dependencies {
         projects.core.common,
         projects.core.data,
         projects.core.datastore,
-        projects.core.designSystem,
+        projects.core.designsystem,
         projects.core.domain,
         projects.core.network,
         projects.core.ui,

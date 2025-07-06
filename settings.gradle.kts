@@ -40,7 +40,7 @@ include(
 include(
     ":core:data",
     ":core:domain",
-    ":core:design-system",
+    ":core:designsystem",
     ":core:common",
     ":core:datastore",
     ":core:ui",

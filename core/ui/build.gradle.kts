@@ -14,7 +14,7 @@ android {
 // Add library
 dependencies {
     implementations(
-        projects.core.designSystem,
+        projects.core.designsystem,
 
         libs.androidx.core.ktx,
         libs.androidx.appcompat
