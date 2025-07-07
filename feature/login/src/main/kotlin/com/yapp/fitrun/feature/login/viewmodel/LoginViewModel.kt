@@ -2,14 +2,12 @@ package com.yapp.fitrun.feature.login.viewmodel
 
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.yapp.fitrun.core.domain.repository.AuthRepository
 import com.yapp.fitrun.core.domain.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -61,23 +59,21 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun sendLoginToServer(idToken: String) = intent {
-        viewModelScope.launch {
-            reduce { state.copy(isLoading = true) }
+        reduce { state.copy(isLoading = true) }
 
-            authRepository.loginWithKakao(idToken = idToken)
-                .onSuccess { loginResponse ->
-                    tokenRepository.setAccessTokenSync(loginResponse.tokenEntity.accessToken)
-                    tokenRepository.setRefreshTokenSync(loginResponse.tokenEntity.refreshToken)
+        authRepository.loginWithKakao(idToken = idToken)
+            .onSuccess { loginResponse ->
+                tokenRepository.setAccessTokenSync(loginResponse.tokenEntity.accessToken)
+                tokenRepository.setRefreshTokenSync(loginResponse.tokenEntity.refreshToken)
 
-                    reduce { state.copy(isLoading = false) }
+                reduce { state.copy(isLoading = false) }
 
-                    postSideEffect(LoginSideEffect.NavigateToMain(isNew = loginResponse.isNewUser))
+                postSideEffect(LoginSideEffect.NavigateToMain(isNew = loginResponse.isNewUser))
 
-                }.onFailure { throwable ->
-                    reduce { state.copy(isLoading = false) }
-                    println("@@@@ $throwable")
-                    postSideEffect(LoginSideEffect.LoginFail(throwable.message ?: "서버 로그인 실패"))
-                }
-        }
+            }.onFailure { throwable ->
+                reduce { state.copy(isLoading = false) }
+                println("@@@@ $throwable")
+                postSideEffect(LoginSideEffect.LoginFail(throwable.message ?: "서버 로그인 실패"))
+            }
     }
 }

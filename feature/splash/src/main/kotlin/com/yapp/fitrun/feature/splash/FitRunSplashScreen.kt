@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -20,6 +21,8 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashState
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun FitRunsSplashRoute(
@@ -27,6 +30,7 @@ internal fun FitRunsSplashRoute(
     navigateToMain: () -> Unit,
     viewModel: FitRunSplashViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.collectAsState()
 
     // Side Effects 처리
     viewModel.collectSideEffect { sideEffect ->
@@ -67,21 +71,37 @@ internal fun FitRunsSplashRoute(
         }
     }
 
-    FitRunSplashScreen()
+    FitRunSplashScreen(
+        uiState = uiState,
+        onClickWorkThroughStart = navigateToLogin
+    )
 }
 
 @Composable
-internal fun FitRunSplashScreen() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(FitRunOrange)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_splash_text),
-            contentDescription = "Splash Image",
-            modifier = Modifier.align(Alignment.Center),
-            contentScale = ContentScale.Fit,
+internal fun FitRunSplashScreen(
+    uiState: FitRunSplashState,
+    onClickWorkThroughStart: () -> Unit,
+) {
+    if (uiState.showSplash) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(FitRunOrange)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.logo_splash_text),
+                contentDescription = "Splash Image",
+                modifier = Modifier.align(Alignment.Center),
+                contentScale = ContentScale.Fit,
+            )
+        }
+    }
+
+    if (uiState.showWorkThrough) {
+        WorkThroughScreen(
+            titleTextList = uiState.titleTextList,
+            descriptionTextList = uiState.descriptionTextList,
+            onButtonClick = onClickWorkThroughStart,
         )
     }
 }
@@ -89,5 +109,8 @@ internal fun FitRunSplashScreen() {
 @Preview
 @Composable
 fun IntroScreenPreview() {
-    FitRunSplashScreen()
+    FitRunSplashScreen(
+        uiState = FitRunSplashState(),
+        onClickWorkThroughStart = {},
+    )
 }
