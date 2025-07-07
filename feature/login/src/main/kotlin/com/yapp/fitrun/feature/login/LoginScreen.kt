@@ -43,8 +43,7 @@ import com.yapp.fitrun.core.designsystem.R
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    onNavigateToMain: (userId: Long) -> Unit = {},
-    onNavigateToOnboarding: (userId: Long) -> Unit = {}
+    navigateToHome: (Boolean) -> Unit = {},
 ) {
     val state by viewModel.collectAsState()
     val context = LocalContext.current
@@ -53,7 +52,7 @@ fun LoginScreen(
     // Side Effects 처리
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is LoginSideEffect.ShowError -> {
+            is LoginSideEffect.LoginFail -> {
                 snackbarHostState.showSnackbar(sideEffect.message)
             }
 
@@ -69,8 +68,7 @@ fun LoginScreen(
                     }
                 }
             }
-            is LoginSideEffect.LoginFail -> TODO()
-            LoginSideEffect.LoginSuccess -> TODO()
+            is LoginSideEffect.NavigateToMain -> navigateToHome(sideEffect.isNew)
         }
     }
 

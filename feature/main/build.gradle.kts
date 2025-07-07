@@ -16,7 +16,7 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
 
-        projects.feature.login,
         projects.feature.navigator,
+        projects.feature.home,
     )
 }

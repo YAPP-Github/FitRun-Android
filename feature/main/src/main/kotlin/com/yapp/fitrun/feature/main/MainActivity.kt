@@ -12,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val navigator = rememberMainNavigator()
+            val navigator: MainNavigator = rememberMainNavigator()
 
             MainScreen(navigator = navigator)
         }
