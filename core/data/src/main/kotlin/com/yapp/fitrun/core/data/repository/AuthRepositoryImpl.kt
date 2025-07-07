@@ -2,8 +2,8 @@ package com.yapp.fitrun.core.data.repository
 
 import com.yapp.fitrun.core.data.mapper.toEntity
 import com.yapp.fitrun.core.network.AuthDataSource
-import com.yapp.fitrun.core.domain.enitity.LoginResultEntity
-import com.yapp.fitrun.core.domain.enitity.TokenEntity
+import com.yapp.fitrun.core.domain.entity.LoginResultEntity
+import com.yapp.fitrun.core.domain.entity.TokenEntity
 import com.yapp.fitrun.core.domain.repository.AuthRepository
 import kotlinx.coroutines.CancellationException
 import javax.inject.Inject

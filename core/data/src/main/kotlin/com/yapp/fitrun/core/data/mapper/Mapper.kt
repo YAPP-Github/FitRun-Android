@@ -1,8 +1,8 @@
 package com.yapp.fitrun.core.data.mapper
 
-import com.yapp.fitrun.core.domain.enitity.LoginResultEntity
-import com.yapp.fitrun.core.domain.enitity.TokenEntity
-import com.yapp.fitrun.core.domain.enitity.UserEntity
+import com.yapp.fitrun.core.domain.entity.LoginResultEntity
+import com.yapp.fitrun.core.domain.entity.TokenEntity
+import com.yapp.fitrun.core.domain.entity.UserEntity
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
 
@@ -15,9 +15,8 @@ internal fun LoginResponse.toEntity() =
         ),
         userEntity = UserEntity(
             id = user.id,
-            name = user.name,
+            nickname = user.nickname,
             email = user.email,
-            profileImage = user.profileImage,
             provider = user.provider
         ),
         isNewUser = isNew

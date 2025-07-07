@@ -4,6 +4,7 @@ import com.yapp.fitrun.core.network.api.AuthApiService
 import com.yapp.fitrun.core.network.model.request.KakaoLoginRequest
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
+import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
@@ -13,13 +14,20 @@ class AuthDataSourceImpl @Inject constructor(
     private val provider: String = "kakao"
 
     override suspend fun loginWithKakao(idToken: String): LoginResponse {
-        return service.loginWithKakao(
+        val response = service.loginWithKakao(
             provider = provider,
             request = KakaoLoginRequest(
                 idToken = idToken,
                 nonce = null
             )
         )
+
+        if (response.code.equals("SUCCESS")) {
+            return response.result
+        }
+        else {
+            throw CancellationException(response.code)
+        }
     }
 
     override suspend fun logout() {
@@ -27,6 +35,13 @@ class AuthDataSourceImpl @Inject constructor(
     }
 
     override suspend fun updateRefreshToken(): TokenResponse {
-        return service.updateRefreshToken()
+        val response = service.updateRefreshToken()
+
+        if (response.code.equals("SUCCESS")) {
+            return response.result
+        }
+        else {
+            throw CancellationException(response.code)
+        }
     }
 }

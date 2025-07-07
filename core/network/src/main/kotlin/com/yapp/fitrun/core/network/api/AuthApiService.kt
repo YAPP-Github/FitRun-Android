@@ -1,6 +1,7 @@
 package com.yapp.fitrun.core.network.api
 
 import com.yapp.fitrun.core.network.model.request.KakaoLoginRequest
+import com.yapp.fitrun.core.network.model.response.BaseResponse
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
 import retrofit2.http.Body
@@ -12,11 +13,11 @@ interface AuthApiService {
     suspend fun loginWithKakao(
         @Path("provider") provider: String,
         @Body request: KakaoLoginRequest
-    ): LoginResponse
+    ): BaseResponse<LoginResponse>
 
     @POST("/api/v1/auth/logout")
     suspend fun logout()
 
     @POST("/api/v1/auth/refresh")
-    suspend fun updateRefreshToken(): TokenResponse
+    suspend fun updateRefreshToken(): BaseResponse<TokenResponse>
 }
