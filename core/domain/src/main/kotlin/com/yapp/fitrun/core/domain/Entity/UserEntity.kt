@@ -1,6 +1,6 @@
-package com.yapp.fitrun.core.domain.model
+package com.yapp.fitrun.core.domain.Entity
 
-data class User(
+data class UserEntity(
     val id: Long,
     val name: String,
     val email: String,
