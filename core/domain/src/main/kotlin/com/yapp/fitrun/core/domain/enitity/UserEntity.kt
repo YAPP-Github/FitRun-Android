@@ -1,4 +1,4 @@
-package com.yapp.fitrun.core.domain.Entity
+package com.yapp.fitrun.core.domain.enitity
 
 data class UserEntity(
     val id: Long,

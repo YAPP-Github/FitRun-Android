@@ -1,8 +1,8 @@
 package com.yapp.fitrun.core.data.mapper
 
-import com.yapp.fitrun.core.domain.Entity.LoginResultEntity
-import com.yapp.fitrun.core.domain.Entity.TokenEntity
-import com.yapp.fitrun.core.domain.Entity.UserEntity
+import com.yapp.fitrun.core.domain.enitity.LoginResultEntity
+import com.yapp.fitrun.core.domain.enitity.TokenEntity
+import com.yapp.fitrun.core.domain.enitity.UserEntity
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
 
