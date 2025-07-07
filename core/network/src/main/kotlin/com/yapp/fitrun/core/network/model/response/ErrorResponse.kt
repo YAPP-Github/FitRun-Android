@@ -1,15 +1,14 @@
-package com.yapp.fitrun.core.network.model
+package com.yapp.fitrun.core.network.model.response
 
-import android.annotation.SuppressLint
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BaseResponse<T>(
+data class ErrorResponse(
     @SerialName("code")
     val code: String,
-    @SerialName("result")
-    val result: T,
+    @SerialName("message")
+    val message: String?,
     @SerialName("timeStamp")
     val timeStamp: String
 )

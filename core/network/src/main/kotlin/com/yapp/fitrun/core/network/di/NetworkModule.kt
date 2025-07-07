@@ -1,15 +1,18 @@
 package com.yapp.fitrun.core.network.di
 
-import com.yapp.fitrun.core.domain.repository.TokenRepository
+import com.yapp.fitrun.core.datastore.TokenDataSource
+import com.yapp.fitrun.core.network.AuthDataSource
+import com.yapp.fitrun.core.network.AuthDataSourceImpl
+import com.yapp.fitrun.core.network.AuthInterceptor
 import com.yapp.fitrun.core.network.AuthOkHttpClient
 import com.yapp.fitrun.core.network.BaseOkHttpClient
 import com.yapp.fitrun.core.network.BuildConfig
 import com.yapp.fitrun.core.network.api.AuthApiService
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -21,46 +24,38 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
+private val jsonRule = Json {
+    encodeDefaults = true
+    ignoreUnknownKeys = true
+    prettyPrint = true
+    isLenient = true
+}
+
+private val jsonConverterFactory = jsonRule.asConverterFactory("application/json".toMediaType())
+
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+abstract class DataSourceModule {
+
+    @Singleton
+    @Binds
+    abstract fun bindAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+internal object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideJson(): Json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-        encodeDefaults = true
-        prettyPrint = BuildConfig.DEBUG
-        coerceInputValues = true
-    }
-
-    @Provides
-    @Singleton
-    fun provideAuthInterceptor(tokenRepository: TokenRepository): Interceptor = Interceptor { chain ->
-        val original = chain.request()
-
-        // 로그인 API는 토큰 불필요
-        if (original.url.encodedPath.contains("auth/login")) {
-            return@Interceptor chain.proceed(original)
-        }
-
-        // 토큰 추가
-        val token = runBlocking { tokenRepository.getAccessTokenSync() }
-
-        val request = original.newBuilder().apply {
-            token?.let {
-                header("Authorization", "Bearer $it")
-            }
-        }.build()
-
-        chain.proceed(request)
+    internal fun provideAuthInterceptor(tokenDataSource: TokenDataSource): AuthInterceptor {
+        return AuthInterceptor(tokenDataSource)
     }
 
     @Provides
     @Singleton
     @BaseOkHttpClient
-    fun provideBaseOkHttpClient(): OkHttpClient {
+    internal fun provideBaseOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor.Level.BODY
@@ -80,35 +75,31 @@ object NetworkModule {
     @Provides
     @Singleton
     @AuthOkHttpClient
-    fun provideAuthOkHttpClient(
+    internal fun provideAuthOkHttpClient(
         authInterceptor: Interceptor,
         @BaseOkHttpClient baseClient: OkHttpClient
     ): OkHttpClient {
         return baseClient.newBuilder()
             .addInterceptor(authInterceptor)
-            // TokenAuthenticator는 :core:data 모듈에서 추가
             .build()
     }
 
     @Provides
     @Singleton
     @Named("BaseRetrofit")
-    fun provideBaseRetrofit(
+    internal fun provideBaseRetrofit(
         @BaseOkHttpClient okHttpClient: OkHttpClient,
-        json: Json
     ): Retrofit {
-        val contentType = "application/json".toMediaType()
-
         return Retrofit.Builder()
             .baseUrl("http://fitrun.p-e.kr")
             .client(okHttpClient)
-            .addConverterFactory(json.asConverterFactory(contentType))
+            .addConverterFactory(jsonConverterFactory)
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideAuthApiService(
+    internal fun provideAuthApiService(
         @Named("BaseRetrofit") retrofit: Retrofit
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
