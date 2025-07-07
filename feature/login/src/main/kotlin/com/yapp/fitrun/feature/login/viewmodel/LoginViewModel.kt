@@ -35,9 +35,9 @@ class LoginViewModel @Inject constructor(
             reduce { state.copy(isLoading = false) }
 
             if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                postSideEffect(LoginSideEffect.ShowError("로그인이 취소되었습니다"))
+                postSideEffect(LoginSideEffect.LoginFail("로그인이 취소되었습니다"))
             } else {
-                postSideEffect(LoginSideEffect.ShowError("로그인 실패: ${error.message}"))
+                postSideEffect(LoginSideEffect.LoginFail("로그인 실패: ${error.message}"))
             }
         } else if (token != null) {
             fetchIdTokenAndUserInfo(token)
@@ -56,7 +56,7 @@ class LoginViewModel @Inject constructor(
             sendLoginToServer(idToken)
         } catch (e: Exception) {
             reduce { state.copy(isLoading = false) }
-            postSideEffect(LoginSideEffect.ShowError("로그인 처리 중 오류: ${e.message}"))
+            postSideEffect(LoginSideEffect.LoginFail("로그인 처리 중 오류: ${e.message}"))
         }
     }
 
@@ -71,15 +71,12 @@ class LoginViewModel @Inject constructor(
 
                     reduce { state.copy(isLoading = false) }
 
-                    if (loginResponse.isNewUser) {
-//                        postSideEffect(LoginSideEffect.NavigateToOnboarding(loginResponse.userEntity.id))
-                    } else {
-//                        postSideEffect(LoginSideEffect.NavigateToMain(loginResponse.userEntity.id))
-                    }
+                    postSideEffect(LoginSideEffect.NavigateToMain(isNew = loginResponse.isNewUser))
+
                 }.onFailure { throwable ->
                     reduce { state.copy(isLoading = false) }
                     println("@@@@ $throwable")
-                    postSideEffect(LoginSideEffect.ShowError(throwable.message ?: "서버 로그인 실패"))
+                    postSideEffect(LoginSideEffect.LoginFail(throwable.message ?: "서버 로그인 실패"))
                 }
         }
     }
