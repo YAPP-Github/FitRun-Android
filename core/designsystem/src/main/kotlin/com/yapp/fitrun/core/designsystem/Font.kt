@@ -23,6 +23,14 @@ val Head_head1_Bold = TextStyle(
     letterSpacing = (-0.4).sp
 )
 
+val Head_head2_semiBold = TextStyle(
+    fontFamily = pretendardFamily,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 20.sp,
+    lineHeight = 24.sp,
+    letterSpacing = (-0.4).sp
+)
+
 // Body
 val Body_body3_medium = TextStyle(
     fontFamily = pretendardFamily,
@@ -39,4 +47,14 @@ val Body_body3_semiBold = TextStyle(
     lineHeight = 24.sp,
     letterSpacing = (-0.4).sp
 )
+
+val Body_body1_semiBold = TextStyle(
+    fontFamily = pretendardFamily,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
+    lineHeight = 24.sp,
+    letterSpacing = (-0.2).sp
+
+)
+
 

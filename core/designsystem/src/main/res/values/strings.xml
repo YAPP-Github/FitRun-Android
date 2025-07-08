@@ -11,4 +11,28 @@
     <string name="work_through_next">다음</string>
     <string name="work_through_start">시작하기</string>
 
+    <!--    OnBoarding-->
+    <string name="on_boarding_next">다음</string>
+
+    <string name="on_boarding_first_title">기본 체력에 관한 질문이에요.</string>
+    <string name="on_boarding_first_question1">예기치 못한 상황에서 어떻게 반응하시나요?</string>
+    <string name="on_boarding_first_question1_option1">😀 민첩하게</string>
+    <string name="on_boarding_first_question1_option2">😀 보통</string>
+    <string name="on_boarding_first_question1_option3">😀 느리게</string>
+
+    <string name="on_boarding_first_question2">걷는 중 몸의 방향을 바꿀 때 어떤 편인가요?</string>
+    <string name="on_boarding_first_question2_option1">😀 유연한</string>
+    <string name="on_boarding_first_question2_option2">😀 조금 굼뜬</string>
+    <string name="on_boarding_first_question2_option3">😀 둔한</string>
+
+    <string name="on_boarding_first_question3">동작을 따라 할 때 나는 어떤것 같나요?</string>
+    <string name="on_boarding_first_question3_option1">😀 쉽게 따라해요</string>
+    <string name="on_boarding_first_question3_option2">😀 헷갈려요</string>
+    <string name="on_boarding_first_question3_option3">😀 뭔가 안 맞아요</string>
+
+    <string name="on_boarding_first_question4">발로 서서 균형을 잡는 건 어떤가요?</string>
+    <string name="on_boarding_first_question4_option1">😀 쉬워요</string>
+    <string name="on_boarding_first_question4_option2">😀 흔들려요</string>
+    <string name="on_boarding_first_question4_option3">😀 못해요</string>
+
 </resources>

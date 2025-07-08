@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    setNamespace("feature.main")
+    setNamespace("feature.onboarding")
 }
 
 // Add library
@@ -17,7 +17,7 @@ dependencies {
         libs.androidx.core.ktx,
 
         projects.feature.navigator,
-        projects.feature.home,
-        projects.feature.onboarding,
+        projects.core.ui,
+        projects.core.designsystem,
     )
 }

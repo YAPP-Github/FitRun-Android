@@ -11,6 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.yapp.fitrun.feature.home.homeNavGraph
+import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 
 @Composable
 internal fun MainScreen(
@@ -29,8 +30,20 @@ internal fun MainScreen(
                 homeNavGraph(
                     padding = padding
                 )
+                
+                onBoardingNavGraph(
+                    navController = navigator.navController,
+                    onBackClick = { navigator.navController.popBackStack() },
+                    onNavigateToHome = navigator::navigateToHome,
+                    onNavigateToRoutine = { /* TODO */ },
+                    onNavigateToOnBoardingSecond = navigator::navigateToOnBoardingSecond,
+                    onNavigateToOnBoardingThird = navigator::navigateToOnBoardingThird,
+                    onNavigateToOnBoardingFourth = navigator::navigateToOnBoardingFourth,
+                    onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
+                )
             }
         },
+
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = MaterialTheme.colorScheme.background,
     )
