@@ -16,9 +16,9 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
         libs.androidx.splash,
+        libs.kakao.auth,
 
         projects.feature.navigator,
-        projects.core.data,
         projects.core.domain,
     )
 }

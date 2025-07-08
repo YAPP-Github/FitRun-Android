@@ -22,6 +22,5 @@ dependencies {
         libs.retrofit.core,
         libs.retrofit.kotlin.serialization,
         libs.kotlinx.serialization.json,
-        libs.datastore
     )
 }

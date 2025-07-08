@@ -20,7 +20,6 @@ dependencies {
         libs.kakao.auth,
 
         projects.feature.navigator,
-        projects.core.data,
         projects.core.domain,
     )
 }

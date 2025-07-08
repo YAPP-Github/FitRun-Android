@@ -26,16 +26,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kakao.sdk.user.UserApiClient
 import com.yapp.fitrun.feature.login.viewmodel.LoginSideEffect
 import com.yapp.fitrun.feature.login.viewmodel.LoginViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-
+import com.yapp.fitrun.core.designsystem.R
 
 @Composable
 fun LoginScreen(
@@ -44,6 +47,7 @@ fun LoginScreen(
     onNavigateToOnboarding: (userId: Long) -> Unit = {}
 ) {
     val state by viewModel.collectAsState()
+    val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
     // Side Effects 처리
@@ -52,12 +56,21 @@ fun LoginScreen(
             is LoginSideEffect.ShowError -> {
                 snackbarHostState.showSnackbar(sideEffect.message)
             }
-            is LoginSideEffect.NavigateToMain -> {
-                onNavigateToMain(sideEffect.userId)
+
+            LoginSideEffect.KakaoLogin -> {
+                // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+                if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+                    UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+                        viewModel.handleKakaoLoginResult(token, error)
+                    }
+                } else {
+                    UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+                        viewModel.handleKakaoLoginResult(token, error)
+                    }
+                }
             }
-            is LoginSideEffect.NavigateToOnboarding -> {
-                onNavigateToOnboarding(sideEffect.userId)
-            }
+            is LoginSideEffect.LoginFail -> TODO()
+            LoginSideEffect.LoginSuccess -> TODO()
         }
     }
 
@@ -79,11 +92,11 @@ fun LoginScreen(
                     .aspectRatio(4f / 3f),
                 contentAlignment = Alignment.Center
             ) {
-                // 여기에 앱 로고나 이미지를 추가하세요
-                Text(
-                    text = "FitRun",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                Image(
+                    painter = painterResource(id = R.drawable.logo_login_text),
+                    contentDescription = "Splash Image",
+                    modifier = Modifier.align(Alignment.Center),
+                    contentScale = ContentScale.Fit,
                 )
             }
 
@@ -91,7 +104,7 @@ fun LoginScreen(
 
             // 카카오 로그인 버튼
             Button(
-                onClick = { viewModel.onLoginClick() },
+                onClick = viewModel::onLoginClick,
                 enabled = !state.isLoading,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFFE500),

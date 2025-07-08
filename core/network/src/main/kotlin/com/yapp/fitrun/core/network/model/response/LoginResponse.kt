@@ -25,12 +25,10 @@ data class TokenResponse(
 data class User(
     @SerialName("id")
     val id: Long,
-    @SerialName("name")
-    val name: String,
+    @SerialName("nickname")
+    val nickname: String,
     @SerialName("email")
     val email: String,
-    @SerialName("profileImage")
-    val profileImage: String?,
     @SerialName("provider")
     val provider: String
 )

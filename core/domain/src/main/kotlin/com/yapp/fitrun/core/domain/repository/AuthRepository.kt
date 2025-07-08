@@ -1,16 +1,10 @@
 package com.yapp.fitrun.core.domain.repository
 
-import com.yapp.fitrun.core.domain.model.LoginResult
+import com.yapp.fitrun.core.domain.entity.LoginResultEntity
+import com.yapp.fitrun.core.domain.entity.TokenEntity
 
 interface AuthRepository {
-    suspend fun loginWithKakao(
-        idToken: String,
-        nickname: String
-    ): Result<LoginResult>
-
+    suspend fun loginWithKakao(idToken: String): Result<LoginResultEntity>
     suspend fun logout(): Result<Unit>
-
-    suspend fun refreshToken(
-        refreshToken: String,
-    ): Result<LoginResult>
+    suspend fun updateRefreshToken(): Result<TokenEntity>
 }

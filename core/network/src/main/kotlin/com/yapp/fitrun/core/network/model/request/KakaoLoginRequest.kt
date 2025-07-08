@@ -9,6 +9,4 @@ data class KakaoLoginRequest(
     val idToken: String,
     @SerialName("nonce")
     val nonce: String? = null,
-    @SerialName("name")
-    val name: String? = null  // nullable로 변경
 )

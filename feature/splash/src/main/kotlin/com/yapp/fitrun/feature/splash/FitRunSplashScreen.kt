@@ -1,11 +1,11 @@
 package com.yapp.fitrun.feature.splash
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -16,9 +16,10 @@ import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashViewModel
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.FitRunOrange
 import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashSideEffect
-import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import androidx.compose.runtime.getValue
+import com.kakao.sdk.auth.AuthApiClient
+import com.kakao.sdk.common.model.KakaoSdkError
+import com.kakao.sdk.user.UserApiClient
 
 @Composable
 internal fun FitRunsSplashRoute(
@@ -26,13 +27,36 @@ internal fun FitRunsSplashRoute(
     navigateToMain: () -> Unit,
     viewModel: FitRunSplashViewModel = hiltViewModel(),
 ) {
-    val state by viewModel.collectAsState()
 
     // Side Effects 처리
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is FitRunSplashSideEffect.ValidateToken -> {
-                // 토큰 검증 중 - UI 상태 업데이트 등
+                if (AuthApiClient.instance.hasToken()) {
+                    Log.d("FitRunSplashRoute", "accessToken is exists")
+
+                    UserApiClient.instance.accessTokenInfo { _, error ->
+                        if (error != null) {
+                            if (error is KakaoSdkError && error.isInvalidTokenError()) {
+                                Log.e("FitRunSplashRoute", "invalid accessToken!")
+                                viewModel.autoLoginFail()
+                            }
+                            else {
+                                Log.e("FitRunSplashRoute", "error!")
+                                viewModel.autoLoginFail()
+                            }
+                        }
+                        else {
+                            Log.d("FitRunSplashRoute", "valid accessToken!")
+                            viewModel.autoLoginSuccess()
+                        }
+                    }
+                }
+                else {
+                    //로그인 필요
+                    Log.e("FitRunSplashRoute", "accessToken is not exists")
+                    viewModel.autoLoginFail()
+                }
             }
             is FitRunSplashSideEffect.AutoLoginSuccess -> {
                 navigateToMain()
