@@ -28,15 +28,19 @@ fun OnBoardingTopAppBar(
     modifier: Modifier = Modifier,
     onLeftNavigationClick: () -> Unit = {},
     onRightNavigationClick: () -> Unit = {},
+    progress: Float = 0f,
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier.background(Color.White),
         title = {
             LinearProgressIndicator(
+                progress = {
+                    progress
+                },
                 modifier = Modifier.height(4.dp).width(192.dp),
-                trackColor = Color(0xFFEEEFF1),
                 color = Color(0xFFFF6600),
-                strokeCap = StrokeCap.Round
+                trackColor = Color(0xFFEEEFF1),
+                strokeCap = StrokeCap.Round,
             )
         },
         navigationIcon = {
