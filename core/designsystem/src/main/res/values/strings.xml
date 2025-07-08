@@ -16,23 +16,57 @@
 
     <string name="on_boarding_first_title">기본 체력에 관한 질문이에요.</string>
     <string name="on_boarding_first_question1">예기치 못한 상황에서 어떻게 반응하시나요?</string>
-    <string name="on_boarding_first_question1_option1">😀 민첩하게</string>
-    <string name="on_boarding_first_question1_option2">😀 보통</string>
-    <string name="on_boarding_first_question1_option3">😀 느리게</string>
+    <string name="on_boarding_first_question1_option1">⚡ 민첩하게</string>
+    <string name="on_boarding_first_question1_option2">😐 보통</string>
+    <string name="on_boarding_first_question1_option3">🐢 느리게</string>
 
     <string name="on_boarding_first_question2">걷는 중 몸의 방향을 바꿀 때 어떤 편인가요?</string>
-    <string name="on_boarding_first_question2_option1">😀 유연한</string>
-    <string name="on_boarding_first_question2_option2">😀 조금 굼뜬</string>
-    <string name="on_boarding_first_question2_option3">😀 둔한</string>
+    <string name="on_boarding_first_question2_option1">🌀 유연한</string>
+    <string name="on_boarding_first_question2_option2">😶 조금 굼뜬</string>
+    <string name="on_boarding_first_question2_option3">⛔ 둔한</string>
 
     <string name="on_boarding_first_question3">동작을 따라 할 때 나는 어떤것 같나요?</string>
-    <string name="on_boarding_first_question3_option1">😀 쉽게 따라해요</string>
-    <string name="on_boarding_first_question3_option2">😀 헷갈려요</string>
-    <string name="on_boarding_first_question3_option3">😀 뭔가 안 맞아요</string>
+    <string name="on_boarding_first_question3_option1">🎯‍ 쉽게 따라해요</string>
+    <string name="on_boarding_first_question3_option2">😅 헷갈려요</string>
+    <string name="on_boarding_first_question3_option3">❌ 뭔가 안 맞아요</string>
 
     <string name="on_boarding_first_question4">발로 서서 균형을 잡는 건 어떤가요?</string>
-    <string name="on_boarding_first_question4_option1">😀 쉬워요</string>
-    <string name="on_boarding_first_question4_option2">😀 흔들려요</string>
-    <string name="on_boarding_first_question4_option3">😀 못해요</string>
+    <string name="on_boarding_first_question4_option1">🧘‍ 쉬워요</string>
+    <string name="on_boarding_first_question4_option2">😵 흔들려요</string>
+    <string name="on_boarding_first_question4_option3">🤕 못해요</string>
+
+    <string name="on_boarding_second_title">운동 경험에 관한 질문이에요.</string>
+    <string name="on_boarding_second_question1">요즘 운동을 얼마나 하시나요?</string>
+    <string name="on_boarding_second_question1_option1">🏋️ 거의 매일</string>
+    <string name="on_boarding_second_question1_option2">🏃 주 1–2회 정도</string>
+    <string name="on_boarding_second_question1_option3">😴 안 해요</string>
+
+    <string name="on_boarding_second_question2">러닝을 해본 경험이 있나요?</string>
+    <string name="on_boarding_second_question2_option1">🏃‍‍️ 많아요</string>
+    <string name="on_boarding_second_question2_option2">✨ 종종 있어요</string>
+    <string name="on_boarding_second_question2_option3">🐌 거의 없어요</string>
+
+    <string name="on_boarding_third_title">러닝 적응력에 관한 질문이에요.</string>
+    <string name="on_boarding_third_question1">5분 동안 달린다면 어떨 것 같으신가요?</string>
+    <string name="on_boarding_third_question1_option1">💪 달릴 수 있어요</string>
+    <string name="on_boarding_third_question1_option2">🤔 모르겠어요</string>
+    <string name="on_boarding_third_question1_option3">😫 못해요</string>
+
+    <string name="on_boarding_third_question2">달릴 때 속도를 어떻게 조절하시나요?</string>
+    <string name="on_boarding_third_question2_option1">🎵 일정하게</string>
+    <string name="on_boarding_third_question2_option2">🌊 왔다갔다</string>
+    <string name="on_boarding_third_question2_option3">❓ 모르겠어요</string>
+
+    <string name="on_boarding_fourth_title">러닝을 오래 이어가려면 필요한 첫 질문이에요.</string>
+    <string name="on_boarding_fourth_question1">어떤 목표로 시작해볼까요?</string>
+    <string name="on_boarding_fourth_question1_option1">🔥 다이어트를 위해 뛸어볼래요</string>
+    <string name="on_boarding_fourth_question1_option2">💓 건강 관리를 위해 뛰어볼래요</string>
+    <string name="on_boarding_fourth_question1_option3">🔋 체력 증진을 위해 뛰어볼래요</string>
+    <string name="on_boarding_fourth_question1_option4">🥇 대회 준비를 위해 뛰어 볼래요</string>
+
+    <string name="on_boarding_result_title">체력 분석 완료\n나는 워밍업 러너에 가까워요</string>
+    <string name="on_boarding_result_description">이제 딱 맞는 러닝 목표를 추천해 드릴게요!\n지금 목표 설정을 완료하고 가볍게 시작해볼까요?</string>
+    <string name="on_boarding_result_go_to_home">홈으로</string>
+    <string name="on_boarding_result_go_to_routine">루틴 설정 바로가기</string>
 
 </resources>
