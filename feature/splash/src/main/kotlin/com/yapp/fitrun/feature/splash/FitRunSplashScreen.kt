@@ -15,12 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashViewModel
 import com.yapp.fitrun.core.designsystem.R
-import com.yapp.fitrun.core.designsystem.FitRunOrange
+import com.yapp.fitrun.core.designsystem.FitRunOrange600
 import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashSideEffect
 import org.orbitmvi.orbit.compose.collectSideEffect
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
+import com.yapp.fitrun.core.designsystem.FitRunOrange600
 import com.yapp.fitrun.feature.splash.viewmodel.FitRunSplashState
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -86,7 +87,7 @@ internal fun FitRunSplashScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(FitRunOrange)
+                .background(FitRunOrange600)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo_splash_text),

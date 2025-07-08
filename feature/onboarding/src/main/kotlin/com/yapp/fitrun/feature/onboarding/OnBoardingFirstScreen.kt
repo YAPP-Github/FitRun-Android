@@ -1,5 +1,9 @@
 package com.yapp.fitrun.feature.onboarding
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,57 +11,76 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body1_semiBold
-import com.yapp.fitrun.core.designsystem.Head_head1_Bold
-import com.yapp.fitrun.core.designsystem.Head_head2_semiBold
 import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.ui.OnBoardingTopAppBar
-import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingSideEffect
+import com.yapp.fitrun.core.ui.OnBoardingQuestionGroup
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import com.yapp.fitrun.core.designsystem.R
+import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingSideEffect
+import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingState
 
 @Composable
 internal fun OnBoardingFirstRoute(
-    navigateToHome: () -> Unit,
-    navigateToRoutine: () -> Unit,
+    onNavigateToOnBoardingSecond: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
 
     viewModel.collectSideEffect { sideEffect ->
-        when(sideEffect) {
-            OnBoardingSideEffect.NavigateToHome -> navigateToHome()
-            OnBoardingSideEffect.NavigateToRoutine -> navigateToRoutine()
+        when (sideEffect) {
+            OnBoardingSideEffect.NavigateToOnBoardingSecond -> onNavigateToOnBoardingSecond()
+            else -> {}
         }
     }
+
+    OnBoardingFirstScreen(
+        uiState = uiState,
+        onClickOnBoardingFirst = viewModel::onClickOnBoardingFirst,
+    )
 }
 
 @Composable
-internal fun OnBoardingFirstScreen() {
-    Column {
+internal fun OnBoardingFirstScreen(
+    uiState: OnBoardingState,
+    onClickOnBoardingFirst: () -> Unit,
+) {
+    val scrollState = rememberScrollState()
+    val density = LocalDensity.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .verticalScroll(scrollState)
+    ) {
         OnBoardingTopAppBar(
             onLeftNavigationClick = {},
-            onRightNavigationClick = {}
+            onRightNavigationClick = {},
+            progress = 0.25f
         )
         Box(
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
-                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp)
+                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 45.dp)
             ) {
                 Text(
                     text = stringResource(id = R.string.on_boarding_first_title),
@@ -68,11 +91,81 @@ internal fun OnBoardingFirstScreen() {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = stringResource(id = R.string.on_boarding_first_question1),
-                    textAlign = TextAlign.Center,
-                    color = TextPrimary,
-                    style = Head_head2_semiBold,
+                AnimatedVisibility(
+                    visible = (uiState.selectedOnBoardingFirstStateCount >= 3),
+                    enter = slideInVertically {
+                        with(density) { -40.dp.roundToPx() }
+                    } + expandVertically(
+                        expandFrom = Alignment.Top
+                    ) + fadeIn(
+                        initialAlpha = 0.3f
+                    ),
+                ) {
+                    OnBoardingQuestionGroup(
+                        questionTitle = stringResource(R.string.on_boarding_first_question1),
+                        questionOptions = listOf(
+                            stringResource(R.string.on_boarding_first_question1_option1),
+                            stringResource(R.string.on_boarding_first_question1_option2),
+                            stringResource(R.string.on_boarding_first_question1_option3),
+                        ),
+                        onClick = onClickOnBoardingFirst
+                    )
+                }
+
+                AnimatedVisibility(
+                    visible = (uiState.selectedOnBoardingFirstStateCount >= 2),
+                    enter = slideInVertically {
+                        with(density) { -40.dp.roundToPx() }
+                    } + expandVertically(
+                        expandFrom = Alignment.Top
+                    ) + fadeIn(
+                        initialAlpha = 0.3f
+                    ),
+                ) {
+
+                    OnBoardingQuestionGroup(
+                        questionTitle = stringResource(R.string.on_boarding_first_question2),
+                        questionOptions =
+                            listOf(
+                                stringResource(R.string.on_boarding_first_question2_option1),
+                                stringResource(R.string.on_boarding_first_question2_option2),
+                                stringResource(R.string.on_boarding_first_question2_option3),
+                            ),
+                        onClick = onClickOnBoardingFirst
+                    )
+                }
+
+                AnimatedVisibility(
+                    visible = (uiState.selectedOnBoardingFirstStateCount >= 1),
+                    enter = slideInVertically {
+                        with(density) { -40.dp.roundToPx() }
+                    } + expandVertically(
+                        expandFrom = Alignment.Top
+                    ) + fadeIn(
+                        initialAlpha = 0.3f
+                    ),
+                ) {
+                    OnBoardingQuestionGroup(
+                        questionTitle = stringResource(R.string.on_boarding_first_question3),
+                        questionOptions =
+                            listOf(
+                                stringResource(R.string.on_boarding_first_question3_option1),
+                                stringResource(R.string.on_boarding_first_question3_option2),
+                                stringResource(R.string.on_boarding_first_question3_option3),
+                            ),
+                        onClick = onClickOnBoardingFirst
+                    )
+                }
+
+                OnBoardingQuestionGroup(
+                    questionTitle = stringResource(R.string.on_boarding_first_question4),
+                    questionOptions =
+                        listOf(
+                            stringResource(R.string.on_boarding_first_question4_option1),
+                            stringResource(R.string.on_boarding_first_question4_option2),
+                            stringResource(R.string.on_boarding_first_question4_option3),
+                        ),
+                    onClick = onClickOnBoardingFirst
                 )
             }
         }
@@ -83,5 +176,7 @@ internal fun OnBoardingFirstScreen() {
 @Composable
 fun OnBoardingFirstPreview() {
     OnBoardingFirstScreen(
+        OnBoardingState(),
+        onClickOnBoardingFirst = {},
     )
 }

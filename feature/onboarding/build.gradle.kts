@@ -19,5 +19,6 @@ dependencies {
         projects.feature.navigator,
         projects.core.ui,
         projects.core.designsystem,
+        projects.core.common,
     )
 }

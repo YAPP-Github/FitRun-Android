@@ -37,31 +37,31 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-internal fun OnBoardingSecondRoute(
+internal fun OnBoardingThirdRoute(
     onBackClick: () -> Unit,
-    onNavigateToOnBoardingThird: () -> Unit,
+    onNavigateToOnBoardingFourth: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            OnBoardingSideEffect.NavigateToOnBoardingThird -> onNavigateToOnBoardingThird()
+            OnBoardingSideEffect.NavigateToOnBoardingFourth -> onNavigateToOnBoardingFourth()
             else -> {}
         }
     }
 
-    OnBoardingSecondScreen(
+    OnBoardingThirdScreen(
         uiState = uiState,
-        onClickOnBoardingSecond = viewModel::onClickOnBoardingSecond,
-        onBackClick = onBackClick
+        onClickOnBoardingThird = viewModel::onClickOnBoardingThird,
+        onBackClick = onBackClick,
     )
 }
 
 @Composable
-internal fun OnBoardingSecondScreen(
+internal fun OnBoardingThirdScreen(
     uiState: OnBoardingState,
-    onClickOnBoardingSecond: () -> Unit,
+    onClickOnBoardingThird: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -76,7 +76,7 @@ internal fun OnBoardingSecondScreen(
         OnBoardingTopAppBar(
             onLeftNavigationClick = onBackClick,
             onRightNavigationClick = {},
-            progress = 0.5f
+            progress = 0.75f
         )
         Box(
         ) {
@@ -86,7 +86,7 @@ internal fun OnBoardingSecondScreen(
                     .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.on_boarding_second_title),
+                    text = stringResource(id = R.string.on_boarding_third_title),
                     textAlign = TextAlign.Center,
                     color = TextPrimary,
                     style = Body_body1_semiBold,
@@ -95,7 +95,7 @@ internal fun OnBoardingSecondScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 AnimatedVisibility(
-                    visible = (uiState.selectedOnBoardingSecondStateCount >= 1),
+                    visible = (uiState.selectedOnBoardingThirdStateCount >= 1),
                     enter = slideInVertically {
                         with(density) { -40.dp.roundToPx() }
                     } + expandVertically(
@@ -105,25 +105,25 @@ internal fun OnBoardingSecondScreen(
                     ),
                 ) {
                     OnBoardingQuestionGroup(
-                        questionTitle = stringResource(R.string.on_boarding_second_question1),
+                        questionTitle = stringResource(R.string.on_boarding_third_question1),
                         questionOptions = listOf(
-                            stringResource(R.string.on_boarding_second_question1_option1),
-                            stringResource(R.string.on_boarding_second_question1_option2),
-                            stringResource(R.string.on_boarding_second_question1_option3),
+                            stringResource(R.string.on_boarding_third_question1_option1),
+                            stringResource(R.string.on_boarding_third_question1_option2),
+                            stringResource(R.string.on_boarding_third_question1_option3),
                         ),
-                        onClick = onClickOnBoardingSecond
+                        onClick = onClickOnBoardingThird
                     )
                 }
 
                 OnBoardingQuestionGroup(
-                    questionTitle = stringResource(R.string.on_boarding_second_question2),
+                    questionTitle = stringResource(R.string.on_boarding_third_question2),
                     questionOptions =
                         listOf(
-                            stringResource(R.string.on_boarding_second_question2_option1),
-                            stringResource(R.string.on_boarding_second_question2_option2),
-                            stringResource(R.string.on_boarding_second_question2_option3),
+                            stringResource(R.string.on_boarding_third_question2_option1),
+                            stringResource(R.string.on_boarding_third_question2_option2),
+                            stringResource(R.string.on_boarding_third_question2_option3),
                         ),
-                    onClick = onClickOnBoardingSecond
+                    onClick = onClickOnBoardingThird
                 )
             }
         }
@@ -132,10 +132,10 @@ internal fun OnBoardingSecondScreen(
 
 @Preview
 @Composable
-fun OnBoardingSecondPreview() {
-    OnBoardingSecondScreen(
+fun OnBoardingThirdPreview() {
+    OnBoardingThirdScreen(
         uiState = OnBoardingState(),
-        onClickOnBoardingSecond = {},
-        onBackClick = {},
+        onClickOnBoardingThird = {},
+        onBackClick = {}
     )
 }
