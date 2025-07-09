@@ -37,7 +37,6 @@ import com.yapp.fitrun.core.designsystem.InteractiveSelected
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.designsystem.TextSecondary
-import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingSideEffect
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect

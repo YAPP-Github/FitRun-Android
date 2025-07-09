@@ -28,6 +28,7 @@ fun OnBoardingTopAppBar(
     modifier: Modifier = Modifier,
     onLeftNavigationClick: () -> Unit = {},
     onRightNavigationClick: () -> Unit = {},
+    isRightIconVisible: Boolean = false,
     progress: Float = 0f,
 ) {
     CenterAlignedTopAppBar(
@@ -53,16 +54,26 @@ fun OnBoardingTopAppBar(
                 )
             }
         },
+
         actions = {
-            IconButton(
-                onClick = onRightNavigationClick
-            ) {
-                Text(
-                    text = stringResource(R.string.on_boarding_next),
-                    color = Color(0XFFB0B3BA)
-                )
+            if (isRightIconVisible) {
+                IconButton(
+                    onClick = onRightNavigationClick
+                ) {
+                    Text(
+                        text = stringResource(R.string.on_boarding_next),
+                        color = Color(0XFFB0B3BA)
+                    )
+                }
             }
         },
+        colors = TopAppBarColors(
+            containerColor = Color.Unspecified,
+            scrolledContainerColor = Color.Unspecified,
+            navigationIconContentColor = Color.Unspecified,
+            titleContentColor = Color.Unspecified,
+            actionIconContentColor = Color.Unspecified,
+        )
     )
 }
 

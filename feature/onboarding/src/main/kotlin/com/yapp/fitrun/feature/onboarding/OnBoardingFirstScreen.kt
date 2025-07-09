@@ -1,9 +1,5 @@
 package com.yapp.fitrun.feature.onboarding
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,10 +12,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,7 +56,6 @@ internal fun OnBoardingFirstScreen(
     onClickOnBoardingFirst: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
-    val density = LocalDensity.current
 
     Column(
         modifier = Modifier
@@ -91,71 +84,39 @@ internal fun OnBoardingFirstScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                AnimatedVisibility(
+                OnBoardingQuestionGroup(
+                    questionTitle = stringResource(R.string.on_boarding_first_question1),
+                    questionOptions = listOf(
+                        stringResource(R.string.on_boarding_first_question1_option1),
+                        stringResource(R.string.on_boarding_first_question1_option2),
+                        stringResource(R.string.on_boarding_first_question1_option3),
+                    ),
+                    onClick = onClickOnBoardingFirst,
                     visible = (uiState.selectedOnBoardingFirstStateCount >= 3),
-                    enter = slideInVertically {
-                        with(density) { -40.dp.roundToPx() }
-                    } + expandVertically(
-                        expandFrom = Alignment.Top
-                    ) + fadeIn(
-                        initialAlpha = 0.3f
-                    ),
-                ) {
-                    OnBoardingQuestionGroup(
-                        questionTitle = stringResource(R.string.on_boarding_first_question1),
-                        questionOptions = listOf(
-                            stringResource(R.string.on_boarding_first_question1_option1),
-                            stringResource(R.string.on_boarding_first_question1_option2),
-                            stringResource(R.string.on_boarding_first_question1_option3),
-                        ),
-                        onClick = onClickOnBoardingFirst
-                    )
-                }
+                )
 
-                AnimatedVisibility(
+                OnBoardingQuestionGroup(
+                    questionTitle = stringResource(R.string.on_boarding_first_question2),
+                    questionOptions = listOf(
+                        stringResource(R.string.on_boarding_first_question2_option1),
+                        stringResource(R.string.on_boarding_first_question2_option2),
+                        stringResource(R.string.on_boarding_first_question2_option3),
+                    ),
+                    onClick = onClickOnBoardingFirst,
                     visible = (uiState.selectedOnBoardingFirstStateCount >= 2),
-                    enter = slideInVertically {
-                        with(density) { -40.dp.roundToPx() }
-                    } + expandVertically(
-                        expandFrom = Alignment.Top
-                    ) + fadeIn(
-                        initialAlpha = 0.3f
-                    ),
-                ) {
+                )
 
-                    OnBoardingQuestionGroup(
-                        questionTitle = stringResource(R.string.on_boarding_first_question2),
-                        questionOptions =
-                            listOf(
-                                stringResource(R.string.on_boarding_first_question2_option1),
-                                stringResource(R.string.on_boarding_first_question2_option2),
-                                stringResource(R.string.on_boarding_first_question2_option3),
-                            ),
-                        onClick = onClickOnBoardingFirst
-                    )
-                }
-
-                AnimatedVisibility(
+                OnBoardingQuestionGroup(
+                    questionTitle = stringResource(R.string.on_boarding_first_question3),
+                    questionOptions =
+                        listOf(
+                            stringResource(R.string.on_boarding_first_question3_option1),
+                            stringResource(R.string.on_boarding_first_question3_option2),
+                            stringResource(R.string.on_boarding_first_question3_option3),
+                        ),
+                    onClick = onClickOnBoardingFirst,
                     visible = (uiState.selectedOnBoardingFirstStateCount >= 1),
-                    enter = slideInVertically {
-                        with(density) { -40.dp.roundToPx() }
-                    } + expandVertically(
-                        expandFrom = Alignment.Top
-                    ) + fadeIn(
-                        initialAlpha = 0.3f
-                    ),
-                ) {
-                    OnBoardingQuestionGroup(
-                        questionTitle = stringResource(R.string.on_boarding_first_question3),
-                        questionOptions =
-                            listOf(
-                                stringResource(R.string.on_boarding_first_question3_option1),
-                                stringResource(R.string.on_boarding_first_question3_option2),
-                                stringResource(R.string.on_boarding_first_question3_option3),
-                            ),
-                        onClick = onClickOnBoardingFirst
-                    )
-                }
+                )
 
                 OnBoardingQuestionGroup(
                     questionTitle = stringResource(R.string.on_boarding_first_question4),
