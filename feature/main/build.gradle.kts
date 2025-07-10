@@ -18,5 +18,6 @@ dependencies {
 
         projects.feature.navigator,
         projects.feature.home,
+        projects.feature.onboarding,
     )
 }

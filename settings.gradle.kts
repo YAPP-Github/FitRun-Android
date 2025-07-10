@@ -54,4 +54,5 @@ include(
     ":feature:splash",
     ":feature:main",
     ":feature:navigator",
+    ":feature:onboarding"
 )
