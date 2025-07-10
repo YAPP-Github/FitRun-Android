@@ -11,6 +11,12 @@
     <string name="work_through_next">다음</string>
     <string name="work_through_start">시작하기</string>
 
+   <!--    Bottom Navigation-->
+    <string name="ic_home">홈</string>
+    <string name="ic_record">기록</string>
+    <string name="ic_crew">크루</string>
+    <string name="ic_my_page">마이페이지</string>
+
     <!--    OnBoarding-->
     <string name="on_boarding_next">다음</string>
 

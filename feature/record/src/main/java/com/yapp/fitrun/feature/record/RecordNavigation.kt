@@ -1,4 +1,4 @@
-package com.yapp.fitrun.feature.home
+package com.yapp.fitrun.feature.record
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
@@ -8,17 +8,17 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object HomeRoute // route to ForYou screen
+data object RecordRoute // route to ForYou screen
 
-fun NavController.navigateToHome(navOptions: NavOptions) {
-    navigate(HomeRoute, navOptions)
+fun NavController.navigateToRecord(navOptions: NavOptions) {
+    navigate(RecordRoute, navOptions)
 }
 
-fun NavGraphBuilder.homeNavGraph(
+fun NavGraphBuilder.recordNavGraph(
     padding: PaddingValues
 ) {
-    composable<HomeRoute> {
-        HomeRoute(
+    composable<RecordRoute> {
+        RecordRoute(
             padding = padding
             // TODO: viewmodel
         )

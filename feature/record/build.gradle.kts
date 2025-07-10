@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    setNamespace("feature.home")
+    setNamespace("feature.record")
 }
 
 // Add library
@@ -17,5 +17,7 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
+        projects.feature.navigator,
+        projects.core.domain,
     )
 }

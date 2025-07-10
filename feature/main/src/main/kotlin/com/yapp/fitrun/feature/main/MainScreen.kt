@@ -1,6 +1,7 @@
 package com.yapp.fitrun.feature.main
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -11,6 +12,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.yapp.fitrun.feature.home.homeNavGraph
+import com.yapp.fitrun.feature.main.component.MainBottomBar
+import com.yapp.fitrun.feature.main.component.MainNavHost
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 
 @Composable
@@ -42,6 +45,15 @@ internal fun MainScreen(
                     onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
                 )
             }
+        },
+        bottomBar = {
+            MainBottomBar(
+                modifier = Modifier.navigationBarsPadding(),
+                visible = navigator.shouldShowBottomBar(),
+                tabs = MainTab.entries.toList(),
+                currentTab = navigator.currentTab,
+                onTabSelected = { navigator.navigate(it) }
+            )
         },
 
         snackbarHost = { SnackbarHost(snackBarHostState) },

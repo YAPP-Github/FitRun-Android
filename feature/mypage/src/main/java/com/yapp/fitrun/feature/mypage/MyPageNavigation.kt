@@ -1,4 +1,4 @@
-package com.yapp.fitrun.feature.home
+package com.yapp.fitrun.feature.mypage
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
@@ -8,17 +8,17 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object HomeRoute // route to ForYou screen
+data object MyPageRoute // route to ForYou screen
 
-fun NavController.navigateToHome(navOptions: NavOptions) {
-    navigate(HomeRoute, navOptions)
+fun NavController.navigateToMyPage(navOptions: NavOptions) {
+    navigate(MyPageRoute, navOptions)
 }
 
-fun NavGraphBuilder.homeNavGraph(
+fun NavGraphBuilder.myPageNavGraph(
     padding: PaddingValues
 ) {
-    composable<HomeRoute> {
-        HomeRoute(
+    composable<MyPageRoute> {
+        MyPageRoute(
             padding = padding
             // TODO: viewmodel
         )
