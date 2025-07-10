@@ -70,6 +70,11 @@ androidx-splash = "1.0.1"
 # datastore
 datastore = "1.1.7"
 
+# naver map
+naver-map = "3.22.0"
+naver-map-location = "21.0.2"
+naver-map-compose = "1.8.2"
+
 [libraries]
 # gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -156,6 +161,11 @@ androidx-splash = { group = "androidx.core", name = "core-splashscreen", version
 
 # plugin
 plugin-kotlin-serializationPlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+
+# naver map
+naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naver-map"}
+naver-map-location = { group = "io.github.fornewid", name = "naver-map-location", version.ref = "naver-map-location"}
+naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naver-map-compose"}
 
 [plugins]
 

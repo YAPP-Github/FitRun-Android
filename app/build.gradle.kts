@@ -21,6 +21,7 @@ android {
 
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", gradleLocalProperties(rootDir, providers).getProperty("KAKAO_NATIVE_APP_KEY"))
         addManifestPlaceholders(mapOf("KAKAO_REDIRECT_URI" to gradleLocalProperties(rootDir, providers).getProperty("KAKAO_REDIRECT_URI")))
+        addManifestPlaceholders(mapOf("NAVER_MAP_CLIENT_KEY" to gradleLocalProperties(rootDir, providers).getProperty("NAVER_MAP_CLIENT_KEY")))
     }
 
     buildTypes {
