@@ -40,3 +40,11 @@ val Body_body3_semiBold = TextStyle(
     letterSpacing = (-0.4).sp
 )
 
+val Caption3_semiBold = TextStyle(
+    fontFamily = pretendardFamily,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 12.sp,
+    lineHeight = 16.sp,
+    letterSpacing = (-0.4).sp
+)
+

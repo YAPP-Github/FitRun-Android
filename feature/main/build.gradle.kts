@@ -18,5 +18,8 @@ dependencies {
 
         projects.feature.navigator,
         projects.feature.home,
+        projects.feature.record,
+        projects.feature.crew,
+        projects.feature.mypage,
     )
 }

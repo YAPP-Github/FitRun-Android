@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.yapp.fitrun.core.designsystem.BackgroundColor
 import com.yapp.fitrun.core.designsystem.Head_head1_Bold
 import com.yapp.fitrun.core.designsystem.TextPrimary
 
@@ -23,7 +23,7 @@ internal fun HomeRoute(
 @Composable
 internal fun HomeScreen() {
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.White)
+        modifier = Modifier.fillMaxSize().background(BackgroundColor)
     ) {
         Text(
             text = "Home",

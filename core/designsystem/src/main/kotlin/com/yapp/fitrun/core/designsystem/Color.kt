@@ -8,6 +8,8 @@ val gray_900 = Color(0xFF2A3038)
 val gray_800 = Color(0xFF555D6D)
 val base_white = Color(0xFFFFFFFF)
 
+val BackgroundColor = Color(0xFFF5F5F9)
+
 // Brand Color
 val FitRunOrange = Color(0xFFFF6600)
 
