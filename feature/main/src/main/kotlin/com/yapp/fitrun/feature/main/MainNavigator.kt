@@ -15,6 +15,13 @@ import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigateToMyPage
 import com.yapp.fitrun.feature.record.navigateToRecord
+import com.yapp.fitrun.feature.onboarding.navigation.ON_BOARDING_FIRST_ROUTE
+import com.yapp.fitrun.feature.onboarding.navigation.ON_BOARDING_ROUTE
+import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFirst
+import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFourth
+import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
+import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
+import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingThird
 
 @Keep
 internal class MainNavigator(
@@ -29,7 +36,8 @@ internal class MainNavigator(
             currentDestination?.hasRoute(route = tab.route) == true
         }
 
-    val startDestination = HomeRoute
+    // 온보딩 테스트 용도로 route 변경
+    val startDestination = ON_BOARDING_ROUTE
 
     fun navigate(tab: MainTab) {
         val navOptions = navOptions {
@@ -53,6 +61,26 @@ internal class MainNavigator(
         return MainTab.entries.any { tab ->
             currentDestination?.hasRoute(tab.route) == true
         }
+    }
+
+    fun navigateToOnBoardingFirst() {
+        navController.navigateToOnBoardingFirst()
+    }
+
+    fun navigateToOnBoardingSecond() {
+        navController.navigateToOnBoardingSecond()
+    }
+
+    fun navigateToOnBoardingThird() {
+        navController.navigateToOnBoardingThird()
+    }
+
+    fun navigateToOnBoardingFourth() {
+        navController.navigateToOnBoardingFourth()
+    }
+
+    fun navigateToOnBoardingResult() {
+        navController.navigateToOnBoardingResult()
     }
 }
 

@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.component.MainBottomBar
 import com.yapp.fitrun.feature.main.component.MainNavHost
+import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 
 @Composable
 internal fun MainScreen(
@@ -24,10 +25,26 @@ internal fun MainScreen(
 
     Scaffold(
         content = { padding ->
-            MainNavHost(
-                navigator = navigator,
-                padding = padding
-            )
+            NavHost(
+                navController = navigator.navController,
+                startDestination = navigator.startDestination,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                homeNavGraph(
+                    padding = padding
+                )
+                
+                onBoardingNavGraph(
+                    navController = navigator.navController,
+                    onBackClick = { navigator.navController.popBackStack() },
+                    onNavigateToHome = navigator::navigateToHome,
+                    onNavigateToRoutine = { /* TODO */ },
+                    onNavigateToOnBoardingSecond = navigator::navigateToOnBoardingSecond,
+                    onNavigateToOnBoardingThird = navigator::navigateToOnBoardingThird,
+                    onNavigateToOnBoardingFourth = navigator::navigateToOnBoardingFourth,
+                    onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
+                )
+            }
         },
         bottomBar = {
             MainBottomBar(
@@ -38,6 +55,7 @@ internal fun MainScreen(
                 onTabSelected = { navigator.navigate(it) }
             )
         },
+
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = MaterialTheme.colorScheme.background,
     )

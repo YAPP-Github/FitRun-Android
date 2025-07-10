@@ -57,6 +57,7 @@ dependencies {
         projects.feature.splash,
         projects.feature.main,
         projects.feature.navigator,
+        projects.feature.onboarding,
 
         // library
         libs.androidx.core.ktx,
