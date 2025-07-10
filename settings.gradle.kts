@@ -55,3 +55,6 @@ include(
     ":feature:main",
     ":feature:navigator",
 )
+include(":feature:crew")
+include(":feature:mypage")
+include(":feature:record")
