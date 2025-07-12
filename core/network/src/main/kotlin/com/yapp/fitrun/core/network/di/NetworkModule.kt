@@ -3,10 +3,9 @@ package com.yapp.fitrun.core.network.di
 import com.yapp.fitrun.core.datastore.TokenDataSource
 import com.yapp.fitrun.core.network.AuthDataSource
 import com.yapp.fitrun.core.network.AuthDataSourceImpl
-import com.yapp.fitrun.core.network.AuthInterceptor
-import com.yapp.fitrun.core.network.AuthOkHttpClient
-import com.yapp.fitrun.core.network.BaseOkHttpClient
 import com.yapp.fitrun.core.network.BuildConfig
+import com.yapp.fitrun.core.network.UserDataSource
+import com.yapp.fitrun.core.network.UserDataSourceImpl
 import com.yapp.fitrun.core.network.api.AuthApiService
 import com.yapp.fitrun.core.network.api.UserApiService
 import dagger.Binds
@@ -41,6 +40,10 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindUserDataSource(userDataSourceImpl: UserDataSourceImpl): UserDataSource
 }
 
 @Module
@@ -49,8 +52,8 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideAuthInterceptor(tokenDataSource: TokenDataSource): AuthInterceptor {
-        return AuthInterceptor(tokenDataSource)
+    internal fun provideTokenInterceptor(tokenDataSource: TokenDataSource): TokenInterceptor {
+        return TokenInterceptor(tokenDataSource)
     }
 
     @Provides
@@ -77,11 +80,11 @@ internal object NetworkModule {
     @Singleton
     @AuthOkHttpClient
     internal fun provideAuthOkHttpClient(
-        authInterceptor: Interceptor,
+        tokenInterceptor: Interceptor,
         @BaseOkHttpClient baseClient: OkHttpClient
     ): OkHttpClient {
         return baseClient.newBuilder()
-            .addInterceptor(authInterceptor)
+            .addInterceptor(tokenInterceptor)
             .build()
     }
 

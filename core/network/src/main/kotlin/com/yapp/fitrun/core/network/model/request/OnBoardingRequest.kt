@@ -12,7 +12,7 @@ data class OnBoardingRequest(
 @Serializable
 data class OnBoardingAnswers(
     @SerialName("questionType")
-    val answers: String,
+    val questionType: String,
 
     @SerialName("answer")
     val answer: String,

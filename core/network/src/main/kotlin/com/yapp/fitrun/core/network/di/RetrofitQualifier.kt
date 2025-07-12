@@ -1,4 +1,4 @@
-package com.yapp.fitrun.core.network
+package com.yapp.fitrun.core.network.di
 
 import javax.inject.Qualifier
 
