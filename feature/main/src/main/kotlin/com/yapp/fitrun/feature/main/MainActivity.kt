@@ -13,9 +13,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator()
-
             MainScreen(navigator = navigator)
         }
     }
-
 }
