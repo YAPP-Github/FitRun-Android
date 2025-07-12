@@ -8,7 +8,7 @@ data class LoginResponse(
     @SerialName("tokenResponse")
     val tokenResponse: TokenResponse,
     @SerialName("user")
-    val user: User,
+    val user: UserResponse,
     @SerialName("isNew")
     val isNew: Boolean
 )
@@ -22,7 +22,7 @@ data class TokenResponse(
 )
 
 @Serializable
-data class User(
+data class UserResponse(
     @SerialName("id")
     val id: Long,
     @SerialName("nickname")

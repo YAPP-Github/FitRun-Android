@@ -8,6 +8,7 @@ import com.yapp.fitrun.core.network.AuthOkHttpClient
 import com.yapp.fitrun.core.network.BaseOkHttpClient
 import com.yapp.fitrun.core.network.BuildConfig
 import com.yapp.fitrun.core.network.api.AuthApiService
+import com.yapp.fitrun.core.network.api.UserApiService
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -103,5 +104,13 @@ internal object NetworkModule {
         @Named("BaseRetrofit") retrofit: Retrofit
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideUserApiService(
+        @Named("BaseRetrofit") retrofit: Retrofit
+    ): UserApiService {
+        return retrofit.create(UserApiService::class.java)
     }
 }
