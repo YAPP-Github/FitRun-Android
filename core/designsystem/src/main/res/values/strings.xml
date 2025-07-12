@@ -70,7 +70,7 @@
     <string name="on_boarding_fourth_question1_option3">🔋 체력 증진을 위해 뛰어볼래요</string>
     <string name="on_boarding_fourth_question1_option4">🥇 대회 준비를 위해 뛰어 볼래요</string>
 
-    <string name="on_boarding_result_title">체력 분석 완료\n나는 워밍업 러너에 가까워요</string>
+    <string name="on_boarding_result_title">체력 분석 완료</string>
     <string name="on_boarding_result_description">이제 딱 맞는 러닝 목표를 추천해 드릴게요!\n지금 목표 설정을 완료하고 가볍게 시작해볼까요?</string>
     <string name="on_boarding_result_go_to_home">홈으로</string>
     <string name="on_boarding_result_go_to_routine">루틴 설정 바로가기</string>

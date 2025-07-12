@@ -4,9 +4,12 @@ import com.yapp.fitrun.core.datastore.TokenDataSource
 import com.yapp.fitrun.core.network.AuthDataSource
 import com.yapp.fitrun.core.network.AuthDataSourceImpl
 import com.yapp.fitrun.core.network.BuildConfig
+import com.yapp.fitrun.core.network.GoalDatasource
+import com.yapp.fitrun.core.network.GoalDatasourceImpl
 import com.yapp.fitrun.core.network.UserDataSource
 import com.yapp.fitrun.core.network.UserDataSourceImpl
 import com.yapp.fitrun.core.network.api.AuthApiService
+import com.yapp.fitrun.core.network.api.GoalApiService
 import com.yapp.fitrun.core.network.api.UserApiService
 import dagger.Binds
 import dagger.Module
@@ -44,6 +47,10 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindUserDataSource(userDataSourceImpl: UserDataSourceImpl): UserDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindGoalDataSource(goalDataSourceImpl: GoalDatasourceImpl): GoalDatasource
 }
 
 @Module
@@ -115,5 +122,13 @@ internal object NetworkModule {
         @Named("BaseRetrofit") retrofit: Retrofit
     ): UserApiService {
         return retrofit.create(UserApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideGoalApiService(
+        @Named("BaseRetrofit") retrofit: Retrofit
+    ): GoalApiService {
+        return retrofit.create(GoalApiService::class.java)
     }
 }
