@@ -6,7 +6,10 @@ import androidx.compose.ui.graphics.Color
 val gray_1000 = Color(0xFF1A1C20)
 val gray_900 = Color(0xFF2A3038)
 val gray_800 = Color(0xFF555D6D)
+val gray_700 = Color(0xFF868B94)
+val gray_500 = Color(0xFFD1D3D8)
 val gray_400 = Color(0xFFDCDEE3)
+val gray_300 = Color(0xFFEEEFF1)
 val base_white = Color(0xFFFFFFFF)
 
 val BackgroundColor = Color(0xFFF5F5F9)
@@ -18,9 +21,17 @@ val FitRunOrange100 = Color(0xFFFFF2EC)
 // Text Color
 val TextPrimary = gray_1000
 val TextSecondary = gray_800
+val TextTertiary = gray_700
 
 // Interactive Color
 val InteractiveSecondary = gray_900
 val InteractiveInverse = base_white
 val InteractivePrimary = FitRunOrange600
 val InteractiveSelected = FitRunOrange100
+
+// Neutral
+val NeutralGray300 = gray_300
+val NeutralGray500 = gray_500
+
+// Border Primary
+val BorderPrimary = gray_400

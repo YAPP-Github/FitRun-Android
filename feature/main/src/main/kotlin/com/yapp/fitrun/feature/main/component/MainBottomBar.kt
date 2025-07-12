@@ -28,7 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.yapp.fitrun.core.designsystem.Caption3_semiBold
+import com.yapp.fitrun.core.designsystem.Caption_caption3_semiBold
 import com.yapp.fitrun.feature.main.MainTab
 
 @Composable
@@ -103,7 +103,7 @@ private fun RowScope.MainBottomBarItem(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = stringResource(tab.titleTextId),
-                style = Caption3_semiBold,
+                style = Caption_caption3_semiBold,
                 color = if (selected) {
                     tab.selectedColor
                 } else {

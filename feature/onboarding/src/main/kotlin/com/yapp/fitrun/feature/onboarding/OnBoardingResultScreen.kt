@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
-import com.yapp.fitrun.core.designsystem.Head_head1_Bold
+import com.yapp.fitrun.core.designsystem.Head_head1_bold
 import com.yapp.fitrun.core.designsystem.InteractiveInverse
 import com.yapp.fitrun.core.designsystem.InteractivePrimary
 import com.yapp.fitrun.core.designsystem.InteractiveSelected
@@ -78,7 +78,7 @@ internal fun OnBoardingResultScreen(
             text = stringResource(id = R.string.on_boarding_result_title),
             textAlign = TextAlign.Center,
             color = TextPrimary,
-            style = Head_head1_Bold,
+            style = Head_head1_bold,
         )
 
         Spacer(modifier = Modifier.height(16.dp))

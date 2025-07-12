@@ -17,5 +17,10 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
+        libs.naver.map,
+        libs.naver.map.location,
+        libs.naver.map.compose,
+        libs.accompanist.permissions,
+        libs.accompanist.systemuicontroller
     )
 }
