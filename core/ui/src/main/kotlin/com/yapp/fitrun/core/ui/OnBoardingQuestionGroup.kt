@@ -94,7 +94,7 @@ fun OnBoardingQuestionGroup(
                             selected = (text == selectedOption),
                             onClick = {
                                 onOptionSelected(text)
-                                onClick(questionTitle.indexOf(selectedOption))
+                                onClick(questionOptions.indexOf(selectedOption))
                             },
                             role = Role.RadioButton
                         )
