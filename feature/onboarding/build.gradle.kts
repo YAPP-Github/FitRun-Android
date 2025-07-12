@@ -22,5 +22,6 @@ dependencies {
         projects.core.ui,
         projects.core.designsystem,
         projects.core.common,
+        projects.core.domain,
     )
 }

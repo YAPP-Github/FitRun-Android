@@ -22,7 +22,7 @@ class AuthDataSourceImpl @Inject constructor(
             )
         )
 
-        if (response.code.equals("SUCCESS")) {
+        if (response.code == "SUCCESS") {
             return response.result
         }
         else {
@@ -37,7 +37,7 @@ class AuthDataSourceImpl @Inject constructor(
     override suspend fun updateRefreshToken(): TokenResponse {
         val response = service.updateRefreshToken()
 
-        if (response.code.equals("SUCCESS")) {
+        if (response.code == "SUCCESS") {
             return response.result
         }
         else {

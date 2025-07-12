@@ -46,14 +46,20 @@ internal fun OnBoardingFirstRoute(
 
     OnBoardingFirstScreen(
         uiState = uiState,
-        onClickOnBoardingFirst = viewModel::onClickOnBoardingFirst,
+        onClickOnBoardingFirstQuestion1 = viewModel::onClickOnBoardingFirstQuestion1,
+        onClickOnBoardingFirstQuestion2 = viewModel::onClickOnBoardingFirstQuestion2,
+        onClickOnBoardingFirstQuestion3 = viewModel::onClickOnBoardingFirstQuestion3,
+        onClickOnBoardingFirstQuestion4 = viewModel::onClickOnBoardingFirstQuestion4,
     )
 }
 
 @Composable
 internal fun OnBoardingFirstScreen(
     uiState: OnBoardingState,
-    onClickOnBoardingFirst: () -> Unit,
+    onClickOnBoardingFirstQuestion1: (Int) -> Unit,
+    onClickOnBoardingFirstQuestion2: (Int) -> Unit,
+    onClickOnBoardingFirstQuestion3: (Int) -> Unit,
+    onClickOnBoardingFirstQuestion4: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -91,7 +97,7 @@ internal fun OnBoardingFirstScreen(
                         stringResource(R.string.on_boarding_first_question1_option2),
                         stringResource(R.string.on_boarding_first_question1_option3),
                     ),
-                    onClick = onClickOnBoardingFirst,
+                    onClick = onClickOnBoardingFirstQuestion1,
                     visible = (uiState.selectedOnBoardingFirstStateCount >= 3),
                 )
 
@@ -102,7 +108,7 @@ internal fun OnBoardingFirstScreen(
                         stringResource(R.string.on_boarding_first_question2_option2),
                         stringResource(R.string.on_boarding_first_question2_option3),
                     ),
-                    onClick = onClickOnBoardingFirst,
+                    onClick =  onClickOnBoardingFirstQuestion2,
                     visible = (uiState.selectedOnBoardingFirstStateCount >= 2),
                 )
 
@@ -114,7 +120,7 @@ internal fun OnBoardingFirstScreen(
                             stringResource(R.string.on_boarding_first_question3_option2),
                             stringResource(R.string.on_boarding_first_question3_option3),
                         ),
-                    onClick = onClickOnBoardingFirst,
+                    onClick = onClickOnBoardingFirstQuestion3,
                     visible = (uiState.selectedOnBoardingFirstStateCount >= 1),
                 )
 
@@ -126,7 +132,7 @@ internal fun OnBoardingFirstScreen(
                             stringResource(R.string.on_boarding_first_question4_option2),
                             stringResource(R.string.on_boarding_first_question4_option3),
                         ),
-                    onClick = onClickOnBoardingFirst
+                    onClick = onClickOnBoardingFirstQuestion4,
                 )
             }
         }
@@ -138,6 +144,9 @@ internal fun OnBoardingFirstScreen(
 fun OnBoardingFirstPreview() {
     OnBoardingFirstScreen(
         OnBoardingState(),
-        onClickOnBoardingFirst = {},
+        onClickOnBoardingFirstQuestion1 = {},
+        onClickOnBoardingFirstQuestion2 = {},
+        onClickOnBoardingFirstQuestion3 = {},
+        onClickOnBoardingFirstQuestion4 = {},
     )
 }

@@ -47,7 +47,8 @@ internal fun OnBoardingSecondRoute(
 
     OnBoardingSecondScreen(
         uiState = uiState,
-        onClickOnBoardingSecond = viewModel::onClickOnBoardingSecond,
+        onClickOnBoardingSecondQuestion1 = viewModel::onClickOnBoardingSecondQuestion1,
+        onClickOnBoardingSecondQuestion2 = viewModel::onClickOnBoardingSecondQuestion2,
         onBackClick = onBackClick
     )
 }
@@ -55,7 +56,8 @@ internal fun OnBoardingSecondRoute(
 @Composable
 internal fun OnBoardingSecondScreen(
     uiState: OnBoardingState,
-    onClickOnBoardingSecond: () -> Unit,
+    onClickOnBoardingSecondQuestion1: (Int) -> Unit,
+    onClickOnBoardingSecondQuestion2: (Int) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -94,7 +96,7 @@ internal fun OnBoardingSecondScreen(
                         stringResource(R.string.on_boarding_second_question1_option2),
                         stringResource(R.string.on_boarding_second_question1_option3),
                     ),
-                    onClick = onClickOnBoardingSecond,
+                    onClick = onClickOnBoardingSecondQuestion1,
                     visible = (uiState.selectedOnBoardingSecondStateCount >= 1)
                 )
 
@@ -106,7 +108,7 @@ internal fun OnBoardingSecondScreen(
                             stringResource(R.string.on_boarding_second_question2_option2),
                             stringResource(R.string.on_boarding_second_question2_option3),
                         ),
-                    onClick = onClickOnBoardingSecond
+                    onClick = onClickOnBoardingSecondQuestion2,
                 )
             }
         }
@@ -118,7 +120,8 @@ internal fun OnBoardingSecondScreen(
 fun OnBoardingSecondPreview() {
     OnBoardingSecondScreen(
         uiState = OnBoardingState(),
-        onClickOnBoardingSecond = {},
         onBackClick = {},
+        onClickOnBoardingSecondQuestion1 = {},
+        onClickOnBoardingSecondQuestion2 = {},
     )
 }

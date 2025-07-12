@@ -46,7 +46,7 @@ import com.yapp.fitrun.core.designsystem.gray_400
 fun OnBoardingQuestionGroup(
     questionTitle: String,
     questionOptions: List<String>,
-    onClick: () -> Unit = {},
+    onClick: (Int) -> Unit = {},
     visible: Boolean = true,
     density: Density = LocalDensity.current,
 ) {
@@ -94,7 +94,7 @@ fun OnBoardingQuestionGroup(
                             selected = (text == selectedOption),
                             onClick = {
                                 onOptionSelected(text)
-                                onClick()
+                                onClick(questionOptions.indexOf(selectedOption))
                             },
                             role = Role.RadioButton
                         )

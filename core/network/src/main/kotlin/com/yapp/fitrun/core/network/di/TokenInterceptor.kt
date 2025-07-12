@@ -1,13 +1,12 @@
-package com.yapp.fitrun.core.network
+package com.yapp.fitrun.core.network.di
 
 import com.yapp.fitrun.core.datastore.TokenDataSource
-import com.yapp.fitrun.core.datastore.di.TokenDataStore
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
 
-class AuthInterceptor @Inject constructor(
+class TokenInterceptor @Inject constructor(
     private val tokenDataSource: TokenDataSource
 ) : Interceptor {
 
@@ -20,7 +19,11 @@ class AuthInterceptor @Inject constructor(
         }
 
         // 토큰 추가
-        val token = runBlocking { tokenDataSource.getRefreshToken() }
+        val token = if (original.url.encodedPath.contains("auth/")) {
+            runBlocking { tokenDataSource.getRefreshToken() }
+        } else {
+            runBlocking { tokenDataSource.getAccessToken() }
+        }
 
         val request = original.newBuilder()
             .addHeader("Authorization", "Bearer $token")

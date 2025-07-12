@@ -5,4 +5,5 @@ data class OnBoardingState(
     val selectedOnBoardingFirstStateCount: Int = 0,
     val selectedOnBoardingSecondStateCount: Int = 0,
     val selectedOnBoardingThirdStateCount: Int = 0,
+    val runnerTypeResult: String = ""
 )

@@ -24,6 +24,7 @@ import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.ui.OnBoardingQuestionGroup
 import com.yapp.fitrun.core.ui.OnBoardingTopAppBar
+import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingSideEffect
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -38,12 +39,13 @@ internal fun OnBoardingFourthRoute(
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
+            OnBoardingSideEffect.NavigateToOnBoardingResult -> onNavigateToOnBoardingResult()
             else -> {}
         }
     }
     OnBoardingFourthScreen(
         onBackClick = onBackClick,
-        onNavigateToOnBoardingResult = onNavigateToOnBoardingResult,
+        onNavigateToOnBoardingResult = viewModel::onClickOnBoardingFourth,
     )
 
 }
@@ -51,7 +53,7 @@ internal fun OnBoardingFourthRoute(
 @Composable
 internal fun OnBoardingFourthScreen(
     onBackClick: () -> Unit,
-    onNavigateToOnBoardingResult: () -> Unit
+    onNavigateToOnBoardingResult: (Int) -> Unit
 ) {
     val scrollState = rememberScrollState()
     Column(
