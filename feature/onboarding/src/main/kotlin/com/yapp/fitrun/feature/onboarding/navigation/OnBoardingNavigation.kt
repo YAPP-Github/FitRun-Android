@@ -11,32 +11,45 @@ import com.yapp.fitrun.feature.onboarding.OnBoardingResultRoute
 import com.yapp.fitrun.feature.onboarding.OnBoardingSecondRoute
 import com.yapp.fitrun.feature.onboarding.OnBoardingThirdRoute
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingViewModel
+import kotlinx.serialization.Serializable
 
-const val ON_BOARDING_ROUTE = "on_boarding_route"
-const val ON_BOARDING_FIRST_ROUTE = "on_boarding_first_route"
-const val ON_BOARDING_SECOND_ROUTE = "on_boarding_second_route"
-const val ON_BOARDING_THIRD_ROUTE = "on_boarding_third_route"
-const val ON_BOARDING_FOURTH_ROUTE = "on_boarding_fourth_route"
-const val ON_BOARDING_RESULT_ROUTE = "on_boarding_result_route"
+@Serializable
+data object OnBoardingRoute
+
+@Serializable
+data object OnBoardingFirstRoute
+
+@Serializable
+data object OnBoardingSecondRoute
+
+@Serializable
+data object OnBoardingThirdRoute
+
+@Serializable
+data object OnBoardingFourthRoute
+
+@Serializable
+data object OnBoardingResultRoute
+
 
 fun NavController.navigateToOnBoardingFirst() {
-    navigate(ON_BOARDING_FIRST_ROUTE)
+    navigate(OnBoardingFirstRoute)
 }
 
 fun NavController.navigateToOnBoardingSecond() {
-    navigate(ON_BOARDING_SECOND_ROUTE)
+    navigate(OnBoardingSecondRoute)
 }
 
 fun NavController.navigateToOnBoardingThird() {
-    navigate(ON_BOARDING_THIRD_ROUTE)
+    navigate(OnBoardingThirdRoute)
 }
 
 fun NavController.navigateToOnBoardingFourth() {
-    navigate(ON_BOARDING_FOURTH_ROUTE)
+    navigate(OnBoardingFourthRoute)
 }
 
 fun NavController.navigateToOnBoardingResult() {
-    navigate(ON_BOARDING_RESULT_ROUTE)
+    navigate(OnBoardingResultRoute)
 }
 
 fun NavGraphBuilder.onBoardingNavGraph(
@@ -49,11 +62,10 @@ fun NavGraphBuilder.onBoardingNavGraph(
     onNavigateToOnBoardingFourth: () -> Unit,
     onNavigateToOnBoardingResult: () -> Unit,
 ) {
-    navigation(
-        startDestination = ON_BOARDING_FIRST_ROUTE,
-        route = ON_BOARDING_ROUTE,
+    navigation<OnBoardingRoute>(
+        startDestination = OnBoardingFirstRoute
     ) {
-        composable(route = ON_BOARDING_FIRST_ROUTE) { entry ->
+        composable<OnBoardingFirstRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingFirstRoute(
@@ -62,7 +74,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             )
         }
 
-        composable(route = ON_BOARDING_SECOND_ROUTE) { entry ->
+        composable<OnBoardingSecondRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingSecondRoute(
@@ -72,7 +84,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             )
         }
 
-        composable(route = ON_BOARDING_THIRD_ROUTE) { entry ->
+        composable<OnBoardingThirdRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingThirdRoute(
@@ -82,7 +94,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             )
         }
 
-        composable(route = ON_BOARDING_FOURTH_ROUTE) { entry ->
+        composable<OnBoardingFourthRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingFourthRoute(
@@ -92,7 +104,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             )
         }
 
-        composable(route = ON_BOARDING_RESULT_ROUTE) { entry ->
+        composable<OnBoardingResultRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingResultRoute(

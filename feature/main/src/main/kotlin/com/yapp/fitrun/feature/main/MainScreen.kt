@@ -10,11 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.component.MainBottomBar
 import com.yapp.fitrun.feature.main.component.MainNavHost
-import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 
 @Composable
 internal fun MainScreen(
@@ -25,26 +22,11 @@ internal fun MainScreen(
 
     Scaffold(
         content = { padding ->
-            NavHost(
-                navController = navigator.navController,
-                startDestination = navigator.startDestination,
+            MainNavHost(
                 modifier = Modifier.fillMaxSize(),
-            ) {
-                homeNavGraph(
-                    padding = padding
-                )
-                
-                onBoardingNavGraph(
-                    navController = navigator.navController,
-                    onBackClick = { navigator.navController.popBackStack() },
-                    onNavigateToHome = navigator::navigateToHome,
-                    onNavigateToRoutine = { /* TODO */ },
-                    onNavigateToOnBoardingSecond = navigator::navigateToOnBoardingSecond,
-                    onNavigateToOnBoardingThird = navigator::navigateToOnBoardingThird,
-                    onNavigateToOnBoardingFourth = navigator::navigateToOnBoardingFourth,
-                    onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
-                )
-            }
+                navigator = navigator,
+                padding = padding
+            )
         },
         bottomBar = {
             MainBottomBar(

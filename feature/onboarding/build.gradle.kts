@@ -5,6 +5,7 @@ import com.yapp.fitrun.setNamespace
 plugins {
     alias(libs.plugins.fitrun.android.feature)
     alias(libs.plugins.fitrun.android.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -15,6 +16,7 @@ android {
 dependencies {
     implementations(
         libs.androidx.core.ktx,
+        libs.kotlinx.serialization.json,
 
         projects.feature.navigator,
         projects.core.ui,
