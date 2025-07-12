@@ -4,8 +4,8 @@ import com.yapp.fitrun.core.datastore.TokenDataSource
 import com.yapp.fitrun.core.network.AuthDataSource
 import com.yapp.fitrun.core.network.AuthDataSourceImpl
 import com.yapp.fitrun.core.network.BuildConfig
-import com.yapp.fitrun.core.network.GoalDatasource
-import com.yapp.fitrun.core.network.GoalDatasourceImpl
+import com.yapp.fitrun.core.network.GoalDataSource
+import com.yapp.fitrun.core.network.GoalDataSourceImpl
 import com.yapp.fitrun.core.network.UserDataSource
 import com.yapp.fitrun.core.network.UserDataSourceImpl
 import com.yapp.fitrun.core.network.api.AuthApiService
@@ -50,7 +50,7 @@ abstract class DataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun bindGoalDataSource(goalDataSourceImpl: GoalDatasourceImpl): GoalDatasource
+    abstract fun bindGoalDataSource(goalDataSourceImpl: GoalDataSourceImpl): GoalDataSource
 }
 
 @Module

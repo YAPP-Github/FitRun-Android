@@ -2,8 +2,9 @@ package com.yapp.fitrun.feature.onboarding.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.yapp.fitrun.core.domain.entity.OnBoardingAnswers
 import com.yapp.fitrun.core.domain.entity.OnBoardingEntity
-import com.yapp.fitrun.core.domain.repository.TokenRepository
+import com.yapp.fitrun.core.domain.repository.GoalRepository
 import com.yapp.fitrun.core.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
@@ -13,66 +14,159 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 
+enum class Answers { A, B, C }
+enum class RunningPurpose(
+    val purpose: String
+) {
+    A("WEIGHT_LOSS_PURPOSE"),
+    B("HEALTH_MAINTENANCE_PURPOSE"),
+    C("DAILY_STRENGTH_IMPROVEMENT"),
+    D("COMPETITION_PREPARATION"),
+}
+
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val tokenRepository: TokenRepository,
+    private val goalRepository: GoalRepository,
 ): ViewModel(), ContainerHost<OnBoardingState, OnBoardingSideEffect> {
     override val container = container<OnBoardingState, OnBoardingSideEffect>(OnBoardingState())
 
-    private val firstSelectedValue: List<String> = emptyList()
-    private val secondSelectedValue: List<String> = emptyList()
-    private val thirdSelectedValue: List<String> = emptyList()
+    private val onBoardingAnswersMap = HashMap<String, String>()
+    private val answerList = listOf(
+        "EXPLOSIVE_STRENGTH",
+        "AGILITY",
+        "COORDINATION",
+        "BALANCE",
+        "EXERCISE_EXPERIENCE",
+        "RUNNING_EXPERIENCE",
+        "RUNNING_ENDURANCE",
+        "PACE_AWARENESS"
+    )
 
-    fun onClickOnBoardingFirst() = intent {
+    init {
+        answerList.forEach { onBoardingAnswersMap[it] = Answers.A.name }
+    }
+
+    fun onClickOnBoardingFirstQuestion1(selected: Int) = intent {
         val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
         reduce {
             state.copy(selectedOnBoardingFirstStateCount = newCount)
         }
-        if (newCount >= 4) {
-            postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingSecond)
-        }
+        onBoardingAnswersMap[answerList[0]] = convertSelectedToAnswer(selected).name
     }
 
-    fun onClickOnBoardingSecond() = intent {
+    fun onClickOnBoardingFirstQuestion2(selected: Int) = intent {
+        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
+        reduce {
+            state.copy(selectedOnBoardingFirstStateCount = newCount)
+        }
+        onBoardingAnswersMap[answerList[1]] = convertSelectedToAnswer(selected).name
+    }
+
+    fun onClickOnBoardingFirstQuestion3(selected: Int) = intent {
+        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
+        reduce {
+            state.copy(selectedOnBoardingFirstStateCount = newCount)
+        }
+        onBoardingAnswersMap[answerList[2]] = convertSelectedToAnswer(selected).name
+    }
+
+    fun onClickOnBoardingFirstQuestion4(selected: Int) = intent {
+        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
+        reduce {
+            state.copy(selectedOnBoardingFirstStateCount = newCount)
+        }
+        onBoardingAnswersMap[answerList[3]] = convertSelectedToAnswer(selected).name
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingSecond)
+    }
+
+    fun onClickOnBoardingSecondQuestion1(selected: Int) = intent {
         val newCount: Int =  state.selectedOnBoardingSecondStateCount + 1
         reduce {
             state.copy(selectedOnBoardingSecondStateCount = newCount)
         }
-        if (newCount >= 2) {
-            postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingThird)
-        }
+        onBoardingAnswersMap[answerList[4]] = convertSelectedToAnswer(selected).name
     }
 
-    fun onClickOnBoardingThird() = intent {
+    fun onClickOnBoardingSecondQuestion2(selected: Int) = intent {
+        val newCount: Int =  state.selectedOnBoardingSecondStateCount + 1
+        reduce {
+            state.copy(selectedOnBoardingSecondStateCount = newCount)
+        }
+        onBoardingAnswersMap[answerList[5]] = convertSelectedToAnswer(selected).name
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingThird)
+    }
+
+    fun onClickOnBoardingThirdQuestion1(selected: Int) = intent {
         val newCount: Int =  state.selectedOnBoardingThirdStateCount + 1
         reduce {
             state.copy(selectedOnBoardingThirdStateCount = newCount)
         }
-        if (newCount >= 2) {
-            postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingFourth)
-        }
+        onBoardingAnswersMap[answerList[6]] = convertSelectedToAnswer(selected).name
     }
 
-    fun setOnBoardingInfo() = intent {
+    fun onClickOnBoardingThirdQuestion2(selected: Int) = intent {
+        val newCount: Int =  state.selectedOnBoardingThirdStateCount + 1
+        reduce {
+            state.copy(selectedOnBoardingThirdStateCount = newCount)
+        }
+        onBoardingAnswersMap[answerList[7]] = convertSelectedToAnswer(selected).name
         userRepository.setOnBoardingInfo(
             onBoardingEntity = OnBoardingEntity(
-                answers =
+                answers = onBoardingAnswersMap.map { OnBoardingAnswers(it.key, it.value) }
             )
         )
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingFourth)
     }
 
-    fun getRunnerType() = intent {
-        reduce {
-            state.copy(isLoading = true)
+    fun onClickOnBoardingFourth(selected: Int) = intent {
+        goalRepository.setRunningPurpose(convertSelectedToPurpose(selected).purpose)
+            .onSuccess {
+                reduce {
+                    state.copy(isLoading = true)
+                }
+                userRepository.getUserRunnerType()
+                    .onSuccess { response ->
+                        reduce { state.copy(isLoading = false, runnerTypeResult = response.runnerType) }
+                    }
+                    .onFailure { e ->
+                        reduce { state.copy(isLoading = false) }
+                        Log.e(this@OnBoardingViewModel.javaClass.name, "getRunnerType: " + e.message.toString())
+                    }
+            }
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingResult)
+    }
+
+    private fun convertSelectedToPurpose(selected: Int): RunningPurpose {
+        return when (selected) {
+            0 -> {
+                RunningPurpose.A
+            }
+            1 -> {
+                RunningPurpose.B
+            }
+            2 -> {
+                RunningPurpose.C
+            }
+            3 -> {
+                RunningPurpose.D
+            }
+            else -> RunningPurpose.A
         }
-        userRepository.getUserRunnerType()
-            .onSuccess { response ->
-                reduce { state.copy(isLoading = false, runnerTypeResult = response.runnerType) }
+    }
+
+    private fun convertSelectedToAnswer(selected: Int): Answers {
+        return when (selected) {
+            0 -> {
+                Answers.A
             }
-            .onFailure { e ->
-                reduce { state.copy(isLoading = false) }
-                Log.e(this@OnBoardingViewModel.javaClass.name, e.message.toString())
+            1 -> {
+                Answers.B
             }
+            2 -> {
+                Answers.C
+            }
+            else -> Answers.A
+        }
     }
 }
