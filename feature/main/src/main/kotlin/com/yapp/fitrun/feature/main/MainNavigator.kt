@@ -11,17 +11,15 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.yapp.fitrun.feature.crew.navigateToCrew
-import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigateToMyPage
-import com.yapp.fitrun.feature.record.navigateToRecord
-import com.yapp.fitrun.feature.onboarding.navigation.ON_BOARDING_FIRST_ROUTE
-import com.yapp.fitrun.feature.onboarding.navigation.ON_BOARDING_ROUTE
+import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFirst
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFourth
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingThird
+import com.yapp.fitrun.feature.record.navigateToRecord
 
 @Keep
 internal class MainNavigator(
@@ -37,7 +35,7 @@ internal class MainNavigator(
         }
 
     // 온보딩 테스트 용도로 route 변경
-    val startDestination = ON_BOARDING_ROUTE
+    val startDestination = OnBoardingRoute
 
     fun navigate(tab: MainTab) {
         val navOptions = navOptions {

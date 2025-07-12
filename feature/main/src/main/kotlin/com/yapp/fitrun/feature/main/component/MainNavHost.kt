@@ -9,7 +9,9 @@ import androidx.navigation.compose.NavHost
 import com.yapp.fitrun.feature.crew.crewNavGraph
 import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.MainNavigator
+import com.yapp.fitrun.feature.main.MainTab
 import com.yapp.fitrun.feature.mypage.myPageNavGraph
+import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 import com.yapp.fitrun.feature.record.recordNavGraph
 
 @Composable
@@ -30,6 +32,16 @@ internal fun MainNavHost(
             recordNavGraph(padding = padding)
             crewNavGraph(padding = padding)
             myPageNavGraph(padding = padding)
+            onBoardingNavGraph(
+                navController = navigator.navController,
+                onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToHome = { navigator.navigate(MainTab.HOME) } ,
+                onNavigateToRoutine = { /* TODO */ },
+                onNavigateToOnBoardingSecond = navigator::navigateToOnBoardingSecond,
+                onNavigateToOnBoardingThird = navigator::navigateToOnBoardingThird,
+                onNavigateToOnBoardingFourth = navigator::navigateToOnBoardingFourth,
+                onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
+            )
         }
     }
 }
