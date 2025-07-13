@@ -85,9 +85,9 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    @AuthOkHttpClient
-    internal fun provideAuthOkHttpClient(
-        tokenInterceptor: Interceptor,
+    @TokenOkHttpClient
+    internal fun provideTokenOkHttpClient(
+        tokenInterceptor: TokenInterceptor,
         @BaseOkHttpClient baseClient: OkHttpClient
     ): OkHttpClient {
         return baseClient.newBuilder()
@@ -99,7 +99,7 @@ internal object NetworkModule {
     @Singleton
     @Named("BaseRetrofit")
     internal fun provideBaseRetrofit(
-        @BaseOkHttpClient okHttpClient: OkHttpClient,
+        @TokenOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://fitrun.p-e.kr")

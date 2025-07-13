@@ -39,11 +39,9 @@ import com.yapp.fitrun.core.designsystem.InteractiveSelected
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.designsystem.TextSecondary
-import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingSideEffect
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingState
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingViewModel
 import org.orbitmvi.orbit.compose.collectAsState
-import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun OnBoardingResultRoute(
@@ -86,7 +84,7 @@ internal fun OnBoardingResultScreen(
                 text = stringResource(id = R.string.on_boarding_result_title),
                 textAlign = TextAlign.Center,
                 color = TextPrimary,
-                style = Head_head1_Bold,
+                style = Head_head1_bold,
             )
 
             Text(
@@ -94,7 +92,7 @@ internal fun OnBoardingResultScreen(
                 text = "나는 ${uiState.runnerTypeResult} 러너에 가까워요",
                 textAlign = TextAlign.Center,
                 color = TextPrimary,
-                style = Head_head1_Bold,
+                style = Head_head1_bold,
             )
 
             Spacer(modifier = Modifier.height(16.dp))

@@ -53,6 +53,7 @@ class OnBoardingViewModel @Inject constructor(
             state.copy(selectedOnBoardingFirstStateCount = newCount)
         }
         onBoardingAnswersMap[answerList[0]] = convertSelectedToAnswer(selected).name
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingSecond)
     }
 
     fun onClickOnBoardingFirstQuestion2(selected: Int) = intent {
@@ -77,7 +78,6 @@ class OnBoardingViewModel @Inject constructor(
             state.copy(selectedOnBoardingFirstStateCount = newCount)
         }
         onBoardingAnswersMap[answerList[3]] = convertSelectedToAnswer(selected).name
-        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingSecond)
     }
 
     fun onClickOnBoardingSecondQuestion1(selected: Int) = intent {
@@ -86,6 +86,7 @@ class OnBoardingViewModel @Inject constructor(
             state.copy(selectedOnBoardingSecondStateCount = newCount)
         }
         onBoardingAnswersMap[answerList[4]] = convertSelectedToAnswer(selected).name
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingThird)
     }
 
     fun onClickOnBoardingSecondQuestion2(selected: Int) = intent {
@@ -94,7 +95,6 @@ class OnBoardingViewModel @Inject constructor(
             state.copy(selectedOnBoardingSecondStateCount = newCount)
         }
         onBoardingAnswersMap[answerList[5]] = convertSelectedToAnswer(selected).name
-        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingThird)
     }
 
     fun onClickOnBoardingThirdQuestion1(selected: Int) = intent {
@@ -103,6 +103,12 @@ class OnBoardingViewModel @Inject constructor(
             state.copy(selectedOnBoardingThirdStateCount = newCount)
         }
         onBoardingAnswersMap[answerList[6]] = convertSelectedToAnswer(selected).name
+        userRepository.setOnBoardingInfo(
+            onBoardingEntity = OnBoardingEntity(
+                answers = onBoardingAnswersMap.map { OnBoardingAnswers(it.key, it.value) }
+            )
+        )
+        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingFourth)
     }
 
     fun onClickOnBoardingThirdQuestion2(selected: Int) = intent {
@@ -111,12 +117,6 @@ class OnBoardingViewModel @Inject constructor(
             state.copy(selectedOnBoardingThirdStateCount = newCount)
         }
         onBoardingAnswersMap[answerList[7]] = convertSelectedToAnswer(selected).name
-        userRepository.setOnBoardingInfo(
-            onBoardingEntity = OnBoardingEntity(
-                answers = onBoardingAnswersMap.map { OnBoardingAnswers(it.key, it.value) }
-            )
-        )
-        postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingFourth)
     }
 
     fun onClickOnBoardingFourth(selected: Int) = intent {
