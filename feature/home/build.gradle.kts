@@ -21,6 +21,7 @@ dependencies {
         libs.naver.map.location,
         libs.naver.map.compose,
         libs.accompanist.permissions,
-        libs.accompanist.systemuicontroller
+        libs.accompanist.systemuicontroller,
+        libs.play.services.location
     )
 }
