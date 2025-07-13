@@ -3,11 +3,14 @@ package com.yapp.fitrun.core.network.di
 import com.yapp.fitrun.core.datastore.TokenDataSource
 import com.yapp.fitrun.core.network.AuthDataSource
 import com.yapp.fitrun.core.network.AuthDataSourceImpl
-import com.yapp.fitrun.core.network.AuthInterceptor
-import com.yapp.fitrun.core.network.AuthOkHttpClient
-import com.yapp.fitrun.core.network.BaseOkHttpClient
 import com.yapp.fitrun.core.network.BuildConfig
+import com.yapp.fitrun.core.network.GoalDataSource
+import com.yapp.fitrun.core.network.GoalDataSourceImpl
+import com.yapp.fitrun.core.network.UserDataSource
+import com.yapp.fitrun.core.network.UserDataSourceImpl
 import com.yapp.fitrun.core.network.api.AuthApiService
+import com.yapp.fitrun.core.network.api.GoalApiService
+import com.yapp.fitrun.core.network.api.UserApiService
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -40,6 +43,14 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindUserDataSource(userDataSourceImpl: UserDataSourceImpl): UserDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindGoalDataSource(goalDataSourceImpl: GoalDataSourceImpl): GoalDataSource
 }
 
 @Module
@@ -48,8 +59,8 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideAuthInterceptor(tokenDataSource: TokenDataSource): AuthInterceptor {
-        return AuthInterceptor(tokenDataSource)
+    internal fun provideTokenInterceptor(tokenDataSource: TokenDataSource): TokenInterceptor {
+        return TokenInterceptor(tokenDataSource)
     }
 
     @Provides
@@ -74,13 +85,13 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
-    @AuthOkHttpClient
-    internal fun provideAuthOkHttpClient(
-        authInterceptor: Interceptor,
+    @TokenOkHttpClient
+    internal fun provideTokenOkHttpClient(
+        tokenInterceptor: TokenInterceptor,
         @BaseOkHttpClient baseClient: OkHttpClient
     ): OkHttpClient {
         return baseClient.newBuilder()
-            .addInterceptor(authInterceptor)
+            .addInterceptor(tokenInterceptor)
             .build()
     }
 
@@ -88,7 +99,7 @@ internal object NetworkModule {
     @Singleton
     @Named("BaseRetrofit")
     internal fun provideBaseRetrofit(
-        @BaseOkHttpClient okHttpClient: OkHttpClient,
+        @TokenOkHttpClient okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://fitrun.p-e.kr")
@@ -103,5 +114,21 @@ internal object NetworkModule {
         @Named("BaseRetrofit") retrofit: Retrofit
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideUserApiService(
+        @Named("BaseRetrofit") retrofit: Retrofit
+    ): UserApiService {
+        return retrofit.create(UserApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideGoalApiService(
+        @Named("BaseRetrofit") retrofit: Retrofit
+    ): GoalApiService {
+        return retrofit.create(GoalApiService::class.java)
     }
 }

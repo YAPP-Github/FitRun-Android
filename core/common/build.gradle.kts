@@ -18,6 +18,7 @@ dependencies {
     implementations(
         libs.androidx.compose.navigation,
         libs.androidx.core.ktx,
-        libs.androidx.appcompat
+        libs.androidx.appcompat,
+        libs.hilt.navigation.compose
     )
 }
