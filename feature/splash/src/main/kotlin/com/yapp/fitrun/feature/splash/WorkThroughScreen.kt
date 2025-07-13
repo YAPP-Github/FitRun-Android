@@ -8,15 +8,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -36,12 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowInsetsCompat
 import com.yapp.fitrun.core.designsystem.InteractiveSecondary
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
-import com.yapp.fitrun.core.designsystem.Head_head1_Bold
+import com.yapp.fitrun.core.designsystem.Head_head1_bold
 import com.yapp.fitrun.core.designsystem.InteractiveInverse
 import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.designsystem.TextSecondary
@@ -125,7 +120,7 @@ internal fun WorkThroughScreen(
                     text = stringResource(id = titleTextList[page]),
                     textAlign = TextAlign.Center,
                     color = TextPrimary,
-                    style = Head_head1_Bold,
+                    style = Head_head1_bold,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(

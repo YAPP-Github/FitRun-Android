@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import com.yapp.fitrun.core.common.LoginNavigator
 import com.yapp.fitrun.core.common.MainNavigator
 import com.yapp.fitrun.feature.navigator.INavigator
@@ -28,6 +29,7 @@ class FitRunSplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         enableEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
 
         setContent {
