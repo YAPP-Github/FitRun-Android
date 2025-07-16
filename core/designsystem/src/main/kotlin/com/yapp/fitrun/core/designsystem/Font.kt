@@ -150,11 +150,37 @@ val Body_body4_bold = TextStyle(
     )
 )
 
-val Body_body4_Regular = TextStyle(
+val Body_body4_regular = TextStyle(
     fontFamily = pretendardFamily,
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
     lineHeight = 20.sp,
+    letterSpacing = (-0.4).sp,
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
+)
+
+
+val Number_number1_Android = TextStyle(
+    fontFamily = pretendardFamily,
+    fontWeight = FontWeight.Bold,
+    fontStyle = FontStyle.Italic,
+    fontSize = 100.sp,
+    lineHeight = 110.sp,
+    letterSpacing = (-4.4).sp,
+    lineHeightStyle = LineHeightStyle(
+        alignment = LineHeightStyle.Alignment.Center,
+        trim = LineHeightStyle.Trim.None
+    )
+)
+
+val Number_number3_bold = TextStyle(
+    fontFamily = pretendardFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 28.sp,
+    lineHeight = 36.sp,
     letterSpacing = (-0.4).sp,
     lineHeightStyle = LineHeightStyle(
         alignment = LineHeightStyle.Alignment.Center,
