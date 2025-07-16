@@ -20,6 +20,8 @@ import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingThird
 import com.yapp.fitrun.feature.record.navigateToRecord
+import com.yapp.fitrun.feature.running.navigateToPlaying
+import com.yapp.fitrun.feature.running.navigateToReady
 
 @Keep
 internal class MainNavigator(
@@ -79,6 +81,14 @@ internal class MainNavigator(
 
     fun navigateToOnBoardingResult() {
         navController.navigateToOnBoardingResult()
+    }
+
+    fun navigateToRunning(){
+        navController.navigateToReady()
+    }
+
+    fun navigateToPlaying(){
+        navController.navigateToPlaying()
     }
 }
 

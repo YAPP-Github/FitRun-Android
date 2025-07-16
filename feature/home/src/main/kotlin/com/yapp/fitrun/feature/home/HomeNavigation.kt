@@ -15,12 +15,13 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.homeNavGraph(
-    padding: PaddingValues
+    padding: PaddingValues,
+    onNavigateToRunning: () -> Unit,
 ) {
     composable<HomeRoute> {
         HomeRoute(
-            padding = padding
-            // TODO: viewmodel
+            padding = padding,
+            onNavigateToRunning = onNavigateToRunning
         )
     }
 }
