@@ -26,6 +26,7 @@ appcompat = "1.7.0"
 androidxComposeNavigation = "2.8.6"
 
 # ui
+lottieCompose = "6.4.0"
 material = "1.12.0"
 
 # lifecycle
@@ -120,6 +121,7 @@ androidx-compose-navigation = { group = "androidx.navigation", name = "navigatio
 # ui
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 # hilt

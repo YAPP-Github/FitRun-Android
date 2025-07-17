@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
-import com.yapp.fitrun.core.designsystem.Body_body4_Regular
+import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Body_body4_bold
 import com.yapp.fitrun.core.designsystem.Head_head2_semiBold
 import com.yapp.fitrun.core.designsystem.InteractivePrimary
@@ -103,7 +103,7 @@ fun OnBoardingQuestionGroup(
                 ) {
                     Text(
                         text = text,
-                        style = if (selectedOption == text) Body_body4_bold else Body_body4_Regular,
+                        style = if (selectedOption == text) Body_body4_bold else Body_body4_regular,
                     )
 
                     Spacer(modifier = Modifier.weight(1f))

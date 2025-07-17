@@ -72,6 +72,7 @@ import com.naver.maps.map.overlay.OverlayImage
 @Composable
 internal fun HomeRoute(
     padding: PaddingValues,
+    onNavigateToRunning: () -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.container.stateFlow.collectAsState()
@@ -80,6 +81,7 @@ internal fun HomeRoute(
         modifier = Modifier.padding(padding),
         state = state,
         fetchCurrentLocation = viewModel::fetchCurrentLocation,
+        onStartRunningClick = onNavigateToRunning
     )
 }
 
@@ -89,6 +91,7 @@ internal fun HomeScreen(
     modifier: Modifier = Modifier,
     state: HomeState,
     fetchCurrentLocation: () -> Unit = {},
+    onStartRunningClick: () -> Unit = {},
 ) {
     val permissionsList = mutableListOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -283,7 +286,7 @@ internal fun HomeScreen(
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F9)),
             ) {}
             Button(
-                onClick = { /* Handle click */ },
+                onClick = onStartRunningClick,
                 modifier = Modifier
                     .padding(bottom = 24.dp)
                     .size(100.dp)
@@ -368,7 +371,7 @@ fun MapComponent(
                 )
                 .clip(CircleShape),
             onClick = {
-                if (allPermissionsState.allPermissionsGranted){
+                if (allPermissionsState.allPermissionsGranted) {
                     fetchCurrentLocation()
                 }
 

@@ -58,5 +58,6 @@ include(
     ":feature:crew",
     ":feature:mypage",
     ":feature:record",
-    ":feature:onboarding"
+    ":feature:onboarding",
+    ":feature:running"
 )

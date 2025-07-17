@@ -28,10 +28,13 @@ val InteractiveSecondary = gray_900
 val InteractiveInverse = base_white
 val InteractivePrimary = FitRunOrange600
 val InteractiveSelected = FitRunOrange100
+val InteractiveSecondaryPressed = gray_1000
+
 
 // Neutral
 val NeutralGray300 = gray_300
 val NeutralGray500 = gray_500
+val NeutralGray1000 = gray_1000
 
 // Border Primary
 val BorderPrimary = gray_400
