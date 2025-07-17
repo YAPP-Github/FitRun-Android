@@ -1,6 +1,7 @@
 package com.yapp.fitrun.feature.home
 
 import android.Manifest
+import android.location.Location
 import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,6 +28,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,21 +59,36 @@ import com.yapp.fitrun.core.designsystem.NeutralGray500
 import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.designsystem.TextSecondary
 import com.yapp.fitrun.core.designsystem.TextTertiary
+import androidx.compose.runtime.getValue
+import com.google.accompanist.permissions.MultiplePermissionsState
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.compose.Marker
+import com.naver.maps.map.compose.rememberCameraPositionState
+import com.naver.maps.map.compose.rememberMarkerState
+import com.naver.maps.map.overlay.OverlayImage
 
 @Composable
 internal fun HomeRoute(
     padding: PaddingValues,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
+    val state by viewModel.container.stateFlow.collectAsState()
+
     HomeScreen(
-        modifier = Modifier.padding(padding)
+        modifier = Modifier.padding(padding),
+        state = state,
+        fetchCurrentLocation = viewModel::fetchCurrentLocation,
     )
 }
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalNaverMapApi::class)
 @Composable
 internal fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    state: HomeState,
+    fetchCurrentLocation: () -> Unit = {},
 ) {
     val permissionsList = mutableListOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -91,9 +108,14 @@ internal fun HomeScreen(
     )
 
     LaunchedEffect(true) {
-        // 앱 시작 시 모든 권한을 한번에 요청
         if (!allPermissionsState.allPermissionsGranted) {
             allPermissionsState.launchMultiplePermissionRequest()
+        }
+    }
+
+    LaunchedEffect(allPermissionsState.allPermissionsGranted) {
+        if (allPermissionsState.allPermissionsGranted) {
+            fetchCurrentLocation()
         }
     }
 
@@ -227,7 +249,11 @@ internal fun HomeScreen(
         ) {
             when (allPermissionsState.allPermissionsGranted) {
                 true -> {
-                    MapComponent()
+                    MapComponent(
+                        currentLocation = state.currentLocation,
+                        fetchCurrentLocation = fetchCurrentLocation,
+                        allPermissionsState = allPermissionsState,
+                    )
                 }
 
                 false -> {
@@ -250,10 +276,12 @@ internal fun HomeScreen(
                     )
             )
             Card(
-                modifier = Modifier.fillMaxWidth().height(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp),
                 shape = RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F9)),
-            ){}
+            ) {}
             Button(
                 onClick = { /* Handle click */ },
                 modifier = Modifier
@@ -279,21 +307,52 @@ internal fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalNaverMapApi::class)
+@OptIn(ExperimentalNaverMapApi::class, ExperimentalPermissionsApi::class)
 @Composable
-fun MapComponent() {
+fun MapComponent(
+    currentLocation: Location?,
+    fetchCurrentLocation: () -> Unit,
+    allPermissionsState: MultiplePermissionsState
+) {
+    val cameraPositionState = rememberCameraPositionState()
+    val markerState = rememberMarkerState()
+
+    LaunchedEffect(currentLocation) {
+        currentLocation?.let { location ->
+            cameraPositionState.move(
+                CameraUpdate.toCameraPosition(
+                    CameraPosition(
+                        LatLng(location.latitude, location.longitude),
+                        16.0
+                    )
+                )
+            )
+            markerState.position = LatLng(location.latitude, location.longitude)
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         NaverMap(
             modifier = Modifier.fillMaxSize(),
+            cameraPositionState = cameraPositionState,
             uiSettings = MapUiSettings(
                 isZoomControlEnabled = false,  // 줌 버튼 비활성화
                 isCompassEnabled = false,        // 나침반 비활성화 (기본값)
                 isScaleBarEnabled = false,       // 축척 바 비활성화 (기본값)
-                isLocationButtonEnabled = false  // 위치 버튼 비활성화 (기본값)
+                isLocationButtonEnabled = false,  // 위치 버튼 비활성화 (기본값)
+                isScrollGesturesEnabled = false,      // ⭐️ 드래그 비활성화
+                isZoomGesturesEnabled = false,        // 줌 제스처 비활성화
+                isRotateGesturesEnabled = false,      // 회전 제스처 비활성화
+                isTiltGesturesEnabled = false
+            ),
+        ) {
+            Marker(
+                state = markerState,
+                icon = OverlayImage.fromResource(R.drawable.ic_user_location)
             )
-        )
+        }
         IconButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -308,7 +367,12 @@ fun MapComponent() {
                     shape = CircleShape
                 )
                 .clip(CircleShape),
-            onClick = {},
+            onClick = {
+                if (allPermissionsState.allPermissionsGranted){
+                    fetchCurrentLocation()
+                }
+
+            },
             colors = IconButtonDefaults.iconButtonColors(
                 containerColor = InteractiveInverse,
             )
@@ -349,5 +413,5 @@ fun PermissionDeniedComponent() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(state = HomeState())
 }

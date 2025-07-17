@@ -55,6 +55,7 @@ orbit-core = "4.6.1"
 gradle-dependency-handler-extensions = "1.1.0"
 
 # retrofit
+playServicesLocation = "21.3.0"
 retrofit = "2.11.0"
 
 # okhttp3
@@ -143,6 +144,7 @@ coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutine" }
 
 # retrofit
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlin-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 
