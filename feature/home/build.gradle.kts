@@ -22,6 +22,7 @@ dependencies {
         libs.naver.map.compose,
         libs.accompanist.permissions,
         libs.accompanist.systemuicontroller,
-        libs.play.services.location
+        libs.play.services.location,
+        projects.core.domain
     )
 }

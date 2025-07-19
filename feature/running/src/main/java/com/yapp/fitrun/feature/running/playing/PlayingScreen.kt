@@ -60,7 +60,7 @@ internal fun PlayingScreen(
             contentAlignment = Alignment.TopEnd
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_volumn_on), // pause 아이콘
+                painter = painterResource(id = R.drawable.ic_volume_on), // pause 아이콘
                 contentDescription = "On Volumn",
                 modifier = Modifier
                     .padding(end = 20.dp, top = 20.dp)
