@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -45,12 +46,12 @@ internal fun MainBottomBar(
         exit = fadeOut() + slideOut { IntOffset(0, it.height) }
     ) {
         Column {
-            Spacer(modifier = Modifier
+            Spacer(modifier = modifier
                 .fillMaxWidth()
                 .height(1.dp)
                 .background(Color(0xFFEEEEEE)))
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .height(62.dp)
             ) {
@@ -94,9 +95,9 @@ private fun RowScope.MainBottomBarItem(
                 painter = painterResource(tab.iconResId),
                 contentDescription = tab.name,
                 tint = if (selected) {
-                    tab.selectedColor
+                    colorResource(tab.selectedColorRes)
                 } else {
-                    tab.unselectedColor
+                    colorResource(tab.unselectedColorRes).copy(0.3f)
                 },
                 modifier = Modifier.size(24.dp),
             )
@@ -105,9 +106,9 @@ private fun RowScope.MainBottomBarItem(
                 text = stringResource(tab.titleTextId),
                 style = Caption_caption3_semiBold,
                 color = if (selected) {
-                    tab.selectedColor
+                    colorResource(tab.selectedColorRes)
                 } else {
-                    tab.unselectedColor
+                    colorResource(tab.unselectedColorRes).copy(0.3f)
                 },
             )
         }

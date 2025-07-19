@@ -17,6 +17,8 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
-        libs.lottie.compose
+        libs.lottie.compose,
+
+        projects.core.ui,
     )
 }

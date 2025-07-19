@@ -13,33 +13,29 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.yapp.fitrun.core.designsystem.InteractiveSecondary
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
-import com.yapp.fitrun.core.designsystem.Head_head1_bold
-import com.yapp.fitrun.core.designsystem.InteractiveInverse
-import com.yapp.fitrun.core.designsystem.TextPrimary
-import com.yapp.fitrun.core.designsystem.TextSecondary
+import com.yapp.fitrun.core.designsystem.Head_h1_bold
+import com.yapp.fitrun.core.ui.FitRunTextButton
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,7 +44,7 @@ fun PagerIndicator(
     currentPage: Int,
     targetPage: Int,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = InteractiveSecondary,
+    backgroundColor: Color = colorResource(R.color.bg_interactive_secondary),
     indicatorSize: Dp = 8.dp,
     selectedIndicatorWidth: Dp = 28.dp,
     indicatorPadding: Dp = 5.dp,
@@ -99,6 +95,7 @@ internal fun WorkThroughScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .background(Color.White)
     ) {
         Spacer(modifier = Modifier.height(40.dp))
@@ -119,54 +116,43 @@ internal fun WorkThroughScreen(
                 Text(
                     text = stringResource(id = titleTextList[page]),
                     textAlign = TextAlign.Center,
-                    color = TextPrimary,
-                    style = Head_head1_bold,
+                    color = colorResource(R.color.fg_text_primary),
+                    style = Head_h1_bold,
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = stringResource(id = descriptionTextList[page]),
                     textAlign = TextAlign.Center,
-                    color = TextSecondary,
+                    color = colorResource(R.color.fg_text_secondary),
                     style = Body_body3_medium,
                 )
                 //TODO: Image
             }
         }
         Spacer(modifier = Modifier.weight(1f))
-        Button(
+
+        FitRunTextButton(
             modifier = Modifier
                 .systemBarsPadding()
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, bottom = 25.dp)
-                .height(56.dp),
-            enabled = true,
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = InteractiveSecondary,
-                contentColor = InteractiveSecondary,
-            ),
+                .padding(start = 20.dp, end = 20.dp, bottom = 25.dp),
             onClick = {
                 if (pagerState.currentPage == 2) {
                     onButtonClick()
-                }
-                else {
+                } else {
                     coroutineScope.launch {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 }
             },
-        ) {
-            Text(
-                text =
-                    if (pagerState.currentPage == 2)
-                        stringResource(id = R.string.work_through_start)
-                    else
-                        stringResource(id = R.string.work_through_next),
-                textAlign = TextAlign.Center,
-                color = InteractiveInverse,
-                style = Body_body3_semiBold,
-            )
-        }
+            text =
+                if (pagerState.currentPage == 2)
+                    stringResource(id = R.string.work_through_start)
+                else
+                    stringResource(id = R.string.work_through_next),
+            textColor = colorResource(R.color.fg_text_interactive_inverse),
+            textStyle = Body_body3_semiBold,
+            buttonColor = colorResource(R.color.bg_interactive_secondary),
+        )
     }
 }
 

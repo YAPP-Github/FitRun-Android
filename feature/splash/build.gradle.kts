@@ -20,5 +20,6 @@ dependencies {
 
         projects.feature.navigator,
         projects.core.domain,
+        projects.core.ui,
     )
 }

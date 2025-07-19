@@ -22,21 +22,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yapp.fitrun.core.designsystem.Body_body4_regular
-import com.yapp.fitrun.core.designsystem.InteractiveInverse
-import com.yapp.fitrun.core.designsystem.InteractiveSecondaryPressed
-import com.yapp.fitrun.core.designsystem.Number_number1_Android
+import com.yapp.fitrun.core.designsystem.Number_number1_bold
 import com.yapp.fitrun.core.designsystem.Number_number3_bold
-import com.yapp.fitrun.core.designsystem.TextPrimary
-import com.yapp.fitrun.core.designsystem.TextTertiary
-import com.yapp.fitrun.core.designsystem.gray_700
-import com.yapp.fitrun.feature.running.R
+import com.yapp.fitrun.core.designsystem.R
 
 @Composable
 internal fun PlayingRoute() {
@@ -50,7 +47,7 @@ internal fun PlayingScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(InteractiveSecondaryPressed)
+            .background(colorResource(R.color.fg_nuetral_gray1000))
     ) {
         // 상단
         Box(
@@ -75,15 +72,15 @@ internal fun PlayingScreen(
             ) {
                 Text(
                     text = "1.87",
-                    style = Number_number1_Android,
-                    color = InteractiveInverse
+                    style = Number_number1_bold,
+                    color = colorResource(R.color.fg_text_interactive_inverse)
                 )
                 Text(
                     text = "km",
                     fontSize = 34.sp,
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.SemiBold,
-                    color = gray_700
+                    color = colorResource(R.color.fg_nuetral_gray700)
                 )
             }
         }
@@ -113,12 +110,12 @@ internal fun PlayingScreen(
                         Text(
                             text = "평균 페이스",
                             style = Body_body4_regular,
-                            color = TextTertiary
+                            color = colorResource(R.color.fg_text_tertiary)
                         )
                         Text(
                             text = "12'51\"",
                             style = Number_number3_bold,
-                            color = TextPrimary
+                            color = colorResource(R.color.fg_text_tertiary)
                         )
                     }
 
@@ -136,12 +133,12 @@ internal fun PlayingScreen(
                         Text(
                             text = "속력",
                             style = Body_body4_regular,
-                            color = TextTertiary
+                            color = colorResource(R.color.fg_text_tertiary)
                         )
                         Text(
                             text = "127",
                             style = Number_number3_bold,
-                            color = TextPrimary
+                            color = colorResource(R.color.fg_text_tertiary)
                         )
                     }
                 }
@@ -154,12 +151,12 @@ internal fun PlayingScreen(
                     Text(
                         text = "시간",
                         style = Body_body4_regular,
-                        color = TextTertiary
+                        color = colorResource(R.color.fg_text_tertiary)
                     )
                     Text(
                         text = "15:00",
                         style = Number_number3_bold,
-                        color = TextPrimary
+                        color = colorResource(R.color.fg_text_tertiary)
                     )
                 }
 

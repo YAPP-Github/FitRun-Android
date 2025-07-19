@@ -9,8 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.yapp.fitrun.core.designsystem.Head_head1_bold
-import com.yapp.fitrun.core.designsystem.TextPrimary
+import androidx.compose.ui.res.colorResource
+import com.yapp.fitrun.core.designsystem.Head_h1_bold
+import com.yapp.fitrun.core.designsystem.R
 
 @Composable
 internal fun RecordRoute(
@@ -29,8 +30,8 @@ internal fun RecordScreen() {
         Text(
             text = "Record",
             modifier = Modifier.align(Alignment.Center),
-            color = TextPrimary,
-            style = Head_head1_bold,
+            color = colorResource(R.color.fg_text_primary),
+            style = Head_h1_bold,
         )
     }
 }

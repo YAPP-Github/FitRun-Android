@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <integer name="font_weight_normal_thin">100</integer>
+  <integer name="font_weight_normal_extra_light">200</integer>
+  <integer name="font_weight_normal_light">300</integer>
+  <integer name="font_weight_normal_regular">400</integer>
+  <integer name="font_weight_normal_medium">500</integer>
+  <integer name="font_weight_normal_semi_bold">600</integer>
+  <integer name="font_weight_normal_bold">700</integer>
+  <integer name="font_weight_normal_extra_bold">800</integer>
+  <integer name="font_weight_normal_black">900</integer>
+  <integer name="font_weight_normal_extra_black">950</integer>
+  <integer name="body_font_weight_regular">400</integer>
+  <integer name="body_font_weight_medium">500</integer>
+  <integer name="body_font_weight_semi_bold">600</integer>
+  <integer name="body_font_weight_bold">700</integer>
+  <integer name="caption_font_weight_medium">500</integer>
+  <integer name="caption_font_weight_semi_bold">600</integer>
+  <integer name="caption_font_weight_bold">700</integer>
+  <integer name="number_font_weight_extra_bold">800</integer>
+  <integer name="number_font_weight_bold">700</integer>
+  <integer name="number_font_weight_semi_bold">600</integer>
+</resources>
