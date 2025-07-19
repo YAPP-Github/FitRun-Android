@@ -23,7 +23,7 @@ data class TokenResponse(
 
 @Serializable
 data class UserResponse(
-    @SerialName("id")
+    @SerialName("userId")
     val id: Long,
     @SerialName("nickname")
     val nickname: String,
