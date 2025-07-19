@@ -62,6 +62,7 @@ dependencies {
         projects.feature.record,
         projects.feature.crew,
         projects.feature.mypage,
+        projects.feature.running,
 
         // library
         libs.androidx.core.ktx,
