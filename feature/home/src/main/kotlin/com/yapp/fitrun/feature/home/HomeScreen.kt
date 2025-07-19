@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -29,7 +30,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -60,6 +60,8 @@ import com.yapp.fitrun.core.designsystem.TextPrimary
 import com.yapp.fitrun.core.designsystem.TextSecondary
 import com.yapp.fitrun.core.designsystem.TextTertiary
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
@@ -68,6 +70,10 @@ import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberMarkerState
 import com.naver.maps.map.overlay.OverlayImage
+import com.yapp.fitrun.feature.home.viewmodel.HomeSideEffect
+import com.yapp.fitrun.feature.home.viewmodel.HomeState
+import com.yapp.fitrun.feature.home.viewmodel.HomeViewModel
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun HomeRoute(
@@ -77,12 +83,41 @@ internal fun HomeRoute(
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.container.stateFlow.collectAsState()
 
-    HomeScreen(
-        modifier = Modifier.padding(padding),
-        state = state,
-        fetchCurrentLocation = viewModel::fetchCurrentLocation,
-        onStartRunningClick = onNavigateToRunning
-    )
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is HomeSideEffect.ShowError -> {
+                // 에러 스낵바 표시
+            }
+
+            is HomeSideEffect.ShowLocationError -> {
+                // 위치 에러 표시
+            }
+
+            HomeSideEffect.NavigateToRunning -> {
+                // 러닝 화면으로 이동
+            }
+
+            HomeSideEffect.NavigateToGoalSetting -> {
+                // 목표 설정 화면으로 이동
+            }
+        }
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        HomeScreen(
+            modifier = Modifier.padding(padding),
+            state = state,
+            fetchCurrentLocation = viewModel::fetchCurrentLocation,
+            onStartRunningClick = onNavigateToRunning
+        )
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalNaverMapApi::class)
@@ -135,7 +170,7 @@ internal fun HomeScreen(
         ) {
             Spacer(modifier = Modifier.height(52.dp))
             Text(
-                text = "나에게 딱 맞는 러닝을\n핏런에서 함께해요!",
+                text = state.homeTitleResId?.let { stringResource(it) } ?: "",
                 textAlign = TextAlign.Start,
                 color = TextPrimary,
                 modifier = Modifier

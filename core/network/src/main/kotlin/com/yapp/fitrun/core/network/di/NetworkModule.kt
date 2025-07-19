@@ -6,10 +6,13 @@ import com.yapp.fitrun.core.network.AuthDataSourceImpl
 import com.yapp.fitrun.core.network.BuildConfig
 import com.yapp.fitrun.core.network.GoalDataSource
 import com.yapp.fitrun.core.network.GoalDataSourceImpl
+import com.yapp.fitrun.core.network.HomeDataSource
+import com.yapp.fitrun.core.network.HomeDataSourceImpl
 import com.yapp.fitrun.core.network.UserDataSource
 import com.yapp.fitrun.core.network.UserDataSourceImpl
 import com.yapp.fitrun.core.network.api.AuthApiService
 import com.yapp.fitrun.core.network.api.GoalApiService
+import com.yapp.fitrun.core.network.api.HomeApiService
 import com.yapp.fitrun.core.network.api.UserApiService
 import dagger.Binds
 import dagger.Module
@@ -17,7 +20,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
-import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -51,6 +53,11 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindGoalDataSource(goalDataSourceImpl: GoalDataSourceImpl): GoalDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindHomeDataSource(homeDataSourceImpl: HomeDataSourceImpl): HomeDataSource
+
 }
 
 @Module
@@ -131,4 +138,13 @@ internal object NetworkModule {
     ): GoalApiService {
         return retrofit.create(GoalApiService::class.java)
     }
+
+    @Provides
+    @Singleton
+    internal fun provideHomeApiService(
+        @Named("BaseRetrofit") retrofit: Retrofit
+    ): HomeApiService {
+        return retrofit.create(HomeApiService::class.java)
+    }
+
 }

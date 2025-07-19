@@ -24,7 +24,6 @@ dependencies {
         libs.okhttp3.core,
         libs.okhttp3.logging.interceptor,
         libs.kotlinx.serialization.json,
-
         projects.core.datastore,
     )
 }

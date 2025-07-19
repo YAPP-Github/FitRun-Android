@@ -23,12 +23,12 @@ data class TokenResponse(
 
 @Serializable
 data class UserResponse(
-    @SerialName("id")
+    @SerialName("userId")
     val id: Long,
     @SerialName("nickname")
     val nickname: String,
     @SerialName("email")
-    val email: String,
+    val email: String? = null,
     @SerialName("provider")
-    val provider: String
+    val provider: String? = null
 )
