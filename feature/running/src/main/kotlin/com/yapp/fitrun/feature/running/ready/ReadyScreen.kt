@@ -7,12 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.yapp.fitrun.core.designsystem.NeutralGray1000
+import com.yapp.fitrun.core.designsystem.R
 
 @Composable
 internal fun ReadyRoute(
@@ -48,7 +49,7 @@ internal fun ReadyScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(NeutralGray1000)
+            .background(colorResource(R.color.fg_nuetral_gray1000))
     ) {
         LottieAnimation(
             composition = composition,

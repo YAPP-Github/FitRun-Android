@@ -1,7 +1,14 @@
 package com.yapp.fitrun.feature.main
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -23,21 +30,23 @@ internal fun MainScreen(
     Scaffold(
         content = { padding ->
             MainNavHost(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .navigationBarsPadding(),
                 navigator = navigator,
-                padding = padding
+                padding = padding,
             )
         },
         bottomBar = {
             MainBottomBar(
-                modifier = Modifier.navigationBarsPadding(),
+                modifier = Modifier.padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()),
                 visible = navigator.shouldShowBottomBar(),
                 tabs = MainTab.entries.toList(),
                 currentTab = navigator.currentTab,
                 onTabSelected = { navigator.navigate(it) }
             )
         },
-
         snackbarHost = { SnackbarHost(snackBarHostState) },
         containerColor = MaterialTheme.colorScheme.background,
     )

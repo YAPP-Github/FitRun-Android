@@ -1,6 +1,5 @@
 package com.yapp.fitrun.feature.onboarding.navigation
 
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -57,7 +56,6 @@ fun NavGraphBuilder.onBoardingNavGraph(
     navController: NavController,
     onBackClick: () -> Unit,
     onNavigateToHome: () -> Unit,
-    onNavigateToRoutine: () -> Unit,
     onNavigateToOnBoardingSecond: () -> Unit,
     onNavigateToOnBoardingThird: () -> Unit,
     onNavigateToOnBoardingFourth: () -> Unit,
@@ -67,7 +65,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
         startDestination = OnBoardingFirstRoute
     ) {
         composable<OnBoardingFirstRoute> { entry ->
-            val viewModel: OnBoardingViewModel = hiltViewModel()
+            val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingFirstRoute(
                 onNavigateToOnBoardingSecond = onNavigateToOnBoardingSecond,
@@ -110,7 +108,6 @@ fun NavGraphBuilder.onBoardingNavGraph(
 
             OnBoardingResultRoute(
                 navigateToHome = onNavigateToHome,
-                navigateToRoutine = onNavigateToRoutine,
                 viewModel = viewModel
             )
         }
