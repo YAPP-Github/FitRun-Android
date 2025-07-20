@@ -48,19 +48,11 @@ import com.naver.maps.map.compose.NaverMap
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
-import com.yapp.fitrun.core.designsystem.BorderPrimary
 import com.yapp.fitrun.core.designsystem.Caption_caption3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption4_semiBold
-import com.yapp.fitrun.core.designsystem.Head_head3_bold
-import com.yapp.fitrun.core.designsystem.Head_head5_bold
-import com.yapp.fitrun.core.designsystem.InteractiveInverse
-import com.yapp.fitrun.core.designsystem.NeutralGray300
-import com.yapp.fitrun.core.designsystem.NeutralGray500
-import com.yapp.fitrun.core.designsystem.TextPrimary
-import com.yapp.fitrun.core.designsystem.TextSecondary
-import com.yapp.fitrun.core.designsystem.TextTertiary
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.permissions.MultiplePermissionsState
 import com.naver.maps.geometry.LatLng
@@ -70,10 +62,13 @@ import com.naver.maps.map.compose.Marker
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberMarkerState
 import com.naver.maps.map.overlay.OverlayImage
+import com.yapp.fitrun.core.designsystem.Head_h3_bold
+import com.yapp.fitrun.core.designsystem.Head_h5_bold
 import com.yapp.fitrun.feature.home.viewmodel.HomeSideEffect
 import com.yapp.fitrun.feature.home.viewmodel.HomeState
 import com.yapp.fitrun.feature.home.viewmodel.HomeViewModel
 import org.orbitmvi.orbit.compose.collectSideEffect
+import com.yapp.fitrun.core.designsystem.R
 
 @Composable
 internal fun HomeRoute(
@@ -172,18 +167,18 @@ internal fun HomeScreen(
             Text(
                 text = state.homeTitleResId?.let { stringResource(it) } ?: "",
                 textAlign = TextAlign.Start,
-                color = TextPrimary,
+                color = colorResource(R.color.fg_text_primary),
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 12.dp)
                     .fillMaxWidth(),
-                style = Head_head3_bold
+                style = Head_h3_bold
             )
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp, start = 20.dp, end = 20.dp),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = InteractiveInverse),
+                colors = CardDefaults.cardColors(containerColor = colorResource(R.color.bg_primary)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
                 Row(
@@ -209,7 +204,7 @@ internal fun HomeScreen(
                     Icon(
                         painter = painterResource(R.drawable.ic_edit),
                         contentDescription = "Edit",
-                        tint = NeutralGray500,
+                        tint = colorResource(R.color.fg_nuetral_gray500),
                         modifier = Modifier.size(24.dp)
                     )
                 }
@@ -221,7 +216,7 @@ internal fun HomeScreen(
                         .height(4.dp)
                         .background(
                             shape = RoundedCornerShape(10.dp),
-                            color = NeutralGray300
+                            color = colorResource(R.color.fg_nuetral_gray300)
                         ),
                 )
 
@@ -244,7 +239,7 @@ internal fun HomeScreen(
                         Text(
                             text = "목표 페이스",
                             style = Caption_caption4_semiBold,
-                            color = TextTertiary
+                            color = colorResource(R.color.fg_text_tertiary)
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
@@ -268,7 +263,7 @@ internal fun HomeScreen(
                         Text(
                             text = "최근 페이스",
                             style = Caption_caption4_semiBold,
-                            color = TextTertiary
+                            color = colorResource(R.color.fg_text_tertiary)
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
@@ -328,7 +323,7 @@ internal fun HomeScreen(
                     .clip(CircleShape)
                     .align(Alignment.BottomCenter),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Black
+                    containerColor = colorResource(R.color.fg_icon_primary),
                 ),
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 8.dp
@@ -337,8 +332,8 @@ internal fun HomeScreen(
                 Text(
                     text = "달리기",
                     fontSize = 18.sp,
-                    color = Color.White,
-                    style = Head_head5_bold
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    style = Head_h5_bold
                 )
             }
         }
@@ -401,7 +396,7 @@ fun MapComponent(
                 .size(44.dp)
                 .border(
                     width = 1.dp,
-                    color = BorderPrimary,
+                    color = colorResource(R.color.fg_border_primary),
                     shape = CircleShape
                 )
                 .clip(CircleShape),
@@ -412,7 +407,7 @@ fun MapComponent(
 
             },
             colors = IconButtonDefaults.iconButtonColors(
-                containerColor = InteractiveInverse,
+                containerColor = colorResource(R.color.bg_primary),
             )
         ) {
             Icon(
@@ -433,14 +428,14 @@ fun PermissionDeniedComponent() {
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Text(
-            text = "위치를 확인할 수 없습니다",
+            text = "위치를 확인 불가",
             modifier = Modifier.padding(top = 16.dp),
             style = Body_body3_medium,
-            color = TextSecondary
+            color = colorResource(R.color.fg_text_secondary)
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "마이페이지의 권한 설정을 확인해 주세요!",
+            text = "마이페이지의 권한 설정을 확인해 주세요.",
             style = Body_body3_semiBold
         )
         Spacer(modifier = Modifier.weight(1f))

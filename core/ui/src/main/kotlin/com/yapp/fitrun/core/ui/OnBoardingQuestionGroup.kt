@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -34,13 +35,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Body_body4_bold
-import com.yapp.fitrun.core.designsystem.Head_head2_semiBold
-import com.yapp.fitrun.core.designsystem.InteractivePrimary
-import com.yapp.fitrun.core.designsystem.InteractiveSelected
+import com.yapp.fitrun.core.designsystem.Head_h2_semiBold
 import com.yapp.fitrun.core.designsystem.R
-import com.yapp.fitrun.core.designsystem.TextPrimary
-import com.yapp.fitrun.core.designsystem.base_white
-import com.yapp.fitrun.core.designsystem.gray_400
 
 @Composable
 fun OnBoardingQuestionGroup(
@@ -61,9 +57,7 @@ fun OnBoardingQuestionGroup(
         ) + fadeIn(
             initialAlpha = 0f,
             animationSpec = tween(
-                durationMillis = 500,
-                delayMillis = 250,
-                easing = FastOutSlowInEasing
+                durationMillis = 500, delayMillis = 250, easing = FastOutSlowInEasing
             ),
         ),
     ) {
@@ -73,8 +67,8 @@ fun OnBoardingQuestionGroup(
             Text(
                 text = questionTitle,
                 textAlign = TextAlign.Start,
-                color = TextPrimary,
-                style = Head_head2_semiBold,
+                color = colorResource(R.color.fg_text_primary),
+                style = Head_h2_semiBold,
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -84,19 +78,23 @@ fun OnBoardingQuestionGroup(
                     Modifier
                         .fillMaxWidth()
                         .height(76.dp)
-                        .background(if (selectedOption == text) InteractiveSelected else base_white)
+                        .background(
+                            if (selectedOption == text) colorResource(R.color.bg_interactive_selected) else colorResource(
+                                R.color.fg_text_interactive_inverse
+                            )
+                        )
                         .border(
                             width = 2.dp,
-                            color = if (selectedOption == text) InteractivePrimary else gray_400,
+                            color = if (selectedOption == text) colorResource(R.color.fg_text_interactive_selected) else colorResource(
+                                R.color.fg_nuetral_gray400
+                            ),
                             shape = RoundedCornerShape(16.dp)
                         )
                         .selectable(
-                            selected = (text == selectedOption),
-                            onClick = {
+                            selected = (text == selectedOption), onClick = {
                                 onOptionSelected(text)
                                 onClick(questionOptions.indexOf(selectedOption))
-                            },
-                            role = Role.RadioButton
+                            }, role = Role.RadioButton
                         )
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically

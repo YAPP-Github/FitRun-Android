@@ -1,5 +1,7 @@
 package com.yapp.fitrun.feature.main.component
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +29,31 @@ internal fun MainNavHost(
     ) {
         NavHost(
             navController = navigator.navController,
-            startDestination = navigator.startDestination
+            startDestination = navigator.startDestination,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Start,
+                    tween(400)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Start,
+                    tween(500)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(400)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(500)
+                )
+            }
         ) {
             homeNavGraph(
                 padding = padding,
@@ -40,7 +66,6 @@ internal fun MainNavHost(
                 navController = navigator.navController,
                 onBackClick = { navigator.navController.popBackStack() },
                 onNavigateToHome = { navigator.navigate(MainTab.HOME) },
-                onNavigateToRoutine = { /* TODO */ },
                 onNavigateToOnBoardingSecond = navigator::navigateToOnBoardingSecond,
                 onNavigateToOnBoardingThird = navigator::navigateToOnBoardingThird,
                 onNavigateToOnBoardingFourth = navigator::navigateToOnBoardingFourth,
