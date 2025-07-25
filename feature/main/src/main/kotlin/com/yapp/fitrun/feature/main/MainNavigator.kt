@@ -7,10 +7,12 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.yapp.fitrun.feature.crew.navigateToCrew
+import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigateToMyPage
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
@@ -25,7 +27,8 @@ import com.yapp.fitrun.feature.running.navigateToReady
 
 @Keep
 internal class MainNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
+    val startDestination: Any
 ) {
     private val currentDestination: NavDestination?
         @Composable get() = navController
@@ -36,12 +39,10 @@ internal class MainNavigator(
             currentDestination?.hasRoute(route = tab.route) == true
         }
 
-    // 온보딩 테스트 용도로 route 변경
-    val startDestination = OnBoardingRoute
-
-    fun navigate(tab: MainTab) {
+    fun navigate(tab: MainTab, route: Any? = null) {
+        val id = navController.graph.findNode(route)?.id ?: navController.graph.findStartDestination().id
         val navOptions = navOptions {
-            popUpTo(navController.graph.findStartDestination().id) {
+            popUpTo(id) {
                 saveState = true
             }
             launchSingleTop = true
@@ -94,7 +95,8 @@ internal class MainNavigator(
 
 @Composable
 internal fun rememberMainNavigator(
-    navController: NavHostController = rememberNavController()
-): MainNavigator = remember(navController) {
-    MainNavigator(navController)
+    navController: NavHostController = rememberNavController(),
+    startDestination: Any
+): MainNavigator = remember(navController, startDestination) {
+    MainNavigator(navController, startDestination)
 }
