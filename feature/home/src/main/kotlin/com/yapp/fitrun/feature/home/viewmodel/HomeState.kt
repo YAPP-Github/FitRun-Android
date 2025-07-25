@@ -10,10 +10,11 @@ data class HomeState(
     val homeResult: HomeResultEntity? = null,
     val currentLocation: Location? = null,
     val error: String? = null,
-    val locationError: String? = null
-){
+    val locationError: String? = null,
+) {
+    private val distance = homeResult?.recordEntity?.totalDistance
     val homeTitleResId: Int?
-        get() = when (val distance = homeResult?.recordEntity?.totalDistance) {
+        get() = when (distance) {
             null -> R.string.total_distance_message_0km
             0.0 -> R.string.total_distance_message_0km
             in 0.0..0.5 -> R.string.total_distance_message_0_5km
@@ -47,5 +48,4 @@ data class HomeState(
             in 250.0..300.0 -> R.string.total_distance_message_300km
             else -> R.string.total_distance_message_300km // 300km 이상은 같은 메시지 사용
         }
-
 }

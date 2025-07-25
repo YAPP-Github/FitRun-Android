@@ -1,7 +1,6 @@
 @file:Suppress("INLINE_FROM_HIGHER_PLATFORM")
 
 import com.yapp.fitrun.setNamespace
-import com.yapp.fitrun.configureComposeFeature
 
 plugins {
     alias(libs.plugins.fitrun.android.library)
@@ -19,6 +18,6 @@ dependencies {
         libs.androidx.compose.navigation,
         libs.androidx.core.ktx,
         libs.androidx.appcompat,
-        libs.hilt.navigation.compose
+        libs.hilt.navigation.compose,
     )
 }

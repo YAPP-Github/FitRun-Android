@@ -10,7 +10,7 @@ data class LoginResponse(
     @SerialName("user")
     val user: UserResponse,
     @SerialName("isNew")
-    val isNew: Boolean
+    val isNew: Boolean,
 )
 
 @Serializable
@@ -18,7 +18,7 @@ data class TokenResponse(
     @SerialName("accessToken")
     val accessToken: String,
     @SerialName("refreshToken")
-    val refreshToken: String
+    val refreshToken: String,
 )
 
 @Serializable
@@ -30,5 +30,5 @@ data class UserResponse(
     @SerialName("email")
     val email: String? = null,
     @SerialName("provider")
-    val provider: String? = null
+    val provider: String? = null,
 )

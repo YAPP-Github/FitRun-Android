@@ -10,10 +10,6 @@ plugins {
 android {
     namespace = "com.yapp.fitrun"
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     defaultConfig {
         applicationId = "com.yapp.fitrun"
         versionCode = 1
@@ -29,7 +25,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -67,6 +63,6 @@ dependencies {
         // library
         libs.androidx.core.ktx,
         libs.androidx.activity.compose,
-        libs.kakao.auth
+        libs.kakao.auth,
     )
 }

@@ -21,7 +21,7 @@ fun NavGraphBuilder.homeNavGraph(
     composable<HomeRoute> {
         HomeRoute(
             padding = padding,
-            onNavigateToRunning = onNavigateToRunning
+            onNavigateToRunning = onNavigateToRunning,
         )
     }
 }

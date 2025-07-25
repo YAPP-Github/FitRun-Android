@@ -8,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -19,10 +18,8 @@ import com.yapp.fitrun.core.designsystem.R
 internal fun ReadyRoute(
     onNavigateToPlay: () -> Unit = {},
 ) {
-    val viewModel: ReadyViewModel = hiltViewModel()
-
     ReadyScreen(
-        onNavigateToPlay = onNavigateToPlay
+        onNavigateToPlay = onNavigateToPlay,
     )
 }
 
@@ -41,7 +38,7 @@ internal fun ReadyScreen(
     )
 
     LaunchedEffect(progress) {
-        if (progress == 1f){
+        if (progress == 1f) {
             onNavigateToPlay()
         }
     }
@@ -49,13 +46,12 @@ internal fun ReadyScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.fg_nuetral_gray1000))
+            .background(colorResource(R.color.fg_nuetral_gray1000)),
     ) {
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
-

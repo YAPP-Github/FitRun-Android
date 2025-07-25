@@ -15,11 +15,11 @@ fun NavController.navigateToMyPage(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.myPageNavGraph(
-    padding: PaddingValues
+    padding: PaddingValues,
 ) {
     composable<MyPageRoute> {
         MyPageRoute(
-            padding = padding
+            padding = padding,
             // TODO: viewmodel
         )
     }

@@ -18,8 +18,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
-                Color.Transparent.toArgb(), Color.Transparent.toArgb()
-            )
+                Color.Transparent.toArgb(),
+                Color.Transparent.toArgb(),
+            ),
         )
 
         val isNew = intent.getBooleanExtra("isNew", false)

@@ -38,34 +38,35 @@ internal fun MainBottomBar(
     visible: Boolean,
     tabs: List<MainTab>,
     currentTab: MainTab?,
-    onTabSelected: (MainTab) -> Unit
+    onTabSelected: (MainTab) -> Unit,
 ) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + slideIn { IntOffset(0, it.height) },
-        exit = fadeOut() + slideOut { IntOffset(0, it.height) }
+        exit = fadeOut() + slideOut { IntOffset(0, it.height) },
     ) {
         Column {
-            Spacer(modifier = modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Color(0xFFEEEEEE)))
+            Spacer(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Color(0xFFEEEEEE)),
+            )
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(62.dp)
+                    .height(62.dp),
             ) {
                 tabs.forEach { tab ->
                     MainBottomBarItem(
                         tab = tab,
                         selected = tab == currentTab,
-                        onClick = { onTabSelected(tab) }
+                        onClick = { onTabSelected(tab) },
                     )
                 }
             }
         }
     }
-
 }
 
 @Composable
@@ -89,7 +90,7 @@ private fun RowScope.MainBottomBarItem(
         contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
                 painter = painterResource(tab.iconResId),
@@ -113,5 +114,4 @@ private fun RowScope.MainBottomBarItem(
             )
         }
     }
-
 }

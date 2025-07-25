@@ -46,7 +46,7 @@ class FitRunSplashActivity : ComponentActivity() {
                         withFinish = true,
                     )
                 },
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
     }

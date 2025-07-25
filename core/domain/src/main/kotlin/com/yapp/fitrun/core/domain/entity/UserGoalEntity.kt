@@ -5,5 +5,5 @@ data class UserGoalEntity(
     val paceGoal: Int,
     val runningPurpose: String,
     val timeGoal: Int? = null,
-    val weeklyRunningCount: Int? = null
+    val weeklyRunningCount: Int? = null,
 )

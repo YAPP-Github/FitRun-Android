@@ -6,7 +6,7 @@ import kotlinx.coroutines.CancellationException
 import javax.inject.Inject
 
 class HomeDataSourceImpl @Inject constructor(
-    private val service: HomeApiService
+    private val service: HomeApiService,
 ) : HomeDataSource {
     override suspend fun getHomeInfo(): HomeResponse {
         val response = service.getHomeInfo()

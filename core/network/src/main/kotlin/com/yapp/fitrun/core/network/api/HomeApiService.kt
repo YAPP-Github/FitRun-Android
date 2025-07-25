@@ -8,5 +8,4 @@ interface HomeApiService {
 
     @GET("/api/v1/home")
     suspend fun getHomeInfo(): BaseResponse<HomeResponse>
-
 }

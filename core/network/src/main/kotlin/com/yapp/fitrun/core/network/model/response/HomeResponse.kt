@@ -10,7 +10,7 @@ data class HomeResponse(
     @SerialName("user")
     val user: UserResponse,
     @SerialName("userGoal")
-    val userGoalResponse: UserGoalResponse
+    val userGoalResponse: UserGoalResponse,
 )
 
 @Serializable
@@ -24,7 +24,7 @@ data class RecordResponse(
     @SerialName("thisWeekRunningCount")
     val thisWeekRunningCount: Int,
     @SerialName("totalDistance")
-    val totalDistance: Double
+    val totalDistance: Double,
 )
 
 @Serializable
@@ -38,5 +38,5 @@ data class UserGoalResponse(
     @SerialName("timeGoal")
     val timeGoal: Int? = null,
     @SerialName("weeklyRunningCount")
-    val weeklyRunningCount: Int? = null
+    val weeklyRunningCount: Int? = null,
 )

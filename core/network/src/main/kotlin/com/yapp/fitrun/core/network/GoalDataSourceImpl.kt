@@ -6,10 +6,10 @@ import com.yapp.fitrun.core.network.model.response.BaseResponse
 import javax.inject.Inject
 
 class GoalDataSourceImpl @Inject constructor(
-    private val service: GoalApiService
-): GoalDataSource {
+    private val service: GoalApiService,
+) : GoalDataSource {
     override suspend fun setRunningPurpose(purpose: RunningPurposeRequest): BaseResponse<Unit> {
-         return service.setRunningPurpose(purpose)
+        return service.setRunningPurpose(purpose)
     }
 
     override suspend fun updateRunningPurpose(purpose: RunningPurposeRequest) {

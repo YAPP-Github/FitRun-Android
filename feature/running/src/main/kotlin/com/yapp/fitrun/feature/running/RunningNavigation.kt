@@ -1,7 +1,5 @@
 package com.yapp.fitrun.feature.running
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -35,10 +33,9 @@ fun NavController.navigateToPlaying() {
 fun NavGraphBuilder.runningNavGraph(
     onNavigateToPlay: () -> Unit = {},
 ) {
-    composable<ReadyRoute>(
-    ) {
+    composable<ReadyRoute> {
         ReadyRoute(
-            onNavigateToPlay = onNavigateToPlay
+            onNavigateToPlay = onNavigateToPlay,
         )
     }
 
@@ -49,5 +46,4 @@ fun NavGraphBuilder.runningNavGraph(
     composable<FinishRoute> {
         FinishRoute()
     }
-
 }

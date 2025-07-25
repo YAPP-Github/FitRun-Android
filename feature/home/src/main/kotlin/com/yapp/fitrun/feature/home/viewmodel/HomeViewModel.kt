@@ -1,7 +1,6 @@
 package com.yapp.fitrun.feature.home.viewmodel
 
 import android.annotation.SuppressLint
-import android.location.Location
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -33,7 +32,7 @@ class HomeViewModel @Inject constructor(
                         state.copy(
                             currentLocation = location,
                             isLocationLoading = false,
-                            locationError = null
+                            locationError = null,
                         )
                     }
                 }
@@ -43,7 +42,7 @@ class HomeViewModel @Inject constructor(
                     reduce {
                         state.copy(
                             isLocationLoading = false,
-                            locationError = exception.message
+                            locationError = exception.message,
                         )
                     }
                 }
@@ -59,7 +58,7 @@ class HomeViewModel @Inject constructor(
                     state.copy(
                         isLoading = false,
                         homeResult = homeResult,
-                        error = null
+                        error = null,
                     )
                 }
             }
@@ -68,13 +67,13 @@ class HomeViewModel @Inject constructor(
                 reduce {
                     state.copy(
                         isLoading = false,
-                        error = exception.message ?: "Unknown error occurred"
+                        error = exception.message ?: "Unknown error occurred",
                     )
                 }
                 postSideEffect(
                     HomeSideEffect.ShowError(
-                        exception.message ?: "Unknown error occurred"
-                    )
+                        exception.message ?: "Unknown error occurred",
+                    ),
                 )
             }
     }
@@ -82,6 +81,4 @@ class HomeViewModel @Inject constructor(
     init {
         fetchHomeData()
     }
-
-
 }

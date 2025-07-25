@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RunnerResponse (
+data class RunnerResponse(
     @SerialName("userId")
     val userId: Int,
     @SerialName("runnerType")

@@ -10,5 +10,5 @@ data class ErrorResponse(
     @SerialName("message")
     val message: String?,
     @SerialName("timeStamp")
-    val timeStamp: String
+    val timeStamp: String,
 )

@@ -15,11 +15,11 @@ fun NavController.navigateToRecord(navOptions: NavOptions) {
 }
 
 fun NavGraphBuilder.recordNavGraph(
-    padding: PaddingValues
+    padding: PaddingValues,
 ) {
     composable<RecordRoute> {
         RecordRoute(
-            padding = padding
+            padding = padding,
             // TODO: viewmodel
         )
     }

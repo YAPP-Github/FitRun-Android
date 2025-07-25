@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import com.yapp.fitrun.core.designsystem.Caption_caption2_semiBold
 import com.yapp.fitrun.core.designsystem.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OnBoardingTopAppBar(
@@ -53,23 +52,22 @@ fun OnBoardingTopAppBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = onLeftNavigationClick
+                onClick = onLeftNavigationClick,
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = "navigation back icon"
+                    contentDescription = "navigation back icon",
                 )
             }
         },
-
         actions = {
             if (isRightIconVisible) {
                 IconButton(
-                    onClick = onRightNavigationClick
+                    onClick = onRightNavigationClick,
                 ) {
                     Text(
                         text = stringResource(R.string.on_boarding_next),
-                        color = Color(0XFFB0B3BA)
+                        color = Color(0XFFB0B3BA),
                     )
                 }
             }
@@ -80,7 +78,7 @@ fun OnBoardingTopAppBar(
             navigationIconContentColor = Color.Unspecified,
             titleContentColor = Color.Unspecified,
             actionIconContentColor = Color.Unspecified,
-        )
+        ),
     )
 }
 
@@ -98,7 +96,7 @@ fun NavigationTopAppBar(
     TopAppBar(
         navigationIcon = {
             IconButton(
-                onClick = onLeftNavigationClick
+                onClick = onLeftNavigationClick,
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back),
@@ -148,6 +146,6 @@ fun NavigationTopAppBarPreview() {
         rightIconColor = colorResource(R.color.fg_text_interactive_secondary),
         rightIconText = "건너뛰기",
         leftNavigationIconTint = Color.White,
-        isRightIconVisible = true
+        isRightIconVisible = true,
     )
 }

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class WorkThroughRepositoryImpl @Inject constructor(
     private val workThroughDataSource: WorkThroughDataSource,
-): WorkThroughRepository {
+) : WorkThroughRepository {
 
     override suspend fun setIsFirstTime(isFirstTime: Boolean) {
         workThroughDataSource.setIsFirstTime(isFirstTime)

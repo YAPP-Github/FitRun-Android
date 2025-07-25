@@ -53,11 +53,13 @@ fun OnBoardingQuestionGroup(
         enter = slideInVertically {
             with(density) { -50.dp.roundToPx() }
         } + expandVertically(
-            expandFrom = Alignment.Top
+            expandFrom = Alignment.Top,
         ) + fadeIn(
             initialAlpha = 0f,
             animationSpec = tween(
-                durationMillis = 500, delayMillis = 250, easing = FastOutSlowInEasing
+                durationMillis = 500,
+                delayMillis = 250,
+                easing = FastOutSlowInEasing,
             ),
         ),
     ) {
@@ -79,26 +81,32 @@ fun OnBoardingQuestionGroup(
                         .fillMaxWidth()
                         .height(76.dp)
                         .background(
-                            color = if (selectedOption == text) colorResource(R.color.bg_interactive_selected) else colorResource(
-                                R.color.fg_text_interactive_inverse
-                            ),
+                            color = if (selectedOption == text) {
+                                colorResource(R.color.bg_interactive_selected)
+                            } else {
+                                colorResource(R.color.fg_text_interactive_inverse)
+                            },
                             shape = RoundedCornerShape(16.dp),
                         )
                         .border(
                             width = 2.dp,
                             shape = RoundedCornerShape(16.dp),
-                            color = if (selectedOption == text) colorResource(R.color.fg_text_interactive_selected) else colorResource(
-                                R.color.fg_nuetral_gray400
-                            )
+                            color = if (selectedOption == text) {
+                                colorResource(R.color.fg_text_interactive_selected)
+                            } else {
+                                colorResource(R.color.fg_nuetral_gray400)
+                            },
                         )
                         .selectable(
-                            selected = (text == selectedOption), onClick = {
+                            selected = (text == selectedOption),
+                            onClick = {
                                 onOptionSelected(text)
                                 onClick(questionOptions.indexOf(text))
-                            }, role = Role.RadioButton
+                            },
+                            role = Role.RadioButton,
                         )
                         .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = text,
@@ -111,7 +119,7 @@ fun OnBoardingQuestionGroup(
                         Image(
                             painter = painterResource(R.drawable.ic_onboarding_check),
                             contentDescription = "login_kakao_icon",
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                     }
                 }

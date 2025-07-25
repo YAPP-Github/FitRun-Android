@@ -10,5 +10,5 @@ data class BaseResponse<T>(
     @SerialName("result")
     val result: T,
     @SerialName("timeStamp")
-    val timeStamp: String
+    val timeStamp: String,
 )

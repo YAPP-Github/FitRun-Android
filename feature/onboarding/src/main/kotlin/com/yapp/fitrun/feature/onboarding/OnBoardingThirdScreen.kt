@@ -66,19 +66,18 @@ internal fun OnBoardingThirdScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .verticalScroll(scrollState)
+            .verticalScroll(scrollState),
     ) {
         OnBoardingTopAppBar(
             onLeftNavigationClick = onBackClick,
             onRightNavigationClick = {},
-            progress = 0.75f
+            progress = 0.75f,
         )
-        Box(
-        ) {
+        Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp)
+                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.on_boarding_third_title),
@@ -97,17 +96,16 @@ internal fun OnBoardingThirdScreen(
                         stringResource(R.string.on_boarding_third_question1_option3),
                     ),
                     onClick = onClickOnBoardingThirdQuestion1,
-                    visible = uiState.isSelectedOnBoardingThirdQ2State
+                    visible = uiState.isSelectedOnBoardingThirdQ2State,
                 )
 
                 OnBoardingQuestionGroup(
                     questionTitle = stringResource(R.string.on_boarding_third_question2),
-                    questionOptions =
-                        listOf(
-                            stringResource(R.string.on_boarding_third_question2_option1),
-                            stringResource(R.string.on_boarding_third_question2_option2),
-                            stringResource(R.string.on_boarding_third_question2_option3),
-                        ),
+                    questionOptions = listOf(
+                        stringResource(R.string.on_boarding_third_question2_option1),
+                        stringResource(R.string.on_boarding_third_question2_option2),
+                        stringResource(R.string.on_boarding_third_question2_option3),
+                    ),
                     onClick = onClickOnBoardingThirdQuestion2,
                 )
             }

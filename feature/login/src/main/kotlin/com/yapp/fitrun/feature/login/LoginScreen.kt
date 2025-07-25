@@ -73,12 +73,12 @@ fun LoginScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
         ) {
             Spacer(modifier = Modifier.weight(1f))
 
@@ -88,7 +88,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
                     .aspectRatio(4f / 3f),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logo_login_text),
@@ -106,31 +106,31 @@ fun LoginScreen(
                 enabled = !state.isLoading,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFFE500),
-                    disabledContainerColor = Color(0xFFFFE500).copy(alpha = 0.6f)
+                    disabledContainerColor = Color(0xFFFFE500).copy(alpha = 0.6f),
                 ),
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
             ) {
                 if (state.isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(24.dp),
                         color = Color(0xFF2B1407),
-                        strokeWidth = 2.dp
+                        strokeWidth = 2.dp,
                     )
                 } else {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Image(
                             painter = painterResource(R.drawable.ic_logo_kakao),
-                            contentDescription = "login_kakao_icon"
+                            contentDescription = "login_kakao_icon",
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "카카오로 시작하기",
                             color = Color(0xFF2B1407),
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                 }

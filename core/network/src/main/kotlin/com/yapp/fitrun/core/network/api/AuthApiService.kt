@@ -12,7 +12,7 @@ interface AuthApiService {
     @POST("/api/v1/auth/login/{provider}")
     suspend fun loginWithKakao(
         @Path("provider") provider: String,
-        @Body request: KakaoLoginRequest
+        @Body request: KakaoLoginRequest,
     ): BaseResponse<LoginResponse>
 
     @POST("/api/v1/auth/logout")
