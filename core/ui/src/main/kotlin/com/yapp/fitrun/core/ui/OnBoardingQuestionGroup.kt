@@ -9,9 +9,11 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -79,21 +82,22 @@ fun OnBoardingQuestionGroup(
                         .fillMaxWidth()
                         .height(76.dp)
                         .background(
-                            if (selectedOption == text) colorResource(R.color.bg_interactive_selected) else colorResource(
+                            color = if (selectedOption == text) colorResource(R.color.bg_interactive_selected) else colorResource(
                                 R.color.fg_text_interactive_inverse
-                            )
+                            ),
+                            shape = RoundedCornerShape(16.dp),
                         )
                         .border(
                             width = 2.dp,
+                            shape = RoundedCornerShape(16.dp),
                             color = if (selectedOption == text) colorResource(R.color.fg_text_interactive_selected) else colorResource(
                                 R.color.fg_nuetral_gray400
-                            ),
-                            shape = RoundedCornerShape(16.dp)
+                            )
                         )
                         .selectable(
                             selected = (text == selectedOption), onClick = {
                                 onOptionSelected(text)
-                                onClick(questionOptions.indexOf(selectedOption))
+                                onClick(questionOptions.indexOf(text))
                             }, role = Role.RadioButton
                         )
                         .padding(horizontal = 16.dp),

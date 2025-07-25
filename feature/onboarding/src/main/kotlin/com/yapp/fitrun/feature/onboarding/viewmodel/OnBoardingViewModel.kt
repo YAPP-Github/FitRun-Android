@@ -48,60 +48,44 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun onClickOnBoardingFirstQuestion1(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
-        reduce {
-            state.copy(selectedOnBoardingFirstStateCount = newCount)
-        }
         onBoardingAnswersMap[answerList[0]] = convertSelectedToAnswer(selected).name
         postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingSecond)
     }
 
     fun onClickOnBoardingFirstQuestion2(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
         reduce {
-            state.copy(selectedOnBoardingFirstStateCount = newCount)
+            state.copy(isSelectedOnBoardingFirstQ2State = true)
         }
         onBoardingAnswersMap[answerList[1]] = convertSelectedToAnswer(selected).name
     }
 
     fun onClickOnBoardingFirstQuestion3(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
         reduce {
-            state.copy(selectedOnBoardingFirstStateCount = newCount)
+            state.copy(isSelectedOnBoardingFirstQ3State = true)
         }
         onBoardingAnswersMap[answerList[2]] = convertSelectedToAnswer(selected).name
     }
 
     fun onClickOnBoardingFirstQuestion4(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingFirstStateCount + 1
         reduce {
-            state.copy(selectedOnBoardingFirstStateCount = newCount)
+            state.copy(isSelectedOnBoardingFirstQ4State = true)
         }
         onBoardingAnswersMap[answerList[3]] = convertSelectedToAnswer(selected).name
     }
 
     fun onClickOnBoardingSecondQuestion1(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingSecondStateCount + 1
-        reduce {
-            state.copy(selectedOnBoardingSecondStateCount = newCount)
-        }
         onBoardingAnswersMap[answerList[4]] = convertSelectedToAnswer(selected).name
         postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingThird)
     }
 
     fun onClickOnBoardingSecondQuestion2(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingSecondStateCount + 1
         reduce {
-            state.copy(selectedOnBoardingSecondStateCount = newCount)
+            state.copy(isSelectedOnBoardingSecondQ2State = true)
         }
         onBoardingAnswersMap[answerList[5]] = convertSelectedToAnswer(selected).name
     }
 
     fun onClickOnBoardingThirdQuestion1(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingThirdStateCount + 1
-        reduce {
-            state.copy(selectedOnBoardingThirdStateCount = newCount)
-        }
         onBoardingAnswersMap[answerList[6]] = convertSelectedToAnswer(selected).name
         userRepository.setOnBoardingInfo(
             onBoardingEntity = OnBoardingEntity(
@@ -112,9 +96,8 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     fun onClickOnBoardingThirdQuestion2(selected: Int) = intent {
-        val newCount: Int =  state.selectedOnBoardingThirdStateCount + 1
         reduce {
-            state.copy(selectedOnBoardingThirdStateCount = newCount)
+            state.copy(isSelectedOnBoardingThirdQ2State = true)
         }
         onBoardingAnswersMap[answerList[7]] = convertSelectedToAnswer(selected).name
     }
