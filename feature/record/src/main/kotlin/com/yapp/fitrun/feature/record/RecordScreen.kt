@@ -2,6 +2,7 @@ package com.yapp.fitrun.feature.record
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,6 +56,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @Composable
 internal fun RecordRoute(
     padding: PaddingValues,
+    onNavigateToRecordDetail: (Int) -> Unit,
     viewModel: RecordViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
@@ -62,7 +64,7 @@ internal fun RecordRoute(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is RecordSideEffect.OnNavigateToRecordDetail -> {
-                // TODO
+                onNavigateToRecordDetail(sideEffect.recordId)
             }
         }
     }
@@ -70,6 +72,7 @@ internal fun RecordRoute(
     RecordScreen(
         uiState = uiState,
         padding = padding,
+        onNavigateToRecordDetail = onNavigateToRecordDetail,
     )
 }
 
@@ -77,6 +80,7 @@ internal fun RecordRoute(
 internal fun RecordScreen(
     uiState: RecordState,
     padding: PaddingValues,
+    onNavigateToRecordDetail: (Int) -> Unit,
 ) {
     if (uiState.recordCount == 0) {
         NoRecordDataView()
@@ -279,7 +283,10 @@ internal fun RecordScreen(
 
             // 러닝 기록 리스트
             itemsIndexed(uiState.recordList) { _, record ->
-                RunningRecordCard(record = record)
+                RunningRecordCard(
+                    record = record,
+                    onNavigateToRecordDetail = { onNavigateToRecordDetail(record.recordId) },
+                )
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
@@ -365,9 +372,12 @@ private fun StatisticItem(
 private fun RunningRecordCard(
     record: Record,
     modifier: Modifier = Modifier,
+    onNavigateToRecordDetail: () -> Unit,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onNavigateToRecordDetail() },
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = colorResource(R.color.bg_primary),
@@ -470,5 +480,6 @@ private fun RecordScreenPreview() {
     RecordScreen(
         padding = PaddingValues(0.dp),
         uiState = RecordState(recordList = mutableListOf(Record())),
+        onNavigateToRecordDetail = {},
     )
 }

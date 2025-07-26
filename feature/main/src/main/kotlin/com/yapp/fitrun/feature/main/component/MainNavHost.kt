@@ -61,7 +61,11 @@ internal fun MainNavHost(
                 onNavigateToRunning = navigator::navigateToRunning,
                 onNavigateToSetGoal = navigator::navigateToSetGoal,
             )
-            recordNavGraph(padding = padding)
+            recordNavGraph(
+                onBackClick = { navigator.navController.popBackStack() },
+                padding = padding,
+                onNavigateToRecordDetail = navigator::navigateToRecordDetail,
+            )
             crewNavGraph()
             myPageNavGraph(padding = padding)
             onBoardingNavGraph(

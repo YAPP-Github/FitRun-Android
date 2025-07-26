@@ -70,7 +70,7 @@ fun FitRunTextIconButton(
 
         Text(
             text = text,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
             modifier = Modifier.padding(start = 4.dp),
             color = textColor,
             style = textStyle,
