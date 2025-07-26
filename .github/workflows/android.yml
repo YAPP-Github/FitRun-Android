@@ -34,7 +34,7 @@ jobs:
 
             -   name: Generate secrets.properties
                 run: |
-                    echo "KAKAO_NATIVE_APP_KEY="${{ secrets.KAKAO_NATIVE_APP_KEY }}"" >> local.properties
+                    echo "KAKAO_NATIVE_APP_KEY=\"${{ secrets.KAKAO_NATIVE_APP_KEY }}\"" >> local.properties
                     echo "KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }}" >> local.properties
                     echo "NAVER_MAP_CLIENT_KEY=${{ secrets.NAVER_MAP_CLIENT_KEY }}" >> local.properties
 
