@@ -17,11 +17,13 @@ fun NavController.navigateToHome(navOptions: NavOptions) {
 fun NavGraphBuilder.homeNavGraph(
     padding: PaddingValues,
     onNavigateToRunning: () -> Unit,
+    onNavigateToSetGoal: () -> Unit,
 ) {
     composable<HomeRoute> {
         HomeRoute(
             padding = padding,
             onNavigateToRunning = onNavigateToRunning,
+            onNavigateToSetGoal = onNavigateToSetGoal,
         )
     }
 }

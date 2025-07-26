@@ -5,6 +5,8 @@ import android.location.Location
 import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -51,6 +53,8 @@ import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption4_semiBold
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -74,6 +78,7 @@ import com.yapp.fitrun.core.designsystem.R
 internal fun HomeRoute(
     padding: PaddingValues,
     onNavigateToRunning: () -> Unit,
+    onNavigateToSetGoal: () -> Unit,
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.container.stateFlow.collectAsState()
@@ -106,6 +111,7 @@ internal fun HomeRoute(
             state = state,
             fetchCurrentLocation = viewModel::fetchCurrentLocation,
             onStartRunningClick = onNavigateToRunning,
+            onSetGoalClick = onNavigateToSetGoal,
         )
         if (state.isLoading) {
             CircularProgressIndicator(
@@ -122,6 +128,7 @@ internal fun HomeScreen(
     state: HomeState,
     fetchCurrentLocation: () -> Unit = {},
     onStartRunningClick: () -> Unit = {},
+    onSetGoalClick: () -> Unit = {},
 ) {
     val permissionsList = mutableListOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -205,7 +212,14 @@ internal fun HomeScreen(
                         painter = painterResource(R.drawable.ic_edit),
                         contentDescription = "Edit",
                         tint = colorResource(R.color.fg_nuetral_gray500),
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable(
+                                indication = null,        // Ripple 효과 없앰
+                                interactionSource = remember { MutableInteractionSource() }
+                            ) {
+                                onSetGoalClick()
+                            }
                     )
                 }
 
