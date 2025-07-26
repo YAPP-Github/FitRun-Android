@@ -54,7 +54,6 @@ import com.yapp.fitrun.core.designsystem.Caption_caption3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption4_semiBold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -215,11 +214,11 @@ internal fun HomeScreen(
                         modifier = Modifier
                             .size(24.dp)
                             .clickable(
-                                indication = null,        // Ripple 효과 없앰
-                                interactionSource = remember { MutableInteractionSource() }
+                                indication = null, // Ripple 효과 없앰
+                                interactionSource = remember { MutableInteractionSource() },
                             ) {
                                 onSetGoalClick()
-                            }
+                            },
                     )
                 }
 
@@ -272,7 +271,6 @@ internal fun HomeScreen(
                             .weight(1f)
                             .padding(vertical = 11.dp, horizontal = 10.dp),
                         verticalAlignment = Alignment.CenterVertically,
-
                     ) {
                         Text(
                             text = "최근 페이스",

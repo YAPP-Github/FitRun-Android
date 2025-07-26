@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WeeklyRunCountRequest(
     @SerialName("count")
-    val count: Int
+    val count: Int,
 )

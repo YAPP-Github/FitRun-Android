@@ -23,6 +23,6 @@ dependencies {
         projects.feature.mypage,
         projects.feature.onboarding,
         projects.feature.running,
-        projects.feature.setgoal
+        projects.feature.setgoal,
     )
 }

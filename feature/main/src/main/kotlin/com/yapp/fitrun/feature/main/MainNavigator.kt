@@ -14,7 +14,6 @@ import com.yapp.fitrun.feature.crew.navigateToCrew
 import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigateToMyPage
-import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFirst
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFourth
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
@@ -65,10 +64,6 @@ internal class MainNavigator(
         return MainTab.entries.any { tab ->
             currentDestination?.hasRoute(tab.route) == true
         }
-    }
-
-    fun navigateToOnBoardingFirst() {
-        navController.navigateToOnBoardingFirst()
     }
 
     fun navigateToOnBoardingSecond() {
