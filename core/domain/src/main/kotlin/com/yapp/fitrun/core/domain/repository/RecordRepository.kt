@@ -6,5 +6,5 @@ import com.yapp.fitrun.core.domain.entity.RecordListEntity
 interface RecordRepository {
     suspend fun getRecordList(): Result<RecordListEntity>
     suspend fun getRecordDetail(recordId: Int): Result<RecordDetailEntity>
-    suspend fun deleteRecordDetail(recordId: Int)
+    suspend fun deleteRecordDetail(recordId: Int): Result<Unit>
 }
