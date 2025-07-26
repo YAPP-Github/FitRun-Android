@@ -180,7 +180,7 @@ naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", 
 
 # room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room = { group = "androidx.room", name = "room-ktx", version = "room" }
+room = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
