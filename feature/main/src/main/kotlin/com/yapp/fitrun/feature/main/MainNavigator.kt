@@ -91,9 +91,7 @@ internal class MainNavigator(
     }
 
     fun navigateToPlaying() {
-        fun navigateToPlaying() {
-            navController.navigateToPlaying()
-        }
+        navController.navigateToPlaying()
     }
 }
 
