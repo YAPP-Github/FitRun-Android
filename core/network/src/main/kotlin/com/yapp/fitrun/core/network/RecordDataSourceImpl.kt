@@ -30,6 +30,9 @@ class RecordDataSourceImpl @Inject constructor(
     }
 
     override suspend fun deleteRecordDetail(recordId: Int) {
-        service.deleteRecordDetail(recordId)
+        val response = service.deleteRecordDetail(recordId)
+        if (response.code != "SUCCESS") {
+            throw NetworkErrorException(response.code)
+        }
     }
 }
