@@ -25,6 +25,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,9 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption2_semiBold
-import kotlin.text.toInt
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
+import kotlin.text.toInt
 
 @Composable
 fun SetPaceSection() {
@@ -58,20 +59,19 @@ fun SetPaceSection() {
             currentPace = pace
             // 페이스 변경 처리
             println("Current pace: $pace")
-        }
+        },
     )
 }
-
 
 // PaceInputWithProgress 컴포저블도 수정
 @Composable
 fun PaceInputWithProgress(
     modifier: Modifier = Modifier,
-    onPaceChange: (String) -> Unit = {}
+    onPaceChange: (String) -> Unit = {},
 ) {
     var paceText by remember { mutableStateOf("7'00\"") }
     var isFocused by remember { mutableStateOf(false) }
-    var sliderValue by remember { mutableStateOf(420f) } // 초 단위 (7분 = 420초)
+    var sliderValue by remember { mutableFloatStateOf(420f) } // 초 단위 (7분 = 420초)
     val scrollState = rememberScrollState()
 
     Column(
@@ -80,14 +80,14 @@ fun PaceInputWithProgress(
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(64.dp))
         // 일주일에 텍스트
         Text(
             text = "일주일에",
             style = Body_body3_semiBold,
-            color = colorResource(R.color.fg_text_secondary)
+            color = colorResource(R.color.fg_text_secondary),
         )
 
         // Pace Input TextField
@@ -105,7 +105,7 @@ fun PaceInputWithProgress(
             isFocused = isFocused,
             onFocusChanged = { focused ->
                 isFocused = focused
-            }
+            },
         )
         Spacer(modifier = Modifier.height(40.dp))
         // Custom Styled Slider
@@ -116,9 +116,9 @@ fun PaceInputWithProgress(
                 // 슬라이더 값에 따라 페이스 텍스트 업데이트
                 val minutes = (newValue / 60).toInt()
                 val seconds = (newValue % 60).toInt()
-                paceText = String.format("%d'%02d\"", minutes, seconds)
+//                paceText = String.format("%d'%02d\"", minutes, seconds)
                 onPaceChange(paceText)
-            }
+            },
         )
     }
 }
@@ -128,16 +128,16 @@ private fun PaceTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isFocused: Boolean,
-    onFocusChanged: (Boolean) -> Unit
+    onFocusChanged: (Boolean) -> Unit,
 ) {
     val underlineColor by animateColorAsState(
         targetValue = if (isFocused) Color(0xFFFF6B35) else Color.Transparent,
-        label = "underlineAnimation"
+        label = "underlineAnimation",
     )
 
     val underlineHeight by animateDpAsState(
         targetValue = if (isFocused) 2.dp else 0.dp,
-        label = "underlineHeightAnimation"
+        label = "underlineHeightAnimation",
     )
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -176,8 +176,8 @@ private fun PaceTextField(
                     letterSpacing = dimensionResource(id = R.dimen.number_letter_spacing).value.sp,
                     lineHeightStyle = LineHeightStyle(
                         alignment = LineHeightStyle.Alignment.Center,
-                        trim = LineHeightStyle.Trim.None
-                    )
+                        trim = LineHeightStyle.Trim.None,
+                    ),
                 ),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
@@ -188,7 +188,7 @@ private fun PaceTextField(
             modifier = Modifier
                 .width(120.dp)
                 .height(underlineHeight)
-                .background(underlineColor)
+                .background(underlineColor),
         )
     }
 }
@@ -197,7 +197,7 @@ private fun PaceTextField(
 @Composable
 private fun CustomPaceSlider(
     value: Float,
-    onValueChange: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
 ) {
     Column {
         // Custom Slider
@@ -211,7 +211,7 @@ private fun CustomPaceSlider(
             colors = SliderDefaults.colors(
                 thumbColor = Color.Black,
                 activeTrackColor = Color.Black,
-                inactiveTrackColor = Color.LightGray
+                inactiveTrackColor = Color.LightGray,
             ),
             thumb = {
                 // Custom Thumb
@@ -219,55 +219,53 @@ private fun CustomPaceSlider(
                     modifier = Modifier
                         .size(22.dp)
                         .clip(CircleShape)
-                        .background(Color.Black)
+                        .background(Color.Black),
                 )
-            }
+            },
         )
         // Labels
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 text = "워밍업",
                 style = Caption_caption2_semiBold,
-                color = colorResource(R.color.fg_text_tertiary)
+                color = colorResource(R.color.fg_text_tertiary),
             )
             Text(
                 text = "루틴",
                 style = Caption_caption2_semiBold,
-                color = colorResource(R.color.fg_text_tertiary)
+                color = colorResource(R.color.fg_text_tertiary),
             )
             Text(
                 text = "챌린지",
                 style = Caption_caption2_semiBold,
-                color = colorResource(R.color.fg_text_tertiary)
+                color = colorResource(R.color.fg_text_tertiary),
             )
         }
     }
 }
 
 private fun parsePaceToSeconds(paceText: String): Int? {
-    return try {
-        // 숫자만 추출
-        val digitsOnly = paceText.filter { it.isDigit() }
+    // 숫자만 추출
+    val digitsOnly = paceText.filter { it.isDigit() }
 
-        when (digitsOnly.length) {
-            0 -> null
-            1 -> digitsOnly.toInt() * 60 // 분만 입력된 경우
-            2 -> {
-                val minutes = digitsOnly[0].toString().toInt()
-                val tensOfSeconds = digitsOnly[1].toString().toInt()
-                minutes * 60 + tensOfSeconds * 10 // 두 번째 숫자는 초의 십의 자리
-            }
-            3 -> {
-                val minutes = digitsOnly[0].toString().toInt()
-                val seconds = digitsOnly.substring(1).toInt()
-                if (seconds > 59) null else minutes * 60 + seconds
-            }
-            else -> null
+    return when (digitsOnly.length) {
+        0 -> null
+        1 -> digitsOnly.toInt() * 60 // 분만 입력된 경우
+        2 -> {
+            val minutes = digitsOnly[0].toString().toInt()
+            val tensOfSeconds = digitsOnly[1].toString().toInt()
+            minutes * 60 + tensOfSeconds * 10 // 두 번째 숫자는 초의 십의 자리
         }
-    } catch (e: Exception) {
-        null
+
+        3 -> {
+            val minutes = digitsOnly[0].toString().toInt()
+            val seconds = digitsOnly.substring(1).toInt()
+            if (seconds > 59) null else minutes * 60 + seconds
+        }
+
+        else -> null
     }
 }

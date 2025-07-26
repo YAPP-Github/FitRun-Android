@@ -12,7 +12,7 @@ import com.yapp.fitrun.core.network.model.response.goal.RecommendPaceResponse
 import javax.inject.Inject
 
 class GoalDataSourceImpl @Inject constructor(
-    private val service: GoalApiService
+    private val service: GoalApiService,
 ) : GoalDataSource {
     override suspend fun getGoal(): BaseResponse<GoalResponse> {
         return service.getGoal()

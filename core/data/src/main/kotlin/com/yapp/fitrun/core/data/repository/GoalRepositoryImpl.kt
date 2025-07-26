@@ -13,7 +13,7 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 class GoalRepositoryImpl @Inject constructor(
-    private val goalDatasource: GoalDataSource
+    private val goalDatasource: GoalDataSource,
 ) : GoalRepository {
 
     override suspend fun getGoal(): Result<GoalEntity> {
@@ -25,7 +25,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -38,7 +38,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -51,7 +51,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -64,7 +64,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -77,7 +77,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -90,7 +90,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -103,17 +103,17 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
     override suspend fun setWeeklyRunningCountGoal(
         count: Int,
-        isRemindEnabled: Boolean
+        isRemindEnabled: Boolean,
     ): Result<GoalEntity> {
         return runCatching {
             val response = goalDatasource.setWeeklyRunningCountGoal(
-                WeeklyRunCountRequest(count)
+                WeeklyRunCountRequest(count),
             )
             response.result.toEntity()
         }.fold(
@@ -121,17 +121,17 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
     override suspend fun updateWeeklyRunningCountGoal(
         count: Int,
-        isRemindEnabled: Boolean
+        isRemindEnabled: Boolean,
     ): Result<GoalEntity> {
         return runCatching {
             val response = goalDatasource.updateWeeklyRunCountGoal(
-                WeeklyRunCountRequest(count)
+                WeeklyRunCountRequest(count),
             )
             response.result.toEntity()
         }.fold(
@@ -139,7 +139,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -163,7 +163,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -176,7 +176,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 }

@@ -59,7 +59,7 @@ internal fun MainNavHost(
             homeNavGraph(
                 padding = padding,
                 onNavigateToRunning = navigator::navigateToRunning,
-                onNavigateToSetGoal = navigator::navigateToSetGoal
+                onNavigateToSetGoal = navigator::navigateToSetGoal,
             )
             recordNavGraph(padding = padding)
             crewNavGraph()

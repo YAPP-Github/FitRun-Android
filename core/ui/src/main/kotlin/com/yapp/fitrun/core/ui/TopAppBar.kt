@@ -140,15 +140,15 @@ fun FitRunTopAppBar(
     onLeftNavigationClick: () -> Unit = {},
 ) {
     TopAppBar(
-        modifier = Modifier.background(Color.White),
+        modifier = modifier.background(Color.White),
         title = {},
         navigationIcon = {
             IconButton(
-                onClick = onLeftNavigationClick
+                onClick = onLeftNavigationClick,
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back),
-                    contentDescription = "navigation back icon"
+                    contentDescription = "navigation back icon",
                 )
             }
         },
@@ -158,7 +158,7 @@ fun FitRunTopAppBar(
             navigationIconContentColor = Color.Unspecified,
             titleContentColor = Color.Unspecified,
             actionIconContentColor = Color.Unspecified,
-        )
+        ),
     )
 }
 
@@ -179,9 +179,8 @@ fun NavigationTopAppBarPreview() {
     )
 }
 
-
 @Preview
 @Composable
-private fun ILabTopAppBarPreview() {
+private fun FitRunTopAppBarPreview() {
     FitRunTopAppBar()
 }

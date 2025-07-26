@@ -81,7 +81,6 @@ internal fun HomeResponse.toEntity() =
         userGoalEntity = userGoalResponse.toEntity(),
     )
 
-
 internal fun GoalResponse.toEntity() =
     GoalEntity(
         goalId = goalId,
@@ -90,5 +89,5 @@ internal fun GoalResponse.toEntity() =
         weeklyRunCount = weeklyRunCount,
         paceGoal = paceGoal,
         distanceMeter = distanceMeter,
-        timeGoal = timeGoal
+        timeGoal = timeGoal,
     )

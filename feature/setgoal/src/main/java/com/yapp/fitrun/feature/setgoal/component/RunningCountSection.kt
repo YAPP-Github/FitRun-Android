@@ -49,25 +49,24 @@ import com.yapp.fitrun.core.designsystem.Head_h1_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 
-
 @Composable
 fun SetRunningCountSection() {
     var currentRunningCount by remember { mutableStateOf("") }
     RunningCountInput(
         onRunningCountChange = { runningCount ->
             currentRunningCount = runningCount
-        }
+        },
     )
 }
 
 @Composable
 fun RunningCountInput(
     modifier: Modifier = Modifier,
-    onRunningCountChange: (String) -> Unit = {}
+    onRunningCountChange: (String) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
     var runningCountText by remember { mutableStateOf("3") }
-    var isFocused by remember { mutableStateOf(false) }
+//    var isFocused by remember { mutableStateOf(false) }
     var isAlarm by remember { mutableStateOf(false) }
 
     Column(
@@ -90,10 +89,10 @@ fun RunningCountInput(
                 runningCountText = newValue
                 onRunningCountChange(newValue)
             },
-            isFocused = isFocused,
-            onFocusChanged = { focused ->
-                isFocused = focused
-            }
+//            isFocused = isFocused,
+//            onFocusChanged = { focused ->
+//                isFocused = focused
+//            },
         )
         Spacer(modifier = Modifier.height(40.dp))
         Row(
@@ -101,21 +100,22 @@ fun RunningCountInput(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .background(
-                    color = colorResource(R.color.bg_secondary), shape = RoundedCornerShape(16.dp)
+                    color = colorResource(R.color.bg_secondary),
+                    shape = RoundedCornerShape(16.dp),
                 )
                 .padding(vertical = 20.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column {
                 Text(
                     text = "리마인드 알림",
                     style = Body_body3_semiBold,
-                    color = colorResource(R.color.fg_text_primary)
+                    color = colorResource(R.color.fg_text_primary),
                 )
                 Text(
                     text = "오전 10시에 리마인드 알림을 보내드려요",
                     style = Body_body4_regular,
-                    color = colorResource(R.color.fg_text_secondary)
+                    color = colorResource(R.color.fg_text_secondary),
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -126,9 +126,10 @@ fun RunningCountInput(
                         isAlarm = !isAlarm
                     },
                 checked = isAlarm,
-                onCheckedChange = {
-                    isAlarm = it
-                })
+//                onCheckedChange = {
+//                    isAlarm = it
+//                },
+            )
         }
     }
 }
@@ -136,8 +137,8 @@ fun RunningCountInput(
 @Composable
 fun ToggleSwitch(
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+//    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val switchWidth = 50.dp
     val switchHeight = 30.dp
@@ -153,7 +154,6 @@ fun ToggleSwitch(
         if (isChecked) switchWidth - thumbSize - padding * 3 else padding
     }
 
-
     val backgroundColor by transition.animateColor(label = "bg_color") { isChecked ->
         if (isChecked) colorResource(R.color.bg_interactive_secondary_hoverd) else Color(0xFFD9D9D9)
     }
@@ -164,13 +164,13 @@ fun ToggleSwitch(
             .height(switchHeight)
             .background(backgroundColor)
             .padding(padding),
-        contentAlignment = Alignment.CenterStart
+        contentAlignment = Alignment.CenterStart,
     ) {
         Box(
             modifier = Modifier
                 .size(thumbSize)
                 .offset(x = thumbOffsetX)
-                .background(color = colorResource(R.color.bg_primary), shape = CircleShape)
+                .background(color = colorResource(R.color.bg_primary), shape = CircleShape),
         )
     }
 }
@@ -179,13 +179,12 @@ fun ToggleSwitch(
 private fun RunningCountTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    isFocused: Boolean,
-    onFocusChanged: (Boolean) -> Unit
+//    isFocused: Boolean,
+//    onFocusChanged: (Boolean) -> Unit,
 ) {
-
     Row(
         modifier = Modifier
-            .wrapContentSize()
+            .wrapContentSize(),
     ) {
         BasicTextField(
             modifier = Modifier.width(IntrinsicSize.Min),
@@ -203,8 +202,8 @@ private fun RunningCountTextField(
                 letterSpacing = dimensionResource(id = R.dimen.number_letter_spacing).value.sp,
                 lineHeightStyle = LineHeightStyle(
                     alignment = LineHeightStyle.Alignment.Center,
-                    trim = LineHeightStyle.Trim.None
-                )
+                    trim = LineHeightStyle.Trim.None,
+                ),
             ),
             decorationBox = { innerTextField ->
                 Column(
@@ -218,7 +217,7 @@ private fun RunningCountTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(2.dp)
-                            .background(colorResource(R.color.bg_interactive_primary))
+                            .background(colorResource(R.color.bg_interactive_primary)),
                     )
                 }
             },
@@ -234,6 +233,4 @@ private fun RunningCountTextField(
             style = Head_h1_bold,
         )
     }
-
 }
-

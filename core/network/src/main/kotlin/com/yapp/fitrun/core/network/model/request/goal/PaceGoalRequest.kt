@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PaceGoalRequest(
     @SerialName("pace")
-    val pace: Int
+    val pace: Int,
 )

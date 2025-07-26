@@ -3,7 +3,6 @@ package com.yapp.fitrun.feature.setgoal
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -55,15 +54,12 @@ import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection
 import kotlinx.coroutines.launch
 
 @Composable
-fun SetGoalRoute() {
-
-
-
+internal fun SetGoalRoute() {
     SetGoalScreen()
 }
 
 @Composable
-fun SetGoalScreen() {
+internal fun SetGoalScreen() {
     var showLottie by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { 2 })
 
@@ -83,22 +79,22 @@ fun SetGoalScreen() {
                         .imePadding(),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.bg_interactive_primary)
-                    )
+                        containerColor = colorResource(R.color.bg_interactive_primary),
+                    ),
                 ) {
                     Text(
                         text = "루틴 설정하기",
                         color = colorResource(R.color.fg_text_interactive_inverse),
-                        style = Body_body3_semiBold
+                        style = Body_body3_semiBold,
                     )
                 }
-            }
+            },
         ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .padding(innerPadding)
                     .background(colorResource(R.color.base_white)),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 HorizontalPagerIndicator(
                     pagerState = pagerState,
@@ -108,7 +104,7 @@ fun SetGoalScreen() {
                 )
                 HorizontalPager(
                     state = pagerState,
-                    userScrollEnabled = false
+                    userScrollEnabled = false,
                 ) { page ->
                     when (page) {
                         0 -> SetPaceSection()
@@ -121,7 +117,7 @@ fun SetGoalScreen() {
             LottieAnimationOverlay(
                 onAnimationEnd = {
                     showLottie = false
-                }
+                },
             )
         }
     }
@@ -129,16 +125,16 @@ fun SetGoalScreen() {
 
 @Composable
 fun LottieAnimationOverlay(
-    onAnimationEnd: () -> Unit
+    onAnimationEnd: () -> Unit,
 ) {
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.Asset("toast_set_goal_completed.json") // 로티 파일 이름
+        LottieCompositionSpec.Asset("toast_set_goal_completed.json"), // 로티 파일 이름
     )
     val progress by animateLottieCompositionAsState(
         composition = composition,
         iterations = 1,
         isPlaying = true,
-        restartOnPlay = true
+        restartOnPlay = true,
     )
 
     // 애니메이션 완료 감지
@@ -153,7 +149,7 @@ fun LottieAnimationOverlay(
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.3f))
             .clickable(enabled = false) { }, // 배경 클릭 방지
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         LottieAnimation(
             composition = composition,
@@ -163,13 +159,12 @@ fun LottieAnimationOverlay(
 }
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalPagerIndicator(
     pagerState: PagerState,
     pageCount: Int,
     titles: List<String>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -177,11 +172,11 @@ fun HorizontalPagerIndicator(
         modifier = modifier
             .background(
                 color = colorResource(R.color.fg_nuetral_gray100),
-                shape = RoundedCornerShape(100f)
+                shape = RoundedCornerShape(100f),
             )
             .padding(4.dp)
             .height(38.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         val tabWidth = maxWidth / pageCount
 
@@ -189,7 +184,7 @@ fun HorizontalPagerIndicator(
         val animatedOffset by animateDpAsState(
             targetValue = tabWidth * pagerState.currentPage,
             animationSpec = tween(durationMillis = 300),
-            label = "PagerIndicatorAnimation"
+            label = "PagerIndicatorAnimation",
         )
 
         // 선택된 탭 배경
@@ -201,17 +196,16 @@ fun HorizontalPagerIndicator(
                 .shadow(
                     elevation = 4.dp,
                     shape = RoundedCornerShape(100.dp),
-                    clip = false
+                    clip = false,
                 )
                 .clip(RoundedCornerShape(100.dp))
-                .background(colorResource(R.color.base_white))
+                .background(colorResource(R.color.base_white)),
         )
-
 
         // 페이지 버튼들
         Row(
             modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             repeat(pageCount) { index ->
                 Box(
@@ -224,14 +218,16 @@ fun HorizontalPagerIndicator(
                                 pagerState.animateScrollToPage(index)
                             }
                         },
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         text = titles[index],
-                        color = if (pagerState.currentPage == index) colorResource(R.color.fg_text_primary) else colorResource(
-                            R.color.fg_nuetral_gray700
-                        ),
-                        style = Body_body2_bold
+                        color = if (pagerState.currentPage == index) {
+                            colorResource(R.color.fg_text_primary)
+                        } else {
+                            colorResource(R.color.fg_nuetral_gray700)
+                        },
+                        style = Body_body2_bold,
                     )
                 }
             }

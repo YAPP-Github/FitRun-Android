@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DistanceGoalRequest(
     @SerialName("distanceMeter")
-    val distanceMeter: Double
+    val distanceMeter: Double,
 )
