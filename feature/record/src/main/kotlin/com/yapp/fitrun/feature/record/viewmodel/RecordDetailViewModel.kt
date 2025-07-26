@@ -9,13 +9,28 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class RecordViewModel @Inject constructor(
-    // TODO
-) : ViewModel(), ContainerHost<RecordState, RecordSideEffect> {
-    override val container = container<RecordState, RecordSideEffect>(RecordState())
+class RecordDetailViewModel @Inject constructor(
+    // TODO: RecordRepository 추가 예정
+) : ViewModel(), ContainerHost<RecordDetailState, RecordDetailSideEffect> {
+    override val container = container<RecordDetailState, RecordDetailSideEffect>(RecordDetailState())
 
-    init {
-        val dummyRecord = mutableListOf(
+    fun loadRecordDetail(recordId: Int) = intent {
+        reduce { state.copy(isLoading = true) }
+
+        // 현재는 더미 데이터 사용
+        val dummyRecord = getDummyRecord(recordId)
+
+        reduce {
+            state.copy(
+                isLoading = false,
+                record = dummyRecord,
+            )
+        }
+    }
+
+    private fun getDummyRecord(recordId: Int): Record {
+        // RecordViewModel과 동일한 더미 데이터 사용
+        val dummyRecords = listOf(
             Record(
                 recordId = 1,
                 startAt = "7월 22일",
@@ -66,19 +81,6 @@ class RecordViewModel @Inject constructor(
             ),
         )
 
-        intent {
-            reduce {
-                state.copy(
-                    isLoading = false,
-                    totalDistance = 27.4,
-                    recordCount = dummyRecord.size,
-                    averagePace = "6'00''",
-                    totalTime = "18:34:23",
-                    timeGoalAchievedCount = 3,
-                    distanceGoalAchievedCount = 4,
-                    recordList = dummyRecord,
-                )
-            }
-        }
+        return dummyRecords.find { it.recordId == recordId } ?: dummyRecords.first()
     }
 }
