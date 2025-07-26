@@ -14,33 +14,32 @@ fun NavController.navigateToSetGoal() {
     navigate(SetGoalRoute)
 }
 
-fun NavGraphBuilder.setGoalNavGraph(
-) {
+fun NavGraphBuilder.setGoalNavGraph() {
     composable<SetGoalRoute>(
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(300)
+                animationSpec = tween(300),
             )
         },
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(300)
+                animationSpec = tween(300),
             )
         },
         popEnterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(300)
+                animationSpec = tween(300),
             )
         },
         popExitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(300)
+                animationSpec = tween(300),
             )
-        }
+        },
     ) {
         com.yapp.fitrun.feature.setgoal.SetGoalRoute()
     }

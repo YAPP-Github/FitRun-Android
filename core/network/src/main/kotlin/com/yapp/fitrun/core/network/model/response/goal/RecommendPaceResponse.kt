@@ -8,5 +8,5 @@ data class RecommendPaceResponse(
     @SerialName("userId")
     val userId: Long,
     @SerialName("recommendPace")
-    val recommendPace: Int
+    val recommendPace: Int,
 )
