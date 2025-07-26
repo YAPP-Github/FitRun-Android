@@ -271,7 +271,6 @@ internal fun HomeScreen(
                             .weight(1f)
                             .padding(vertical = 11.dp, horizontal = 10.dp),
                         verticalAlignment = Alignment.CenterVertically,
-
                     ) {
                         Text(
                             text = "최근 페이스",

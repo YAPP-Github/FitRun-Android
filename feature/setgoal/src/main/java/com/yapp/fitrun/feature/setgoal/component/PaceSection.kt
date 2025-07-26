@@ -26,6 +26,7 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -72,7 +73,7 @@ fun PaceInputWithProgress(
 ) {
     var paceText by remember { mutableStateOf("7'00\"") }
     var isFocused by remember { mutableStateOf(false) }
-    var sliderValue by remember { mutableStateOf(420f) } // 초 단위 (7분 = 420초)
+    var sliderValue by remember { mutableFloatStateOf(420f) } // 초 단위 (7분 = 420초)
     val scrollState = rememberScrollState()
 
     Column(
@@ -261,13 +262,11 @@ private fun parsePaceToSeconds(paceText: String): Int? {
                 val tensOfSeconds = digitsOnly[1].toString().toInt()
                 minutes * 60 + tensOfSeconds * 10 // 두 번째 숫자는 초의 십의 자리
             }
-
             3 -> {
                 val minutes = digitsOnly[0].toString().toInt()
                 val seconds = digitsOnly.substring(1).toInt()
                 if (seconds > 59) null else minutes * 60 + seconds
             }
-
             else -> null
         }
     } catch (e: NumberFormatException) {

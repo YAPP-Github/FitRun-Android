@@ -181,6 +181,6 @@ fun NavigationTopAppBarPreview() {
 
 @Preview
 @Composable
-private fun ILabTopAppBarPreview() {
+private fun FitRunTopAppBarPreview() {
     FitRunTopAppBar()
 }

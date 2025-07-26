@@ -100,6 +100,7 @@ internal fun Location.toEntity() =
         lng = lng,
     )
 
+
 internal fun LocationEntity.toModel() =
     Location(
         lat = lat,

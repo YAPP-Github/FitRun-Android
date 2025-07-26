@@ -3,7 +3,6 @@ package com.yapp.fitrun.feature.setgoal
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -55,12 +54,12 @@ import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection
 import kotlinx.coroutines.launch
 
 @Composable
-fun SetGoalRoute() {
+internal fun SetGoalRoute() {
     SetGoalScreen()
 }
 
 @Composable
-fun SetGoalScreen() {
+internal fun SetGoalScreen() {
     var showLottie by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { 2 })
 
@@ -160,7 +159,6 @@ fun LottieAnimationOverlay(
 }
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalPagerIndicator(
     pagerState: PagerState,
@@ -227,9 +225,7 @@ fun HorizontalPagerIndicator(
                         color = if (pagerState.currentPage == index) {
                             colorResource(R.color.fg_text_primary)
                         } else {
-                            colorResource(
-                                R.color.fg_nuetral_gray700,
-                            )
+                            colorResource(R.color.fg_nuetral_gray700)
                         },
                         style = Body_body2_bold,
                     )

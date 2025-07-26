@@ -20,7 +20,6 @@ dependencies {
         libs.lottie.compose,
         projects.core.ui,
         projects.core.designsystem,
-//        projects.core.common,
         projects.core.domain,
     )
 }
