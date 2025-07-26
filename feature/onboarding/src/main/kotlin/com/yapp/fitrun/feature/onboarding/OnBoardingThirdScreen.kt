@@ -97,7 +97,7 @@ internal fun OnBoardingThirdScreen(
                         stringResource(R.string.on_boarding_third_question1_option3),
                     ),
                     onClick = onClickOnBoardingThirdQuestion1,
-                    visible = (uiState.selectedOnBoardingThirdStateCount >= 1)
+                    visible = uiState.isSelectedOnBoardingThirdQ2State
                 )
 
                 OnBoardingQuestionGroup(

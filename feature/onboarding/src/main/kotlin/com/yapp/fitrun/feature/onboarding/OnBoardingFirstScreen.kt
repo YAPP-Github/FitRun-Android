@@ -98,7 +98,7 @@ internal fun OnBoardingFirstScreen(
                         stringResource(R.string.on_boarding_first_question1_option3),
                     ),
                     onClick = onClickOnBoardingFirstQuestion1,
-                    visible = (uiState.selectedOnBoardingFirstStateCount >= 3),
+                    visible = uiState.isSelectedOnBoardingFirstQ2State,
                 )
 
                 OnBoardingQuestionGroup(
@@ -109,7 +109,7 @@ internal fun OnBoardingFirstScreen(
                         stringResource(R.string.on_boarding_first_question2_option3),
                     ),
                     onClick =  onClickOnBoardingFirstQuestion2,
-                    visible = (uiState.selectedOnBoardingFirstStateCount >= 2),
+                    visible = uiState.isSelectedOnBoardingFirstQ3State
                 )
 
                 OnBoardingQuestionGroup(
@@ -121,7 +121,7 @@ internal fun OnBoardingFirstScreen(
                             stringResource(R.string.on_boarding_first_question3_option3),
                         ),
                     onClick = onClickOnBoardingFirstQuestion3,
-                    visible = (uiState.selectedOnBoardingFirstStateCount >= 1),
+                    visible = uiState.isSelectedOnBoardingFirstQ4State
                 )
 
                 OnBoardingQuestionGroup(

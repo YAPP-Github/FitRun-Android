@@ -29,7 +29,7 @@ class LoginActivity : ComponentActivity() {
                     mainNavigator.navigateFrom(
                         activity = this,
                         withFinish = true,
-                        // TODO: for new user
+                        intentBuilder = { putExtra("isNew", isNew) }
                     )
                 }
             )

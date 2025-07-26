@@ -79,21 +79,22 @@ fun OnBoardingQuestionGroup(
                         .fillMaxWidth()
                         .height(76.dp)
                         .background(
-                            if (selectedOption == text) colorResource(R.color.bg_interactive_selected) else colorResource(
+                            color = if (selectedOption == text) colorResource(R.color.bg_interactive_selected) else colorResource(
                                 R.color.fg_text_interactive_inverse
-                            )
+                            ),
+                            shape = RoundedCornerShape(16.dp),
                         )
                         .border(
                             width = 2.dp,
+                            shape = RoundedCornerShape(16.dp),
                             color = if (selectedOption == text) colorResource(R.color.fg_text_interactive_selected) else colorResource(
                                 R.color.fg_nuetral_gray400
-                            ),
-                            shape = RoundedCornerShape(16.dp)
+                            )
                         )
                         .selectable(
                             selected = (text == selectedOption), onClick = {
                                 onOptionSelected(text)
-                                onClick(questionOptions.indexOf(selectedOption))
+                                onClick(questionOptions.indexOf(text))
                             }, role = Role.RadioButton
                         )
                         .padding(horizontal = 16.dp),
