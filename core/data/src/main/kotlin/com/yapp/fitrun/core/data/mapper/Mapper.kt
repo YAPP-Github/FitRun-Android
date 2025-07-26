@@ -6,7 +6,12 @@ import com.yapp.fitrun.core.domain.entity.LocationEntity
 import com.yapp.fitrun.core.domain.entity.LoginResultEntity
 import com.yapp.fitrun.core.domain.entity.OnBoardingAnswers
 import com.yapp.fitrun.core.domain.entity.OnBoardingEntity
+import com.yapp.fitrun.core.domain.entity.RecordDataEntity
+import com.yapp.fitrun.core.domain.entity.RecordDetailEntity
+import com.yapp.fitrun.core.domain.entity.RecordDetailRunningPointEntity
+import com.yapp.fitrun.core.domain.entity.RecordDetailSegmentsEntity
 import com.yapp.fitrun.core.domain.entity.RecordEntity
+import com.yapp.fitrun.core.domain.entity.RecordListEntity
 import com.yapp.fitrun.core.domain.entity.RunnerEntity
 import com.yapp.fitrun.core.domain.entity.TokenEntity
 import com.yapp.fitrun.core.domain.entity.UserEntity
@@ -14,6 +19,8 @@ import com.yapp.fitrun.core.domain.entity.UserGoalEntity
 import com.yapp.fitrun.core.network.model.response.HomeResponse
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.OnBoardingResponse
+import com.yapp.fitrun.core.network.model.response.RecordDetailResponse
+import com.yapp.fitrun.core.network.model.response.RecordListResponse
 import com.yapp.fitrun.core.network.model.response.RecordResponse
 import com.yapp.fitrun.core.network.model.response.RunnerResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
@@ -92,6 +99,39 @@ internal fun GoalResponse.toEntity() =
         paceGoal = paceGoal,
         distanceMeter = distanceMeter,
         timeGoal = timeGoal,
+    )
+
+internal fun RecordListResponse.toEntity() =
+    RecordListEntity(
+        userId = userId,
+        records = records.map {
+            RecordDataEntity(
+                it.recordId,
+                it.userId,
+                it.startAt,
+                it.averagePace,
+                it.totalDistance,
+                it.totalTime,
+            )
+        },
+        recordCount = recordCount,
+        totalDistance = totalDistance,
+        totalTime = totalTime,
+        totalCalories = totalCalories,
+        averagePace = averagePace,
+        timeGoalAchievedCount = timeGoalAchievedCount,
+        distanceGoalAchievedCount = distanceGoalAchievedCount,
+    )
+
+internal fun RecordDetailResponse.toEntity() =
+    RecordDetailEntity(
+        userId = userId,
+        recordId = recordId,
+        runningPoints = runningPoints.map { RecordDetailRunningPointEntity(it.lon, it.lat) },
+        totalTime = totalTime,
+        totalDistance = totalDistance,
+        startAt = startAt,
+        segments = segments.map { RecordDetailSegmentsEntity(it.orderNo, it.distanceMeter, it.averagePace) },
     )
 
 internal fun Location.toEntity() =

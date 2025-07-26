@@ -1,0 +1,45 @@
+package com.yapp.fitrun.core.data.repository
+
+import android.accounts.NetworkErrorException
+import com.yapp.fitrun.core.data.mapper.toEntity
+import com.yapp.fitrun.core.domain.entity.RecordDetailEntity
+import com.yapp.fitrun.core.domain.entity.RecordListEntity
+import com.yapp.fitrun.core.domain.repository.RecordRepository
+import com.yapp.fitrun.core.network.RecordDataSource
+import javax.inject.Inject
+
+class RecordRepositoryImpl @Inject constructor(
+    private val recordDataSource: RecordDataSource,
+) : RecordRepository {
+    override suspend fun getRecordList(): Result<RecordListEntity> {
+        return runCatching {
+            recordDataSource.getRecordList()
+        }.fold(
+            onSuccess = {
+                Result.success(it.toEntity())
+            },
+            onFailure = { exception ->
+                if (exception is NetworkErrorException) throw exception
+                Result.failure(exception)
+            },
+        )
+    }
+
+    override suspend fun getRecordDetail(recordId: Int): Result<RecordDetailEntity> {
+        return runCatching {
+            recordDataSource.getRecordDetail(recordId)
+        }.fold(
+            onSuccess = {
+                Result.success(it.toEntity())
+            },
+            onFailure = { exception ->
+                if (exception is NetworkErrorException) throw exception
+                Result.failure(exception)
+            },
+        )
+    }
+
+    override suspend fun deleteRecordDetail(recordId: Int) {
+        recordDataSource.deleteRecordDetail(recordId)
+    }
+}
