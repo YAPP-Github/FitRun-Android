@@ -3,6 +3,7 @@ package com.yapp.fitrun.core.data.di
 import com.yapp.fitrun.core.data.repository.AuthRepositoryImpl
 import com.yapp.fitrun.core.data.repository.GoalRepositoryImpl
 import com.yapp.fitrun.core.data.repository.HomeRepositoryImpl
+import com.yapp.fitrun.core.data.repository.LocationRepositoryImpl
 import com.yapp.fitrun.core.domain.repository.TokenRepository
 import com.yapp.fitrun.core.data.repository.TokenRepositoryImpl
 import com.yapp.fitrun.core.data.repository.UserRepositoryImpl
@@ -10,6 +11,7 @@ import com.yapp.fitrun.core.data.repository.WorkThroughRepositoryImpl
 import com.yapp.fitrun.core.domain.repository.AuthRepository
 import com.yapp.fitrun.core.domain.repository.GoalRepository
 import com.yapp.fitrun.core.domain.repository.HomeRepository
+import com.yapp.fitrun.core.domain.repository.LocationRepository
 import com.yapp.fitrun.core.domain.repository.UserRepository
 import com.yapp.fitrun.core.domain.repository.WorkThroughRepository
 import dagger.Binds
@@ -45,4 +47,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindHomeRepository(homeRepositoryImpl: HomeRepositoryImpl): HomeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindLocationRepository(locationRepositoryImpl: LocationRepositoryImpl): LocationRepository
 }

@@ -79,6 +79,9 @@ naver-map = "3.22.0"
 naver-map-location = "21.0.2"
 naver-map-compose = "1.8.2"
 
+#room
+room = "2.7.2"
+
 [libraries]
 # gradle
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -155,7 +158,7 @@ okhttp3-core = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = 
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 
 # datastore
-datastore = {group = "androidx.datastore", name  = "datastore-preferences", version.ref = "datastore"}
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 # verify (detekt)
 verify-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
@@ -171,9 +174,14 @@ androidx-splash = { group = "androidx.core", name = "core-splashscreen", version
 plugin-kotlin-serializationPlugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 
 # naver map
-naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naver-map"}
-naver-map-location = { group = "io.github.fornewid", name = "naver-map-location", version.ref = "naver-map-location"}
-naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naver-map-compose"}
+naver-map = { group = "com.naver.maps", name = "map-sdk", version.ref = "naver-map" }
+naver-map-location = { group = "io.github.fornewid", name = "naver-map-location", version.ref = "naver-map-location" }
+naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naver-map-compose" }
+
+# room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room = { group = "androidx.room", name = "room-ktx", version = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 

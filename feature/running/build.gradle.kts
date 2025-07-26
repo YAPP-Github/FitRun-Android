@@ -18,7 +18,8 @@ dependencies {
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
         libs.lottie.compose,
-
+        libs.play.services.location,
+        projects.core.domain,
         projects.core.ui,
     )
 }
