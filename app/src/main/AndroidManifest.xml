@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".FitRunApplication"
         android:allowBackup="true"
@@ -42,8 +44,14 @@
                     android:scheme="kakao${KAKAO_REDIRECT_URI}" />
 
             </intent-filter>
-
         </activity>
+
+        <service
+            android:name="com.yapp.fitrun.feature.running.service.PlayingService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
+
     </application>
 
 </manifest>

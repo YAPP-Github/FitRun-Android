@@ -6,4 +6,5 @@ plugins {
 
 // Add library
 dependencies {
+    implementation(libs.coroutines.core)
 }
