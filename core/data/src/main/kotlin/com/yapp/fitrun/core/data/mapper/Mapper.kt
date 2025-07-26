@@ -23,16 +23,16 @@ internal fun LoginResponse.toEntity() =
     LoginResultEntity(
         tokenEntity = TokenEntity(
             refreshToken = tokenResponse.refreshToken,
-            accessToken = tokenResponse.accessToken
+            accessToken = tokenResponse.accessToken,
         ),
         userEntity = user.toEntity(),
-        isNewUser = isNew
+        isNewUser = isNew,
     )
 
 internal fun TokenResponse.toEntity() =
     TokenEntity(
         refreshToken = refreshToken,
-        accessToken = accessToken
+        accessToken = accessToken,
     )
 
 internal fun UserResponse.toEntity() =
@@ -40,18 +40,18 @@ internal fun UserResponse.toEntity() =
         id = id,
         nickname = nickname,
         email = email,
-        provider = provider
+        provider = provider,
     )
 
 internal fun OnBoardingResponse.toEntity() =
     OnBoardingEntity(
-        answers = answerList.map { OnBoardingAnswers(it.questionType, it.answer) }
+        answers = answerList.map { OnBoardingAnswers(it.questionType, it.answer) },
     )
 
 internal fun RunnerResponse.toEntity() =
     RunnerEntity(
         userId = userId,
-        runnerType = runnerType
+        runnerType = runnerType,
     )
 
 internal fun RecordResponse.toEntity() =
@@ -60,7 +60,7 @@ internal fun RecordResponse.toEntity() =
         recentPace = recentPace,
         recentTime = recentTime,
         thisWeekRunningCount = thisWeekRunningCount,
-        totalDistance = totalDistance
+        totalDistance = totalDistance,
     )
 
 internal fun UserGoalResponse.toEntity() =
@@ -69,7 +69,7 @@ internal fun UserGoalResponse.toEntity() =
         paceGoal = paceGoal,
         runningPurpose = runningPurpose,
         timeGoal = timeGoal,
-        weeklyRunningCount = weeklyRunningCount
+        weeklyRunningCount = weeklyRunningCount,
     )
 
 internal fun HomeResponse.toEntity() =

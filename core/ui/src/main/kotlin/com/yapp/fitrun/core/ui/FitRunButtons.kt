@@ -34,7 +34,7 @@ fun FitRunTextButton(
     FitRunBasicButton(
         modifier = modifier,
         onClick = onClick,
-        buttonColor = buttonColor
+        buttonColor = buttonColor,
     ) {
         Text(
             text = text,
@@ -54,19 +54,18 @@ fun FitRunTextIconButton(
     textStyle: TextStyle = Body_body3_semiBold,
     buttonColor: Color = colorResource(R.color.bg_interactive_primary),
     imageResource: Painter,
-    iconModifier: Modifier = Modifier
-
+    iconModifier: Modifier = Modifier,
 ) {
     FitRunBasicButton(
         modifier = modifier,
         onClick = onClick,
-        buttonColor = buttonColor
+        buttonColor = buttonColor,
     ) {
         Icon(
             painter = imageResource,
             contentDescription = "description",
             modifier = iconModifier,
-            tint = Color.Unspecified
+            tint = Color.Unspecified,
         )
 
         Text(
@@ -85,7 +84,7 @@ fun FitRunBasicButton(
     onClick: () -> Unit = {},
     enabled: Boolean = true,
     buttonColor: Color = colorResource(R.color.bg_interactive_primary),
-    content: @Composable RowScope.() -> Unit
+    content: @Composable RowScope.() -> Unit,
 ) {
     Button(
         modifier = modifier
@@ -94,7 +93,7 @@ fun FitRunBasicButton(
         enabled = enabled,
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = buttonColor
+            containerColor = buttonColor,
         ),
         onClick = onClick,
         content = content,
@@ -111,7 +110,6 @@ fun FitRunTextButtonPreview() {
     )
 }
 
-
 @Preview
 @Composable
 fun FitRunTextIconButtonPreview() {
@@ -120,6 +118,6 @@ fun FitRunTextIconButtonPreview() {
         onClick = {},
         text = "text",
         imageResource = painterResource(R.drawable.ic_questionmark),
-        buttonColor = colorResource(R.color.fg_nuetral_gray200)
+        buttonColor = colorResource(R.color.fg_nuetral_gray200),
     )
 }

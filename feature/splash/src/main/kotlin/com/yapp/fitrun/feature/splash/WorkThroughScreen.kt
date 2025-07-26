@@ -96,7 +96,7 @@ internal fun WorkThroughScreen(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .background(Color.White)
+            .background(Color.White),
     ) {
         Spacer(modifier = Modifier.height(40.dp))
         PagerIndicator(
@@ -126,7 +126,7 @@ internal fun WorkThroughScreen(
                     color = colorResource(R.color.fg_text_secondary),
                     style = Body_body3_medium,
                 )
-                //TODO: Image
+                // TODO: Image
             }
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -145,10 +145,10 @@ internal fun WorkThroughScreen(
                 }
             },
             text =
-                if (pagerState.currentPage == 2)
-                    stringResource(id = R.string.work_through_start)
-                else
-                    stringResource(id = R.string.work_through_next),
+            if (pagerState.currentPage == 2)
+                stringResource(id = R.string.work_through_start)
+            else
+                stringResource(id = R.string.work_through_next),
             textColor = colorResource(R.color.fg_text_interactive_inverse),
             textStyle = Body_body3_semiBold,
             buttonColor = colorResource(R.color.bg_interactive_secondary),
@@ -173,6 +173,6 @@ fun WorkThroughScreenPreview() {
     WorkThroughScreen(
         titleTextList = listOf(R.string.work_through_1_title),
         descriptionTextList = listOf(R.string.work_through_1_description),
-        onButtonClick = {}
+        onButtonClick = {},
     )
 }

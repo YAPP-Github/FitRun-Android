@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RunningPurposeRequest(
     @SerialName("runningPurpose")
-    val runningPurpose: String
+    val runningPurpose: String,
 )

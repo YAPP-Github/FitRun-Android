@@ -29,9 +29,9 @@ class LoginActivity : ComponentActivity() {
                     mainNavigator.navigateFrom(
                         activity = this,
                         withFinish = true,
-                        intentBuilder = { putExtra("isNew", isNew) }
+                        intentBuilder = { putExtra("isNew", isNew) },
                     )
-                }
+                },
             )
         }
     }

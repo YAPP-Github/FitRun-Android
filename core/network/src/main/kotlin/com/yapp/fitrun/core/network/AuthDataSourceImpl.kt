@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class AuthDataSourceImpl @Inject constructor(
     private val service: AuthApiService,
-): AuthDataSource {
+) : AuthDataSource {
 
     private val provider: String = "kakao"
 
@@ -18,14 +18,13 @@ class AuthDataSourceImpl @Inject constructor(
             provider = provider,
             request = KakaoLoginRequest(
                 idToken = idToken,
-                nonce = null
-            )
+                nonce = null,
+            ),
         )
 
         if (response.code == "SUCCESS") {
             return response.result
-        }
-        else {
+        } else {
             throw CancellationException(response.code)
         }
     }
@@ -39,8 +38,7 @@ class AuthDataSourceImpl @Inject constructor(
 
         if (response.code == "SUCCESS") {
             return response.result
-        }
-        else {
+        } else {
             throw CancellationException(response.code)
         }
     }

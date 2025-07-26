@@ -11,5 +11,5 @@ data class OnBoardingState(
 
     val isSelectedOnBoardingThirdQ2State: Boolean = false,
 
-    val runnerTypeResult: String = ""
+    val runnerTypeResult: String = "",
 )

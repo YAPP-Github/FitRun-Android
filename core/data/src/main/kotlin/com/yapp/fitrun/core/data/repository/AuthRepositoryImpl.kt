@@ -22,7 +22,7 @@ class AuthRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -36,7 +36,7 @@ class AuthRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -50,7 +50,7 @@ class AuthRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 }

@@ -7,8 +7,8 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 class GoalRepositoryImpl @Inject constructor(
-    private val goalDatasource: GoalDataSource
-): GoalRepository {
+    private val goalDatasource: GoalDataSource,
+) : GoalRepository {
     override suspend fun setRunningPurpose(purpose: String): Result<Unit> {
         return runCatching {
             goalDatasource.setRunningPurpose(RunningPurposeRequest(purpose))
@@ -19,7 +19,7 @@ class GoalRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 

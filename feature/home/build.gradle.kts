@@ -23,6 +23,6 @@ dependencies {
         libs.accompanist.permissions,
         libs.accompanist.systemuicontroller,
         libs.play.services.location,
-        projects.core.domain
+        projects.core.domain,
     )
 }

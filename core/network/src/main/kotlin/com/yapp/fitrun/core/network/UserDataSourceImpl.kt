@@ -9,16 +9,15 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 class UserDataSourceImpl @Inject constructor(
-    private val service: UserApiService
-): UserDataSource {
+    private val service: UserApiService,
+) : UserDataSource {
 
     override suspend fun getUserInfo(): UserResponse {
         val response = service.getUserInfo()
 
         if (response.code == "SUCCESS") {
             return response.result
-        }
-        else {
+        } else {
             throw CancellationException(response.code)
         }
     }
@@ -32,8 +31,7 @@ class UserDataSourceImpl @Inject constructor(
 
         if (response.code == "SUCCESS") {
             return response.result
-        }
-        else {
+        } else {
             throw CancellationException(response.code)
         }
     }
@@ -51,8 +49,7 @@ class UserDataSourceImpl @Inject constructor(
 
         if (response.code == "SUCCESS") {
             return response.result
-        }
-        else {
+        } else {
             throw CancellationException(response.code)
         }
     }

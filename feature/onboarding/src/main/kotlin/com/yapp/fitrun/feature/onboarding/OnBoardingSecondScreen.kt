@@ -49,7 +49,7 @@ internal fun OnBoardingSecondRoute(
         uiState = uiState,
         onClickOnBoardingSecondQuestion1 = viewModel::onClickOnBoardingSecondQuestion1,
         onClickOnBoardingSecondQuestion2 = viewModel::onClickOnBoardingSecondQuestion2,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
     )
 }
 
@@ -66,19 +66,18 @@ internal fun OnBoardingSecondScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .verticalScroll(scrollState)
+            .verticalScroll(scrollState),
     ) {
         OnBoardingTopAppBar(
             onLeftNavigationClick = onBackClick,
             onRightNavigationClick = {},
-            progress = 0.5f
+            progress = 0.5f,
         )
-        Box(
-        ) {
+        Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp)
+                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.on_boarding_second_title),
@@ -97,17 +96,16 @@ internal fun OnBoardingSecondScreen(
                         stringResource(R.string.on_boarding_second_question1_option3),
                     ),
                     onClick = onClickOnBoardingSecondQuestion1,
-                    visible = uiState.isSelectedOnBoardingSecondQ2State
+                    visible = uiState.isSelectedOnBoardingSecondQ2State,
                 )
 
                 OnBoardingQuestionGroup(
                     questionTitle = stringResource(R.string.on_boarding_second_question2),
-                    questionOptions =
-                        listOf(
-                            stringResource(R.string.on_boarding_second_question2_option1),
-                            stringResource(R.string.on_boarding_second_question2_option2),
-                            stringResource(R.string.on_boarding_second_question2_option3),
-                        ),
+                    questionOptions = listOf(
+                        stringResource(R.string.on_boarding_second_question2_option1),
+                        stringResource(R.string.on_boarding_second_question2_option2),
+                        stringResource(R.string.on_boarding_second_question2_option3),
+                    ),
                     onClick = onClickOnBoardingSecondQuestion2,
                 )
             }

@@ -12,7 +12,7 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 class UserRepositoryImpl @Inject constructor(
-    private val userDataSource: UserDataSource
+    private val userDataSource: UserDataSource,
 ) : UserRepository {
     override suspend fun getUserInfo(): Result<UserEntity> {
         return runCatching {
@@ -24,7 +24,7 @@ class UserRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
@@ -42,29 +42,33 @@ class UserRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 
     override suspend fun setOnBoardingInfo(onBoardingEntity: OnBoardingEntity) {
         userDataSource.setOnBoardingInfo(
-            OnBoardingRequest(answers = onBoardingEntity.answers.map {
-                OnBoardingAnswers(
-                    it.questionType,
-                    it.answer
-                )
-            })
+            OnBoardingRequest(
+                answers = onBoardingEntity.answers.map {
+                    OnBoardingAnswers(
+                        it.questionType,
+                        it.answer,
+                    )
+                },
+            ),
         )
     }
 
     override suspend fun updateOnBoardingInfo(onBoardingEntity: OnBoardingEntity) {
         userDataSource.updateOnBoardingInfo(
-            OnBoardingRequest(answers = onBoardingEntity.answers.map {
-                OnBoardingAnswers(
-                    it.questionType,
-                    it.answer
-                )
-            })
+            OnBoardingRequest(
+                answers = onBoardingEntity.answers.map {
+                    OnBoardingAnswers(
+                        it.questionType,
+                        it.answer,
+                    )
+                },
+            ),
         )
     }
 
@@ -78,7 +82,7 @@ class UserRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 }

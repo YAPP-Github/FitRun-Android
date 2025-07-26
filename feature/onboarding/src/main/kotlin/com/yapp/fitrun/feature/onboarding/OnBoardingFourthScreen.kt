@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -26,7 +25,6 @@ import com.yapp.fitrun.core.ui.OnBoardingQuestionGroup
 import com.yapp.fitrun.core.ui.OnBoardingTopAppBar
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingSideEffect
 import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingViewModel
-import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -35,8 +33,6 @@ internal fun OnBoardingFourthRoute(
     onNavigateToOnBoardingResult: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.collectAsState()
-
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             OnBoardingSideEffect.NavigateToOnBoardingResult -> onNavigateToOnBoardingResult()
@@ -47,32 +43,30 @@ internal fun OnBoardingFourthRoute(
         onBackClick = onBackClick,
         onNavigateToOnBoardingResult = viewModel::onClickOnBoardingFourth,
     )
-
 }
 
 @Composable
 internal fun OnBoardingFourthScreen(
     onBackClick: () -> Unit,
-    onNavigateToOnBoardingResult: (Int) -> Unit
+    onNavigateToOnBoardingResult: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .verticalScroll(scrollState)
+            .verticalScroll(scrollState),
     ) {
         OnBoardingTopAppBar(
             onLeftNavigationClick = onBackClick,
             onRightNavigationClick = {},
-            progress = 1f
+            progress = 1f,
         )
-        Box(
-        ) {
+        Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp)
+                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.on_boarding_fourth_title),
@@ -103,6 +97,6 @@ internal fun OnBoardingFourthScreen(
 fun OnBoardingFourthPreview() {
     OnBoardingFourthScreen(
         onBackClick = {},
-        onNavigateToOnBoardingResult = {}
+        onNavigateToOnBoardingResult = {},
     )
 }

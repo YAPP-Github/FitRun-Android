@@ -11,7 +11,6 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 internal class LoginNavigatorImpl @Inject constructor() : INavigator {

@@ -43,5 +43,5 @@ enum class MainTab(
         iconResId = R.drawable.ic_my_page,
         titleTextId = R.string.ic_my_page,
         route = MyPageRoute::class,
-    )
+    ),
 }

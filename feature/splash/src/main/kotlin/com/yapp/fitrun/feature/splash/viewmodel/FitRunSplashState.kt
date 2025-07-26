@@ -1,6 +1,6 @@
 package com.yapp.fitrun.feature.splash.viewmodel
 
-data class FitRunSplashState (
+data class FitRunSplashState(
     val showSplash: Boolean = true,
     val showWorkThrough: Boolean = false,
 

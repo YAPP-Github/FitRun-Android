@@ -7,10 +7,7 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class RunningOnBoardingViewModel @Inject constructor(
-): ViewModel(), ContainerHost<RunningOnBoardingState, RunningOnBoardingSideEffect> {
+class RunningOnBoardingViewModel @Inject constructor() : ViewModel(), ContainerHost<RunningOnBoardingState, RunningOnBoardingSideEffect> {
     override val container =
         container<RunningOnBoardingState, RunningOnBoardingSideEffect>(RunningOnBoardingState())
-
-
 }

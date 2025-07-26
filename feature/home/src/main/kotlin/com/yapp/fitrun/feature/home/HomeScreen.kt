@@ -99,17 +99,17 @@ internal fun HomeRoute(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         HomeScreen(
             modifier = Modifier.padding(padding),
             state = state,
             fetchCurrentLocation = viewModel::fetchCurrentLocation,
-            onStartRunningClick = onNavigateToRunning
+            onStartRunningClick = onNavigateToRunning,
         )
         if (state.isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
         }
     }
@@ -125,7 +125,7 @@ internal fun HomeScreen(
 ) {
     val permissionsList = mutableListOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
+        Manifest.permission.ACCESS_COARSE_LOCATION,
     )
 
     // Android 10 이상에서 백그라운드 위치 권한 추가
@@ -137,7 +137,7 @@ internal fun HomeScreen(
 
     // 모든 권한을 한번에 요청
     val allPermissionsState = rememberMultiplePermissionsState(
-        permissions = permissionsList
+        permissions = permissionsList,
     )
 
     LaunchedEffect(true) {
@@ -156,12 +156,12 @@ internal fun HomeScreen(
         modifier = modifier
             .fillMaxSize()
             .background(color = Color(0xFFF9F9F9)),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(
             modifier = Modifier.background(
-                color = Color(0xFFF5F5F9)
-            )
+                color = Color(0xFFF5F5F9),
+            ),
         ) {
             Spacer(modifier = Modifier.height(52.dp))
             Text(
@@ -171,7 +171,7 @@ internal fun HomeScreen(
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 12.dp)
                     .fillMaxWidth(),
-                style = Head_h3_bold
+                style = Head_h3_bold,
             )
             Card(
                 modifier = Modifier
@@ -179,18 +179,18 @@ internal fun HomeScreen(
                     .padding(top = 12.dp, start = 20.dp, end = 20.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = colorResource(R.color.bg_primary)),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 22.dp, end = 22.dp, top = 14.dp, bottom = 18.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     // Fire icon and text
                     Text(
                         text = "🔥",
-                        style = Body_body3_bold
+                        style = Body_body3_bold,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
@@ -205,7 +205,7 @@ internal fun HomeScreen(
                         painter = painterResource(R.drawable.ic_edit),
                         contentDescription = "Edit",
                         tint = colorResource(R.color.fg_nuetral_gray500),
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
                     )
                 }
 
@@ -216,7 +216,7 @@ internal fun HomeScreen(
                         .height(4.dp)
                         .background(
                             shape = RoundedCornerShape(10.dp),
-                            color = colorResource(R.color.fg_nuetral_gray300)
+                            color = colorResource(R.color.fg_nuetral_gray300),
                         ),
                 )
 
@@ -224,27 +224,27 @@ internal fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(
                         modifier = Modifier
                             .background(
                                 shape = RoundedCornerShape(8.dp),
-                                color = Color(0xFFFFF8EE)
+                                color = Color(0xFFFFF8EE),
                             )
                             .weight(1f)
                             .padding(vertical = 11.dp, horizontal = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = "목표 페이스",
                             style = Caption_caption4_semiBold,
-                            color = colorResource(R.color.fg_text_tertiary)
+                            color = colorResource(R.color.fg_text_tertiary),
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
                             text = "-'--\"",
-                            style = Caption_caption3_semiBold
+                            style = Caption_caption3_semiBold,
                         )
                     }
                     Spacer(modifier = Modifier.width(10.dp))
@@ -253,22 +253,22 @@ internal fun HomeScreen(
                         modifier = Modifier
                             .background(
                                 shape = RoundedCornerShape(8.dp),
-                                color = Color(0xFFFFF3EE)
+                                color = Color(0xFFFFF3EE),
                             )
                             .weight(1f)
                             .padding(vertical = 11.dp, horizontal = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
 
                     ) {
                         Text(
                             text = "최근 페이스",
                             style = Caption_caption4_semiBold,
-                            color = colorResource(R.color.fg_text_tertiary)
+                            color = colorResource(R.color.fg_text_tertiary),
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
                             text = "-'--\"",
-                            style = Caption_caption3_semiBold
+                            style = Caption_caption3_semiBold,
                         )
                     }
                 }
@@ -278,7 +278,7 @@ internal fun HomeScreen(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             when (allPermissionsState.allPermissionsGranted) {
                 true -> {
@@ -304,9 +304,9 @@ internal fun HomeScreen(
                                 Color.Black.copy(alpha = 0.15f),
                                 Color.Black.copy(alpha = 0.1f),
                                 Color.Transparent,
-                            )
-                        )
-                    )
+                            ),
+                        ),
+                    ),
             )
             Card(
                 modifier = Modifier
@@ -326,14 +326,14 @@ internal fun HomeScreen(
                     containerColor = colorResource(R.color.fg_icon_primary),
                 ),
                 elevation = ButtonDefaults.buttonElevation(
-                    defaultElevation = 8.dp
-                )
+                    defaultElevation = 8.dp,
+                ),
             ) {
                 Text(
                     text = "달리기",
                     fontSize = 18.sp,
                     color = colorResource(R.color.fg_text_interactive_inverse),
-                    style = Head_h5_bold
+                    style = Head_h5_bold,
                 )
             }
         }
@@ -345,7 +345,7 @@ internal fun HomeScreen(
 fun MapComponent(
     currentLocation: Location?,
     fetchCurrentLocation: () -> Unit,
-    allPermissionsState: MultiplePermissionsState
+    allPermissionsState: MultiplePermissionsState,
 ) {
     val cameraPositionState = rememberCameraPositionState()
     val markerState = rememberMarkerState()
@@ -356,34 +356,34 @@ fun MapComponent(
                 CameraUpdate.toCameraPosition(
                     CameraPosition(
                         LatLng(location.latitude, location.longitude),
-                        16.0
-                    )
-                )
+                        16.0,
+                    ),
+                ),
             )
             markerState.position = LatLng(location.latitude, location.longitude)
         }
     }
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         NaverMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
             uiSettings = MapUiSettings(
-                isZoomControlEnabled = false,  // 줌 버튼 비활성화
-                isCompassEnabled = false,        // 나침반 비활성화 (기본값)
-                isScaleBarEnabled = false,       // 축척 바 비활성화 (기본값)
-                isLocationButtonEnabled = false,  // 위치 버튼 비활성화 (기본값)
-                isScrollGesturesEnabled = false,      // ⭐️ 드래그 비활성화
-                isZoomGesturesEnabled = false,        // 줌 제스처 비활성화
-                isRotateGesturesEnabled = false,      // 회전 제스처 비활성화
-                isTiltGesturesEnabled = false
+                isZoomControlEnabled = false, // 줌 버튼 비활성화
+                isCompassEnabled = false, // 나침반 비활성화 (기본값)
+                isScaleBarEnabled = false, // 축척 바 비활성화 (기본값)
+                isLocationButtonEnabled = false, // 위치 버튼 비활성화 (기본값)
+                isScrollGesturesEnabled = false, // ⭐️ 드래그 비활성화
+                isZoomGesturesEnabled = false, // 줌 제스처 비활성화
+                isRotateGesturesEnabled = false, // 회전 제스처 비활성화
+                isTiltGesturesEnabled = false,
             ),
         ) {
             Marker(
                 state = markerState,
-                icon = OverlayImage.fromResource(R.drawable.ic_user_location)
+                icon = OverlayImage.fromResource(R.drawable.ic_user_location),
             )
         }
         IconButton(
@@ -391,30 +391,29 @@ fun MapComponent(
                 .align(Alignment.BottomEnd)
                 .padding(
                     bottom = 52.dp,
-                    end = 20.dp
+                    end = 20.dp,
                 )
                 .size(44.dp)
                 .border(
                     width = 1.dp,
                     color = colorResource(R.color.fg_border_primary),
-                    shape = CircleShape
+                    shape = CircleShape,
                 )
                 .clip(CircleShape),
             onClick = {
                 if (allPermissionsState.allPermissionsGranted) {
                     fetchCurrentLocation()
                 }
-
             },
             colors = IconButtonDefaults.iconButtonColors(
                 containerColor = colorResource(R.color.bg_primary),
-            )
+            ),
         ) {
             Icon(
                 modifier = Modifier,
                 painter = painterResource(R.drawable.ic_location),
                 tint = Color(0xFF999999),
-                contentDescription = "ic_location"
+                contentDescription = "ic_location",
             )
         }
     }
@@ -424,19 +423,19 @@ fun MapComponent(
 fun PermissionDeniedComponent() {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = "위치를 확인 불가",
             modifier = Modifier.padding(top = 16.dp),
             style = Body_body3_medium,
-            color = colorResource(R.color.fg_text_secondary)
+            color = colorResource(R.color.fg_text_secondary),
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "마이페이지의 권한 설정을 확인해 주세요.",
-            style = Body_body3_semiBold
+            style = Body_body3_semiBold,
         )
         Spacer(modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.height(124.dp))

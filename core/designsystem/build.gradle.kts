@@ -15,6 +15,6 @@ android {
 dependencies {
     implementations(
         libs.androidx.core.ktx,
-        libs.androidx.appcompat
+        libs.androidx.appcompat,
     )
 }

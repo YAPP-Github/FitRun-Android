@@ -8,9 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object LoginRoute
 
-fun NavGraphBuilder.loginNavGraph(
-
-) {
+fun NavGraphBuilder.loginNavGraph() {
     composable<LoginRoute> {
         LoginScreen()
     }

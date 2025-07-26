@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.yapp.fitrun.feature.crew.crewNavGraph
-import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.MainNavigator
 import com.yapp.fitrun.feature.main.MainTab
@@ -25,9 +24,8 @@ internal fun MainNavHost(
     navigator: MainNavigator,
     padding: PaddingValues,
 ) {
-
     Box(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         NavHost(
             navController = navigator.navController,
@@ -35,34 +33,34 @@ internal fun MainNavHost(
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Start,
-                    tween(400)
+                    tween(400),
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Start,
-                    tween(500)
+                    tween(500),
                 )
             },
             popEnterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(400)
+                    animationSpec = tween(400),
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(500)
+                    animationSpec = tween(500),
                 )
-            }
+            },
         ) {
             homeNavGraph(
                 padding = padding,
-                onNavigateToRunning = navigator::navigateToRunning
+                onNavigateToRunning = navigator::navigateToRunning,
             )
             recordNavGraph(padding = padding)
-            crewNavGraph(padding = padding)
+            crewNavGraph()
             myPageNavGraph(padding = padding)
             onBoardingNavGraph(
                 navController = navigator.navController,

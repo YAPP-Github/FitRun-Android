@@ -31,7 +31,6 @@ data object OnBoardingFourthRoute
 @Serializable
 data object OnBoardingResultRoute
 
-
 fun NavController.navigateToOnBoardingFirst() {
     navigate(OnBoardingFirstRoute)
 }
@@ -62,14 +61,14 @@ fun NavGraphBuilder.onBoardingNavGraph(
     onNavigateToOnBoardingResult: () -> Unit,
 ) {
     navigation<OnBoardingRoute>(
-        startDestination = OnBoardingFirstRoute
+        startDestination = OnBoardingFirstRoute,
     ) {
         composable<OnBoardingFirstRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingFirstRoute(
                 onNavigateToOnBoardingSecond = onNavigateToOnBoardingSecond,
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
 
@@ -79,7 +78,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             OnBoardingSecondRoute(
                 onBackClick = onBackClick,
                 onNavigateToOnBoardingThird = onNavigateToOnBoardingThird,
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
 
@@ -89,7 +88,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             OnBoardingThirdRoute(
                 onBackClick = onBackClick,
                 onNavigateToOnBoardingFourth = onNavigateToOnBoardingFourth,
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
 
@@ -99,7 +98,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             OnBoardingFourthRoute(
                 onBackClick = onBackClick,
                 onNavigateToOnBoardingResult = onNavigateToOnBoardingResult,
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
 
@@ -108,7 +107,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
 
             OnBoardingResultRoute(
                 navigateToHome = onNavigateToHome,
-                viewModel = viewModel
+                viewModel = viewModel,
             )
         }
     }

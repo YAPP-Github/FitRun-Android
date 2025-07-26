@@ -28,5 +28,4 @@ class WorkThroughDataSourceImpl @Inject constructor(
             if (exception is IOException) emit(emptyPreferences())
             else throw exception
         }.first()[KEY_IS_OPENED_FIRST_TIME] ?: true
-
 }

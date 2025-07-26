@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class TokenRepositoryImpl @Inject constructor(
     private val tokenDataSource: TokenDataSource,
-): TokenRepository {
+) : TokenRepository {
     override suspend fun setAccessTokenSync(accessToken: String) {
         tokenDataSource.setAccessToken(accessToken)
     }

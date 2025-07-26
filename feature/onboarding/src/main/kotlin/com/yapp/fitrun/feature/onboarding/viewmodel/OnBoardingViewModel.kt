@@ -16,7 +16,7 @@ import org.orbitmvi.orbit.syntax.simple.reduce
 
 enum class Answers { A, B, C }
 enum class RunningPurpose(
-    val purpose: String
+    val purpose: String,
 ) {
     A("WEIGHT_LOSS_PURPOSE"),
     B("HEALTH_MAINTENANCE_PURPOSE"),
@@ -28,7 +28,7 @@ enum class RunningPurpose(
 class OnBoardingViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val goalRepository: GoalRepository,
-): ViewModel(), ContainerHost<OnBoardingState, OnBoardingSideEffect> {
+) : ViewModel(), ContainerHost<OnBoardingState, OnBoardingSideEffect> {
     override val container = container<OnBoardingState, OnBoardingSideEffect>(OnBoardingState())
 
     private val onBoardingAnswersMap = HashMap<String, String>()
@@ -40,7 +40,7 @@ class OnBoardingViewModel @Inject constructor(
         "EXERCISE_EXPERIENCE",
         "RUNNING_EXPERIENCE",
         "RUNNING_ENDURANCE",
-        "PACE_AWARENESS"
+        "PACE_AWARENESS",
     )
 
     init {
@@ -89,8 +89,8 @@ class OnBoardingViewModel @Inject constructor(
         onBoardingAnswersMap[answerList[6]] = convertSelectedToAnswer(selected).name
         userRepository.setOnBoardingInfo(
             onBoardingEntity = OnBoardingEntity(
-                answers = onBoardingAnswersMap.map { OnBoardingAnswers(it.key, it.value) }
-            )
+                answers = onBoardingAnswersMap.map { OnBoardingAnswers(it.key, it.value) },
+            ),
         )
         postSideEffect(OnBoardingSideEffect.NavigateToOnBoardingFourth)
     }

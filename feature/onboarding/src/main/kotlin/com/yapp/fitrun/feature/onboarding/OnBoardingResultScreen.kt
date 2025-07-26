@@ -57,13 +57,13 @@ internal fun OnBoardingResultScreen(
                 .size(50.dp)
                 .fillMaxSize(),
             color = Color(0xFF2B1407),
-            strokeWidth = 2.dp
+            strokeWidth = 2.dp,
         )
     } else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(Color.White),
         ) {
             Spacer(modifier = Modifier.height(72.dp))
 

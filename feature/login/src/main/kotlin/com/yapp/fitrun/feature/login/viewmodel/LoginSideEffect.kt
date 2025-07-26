@@ -1,6 +1,5 @@
 package com.yapp.fitrun.feature.login.viewmodel
 
-
 // Side Effects
 sealed interface LoginSideEffect {
     data class LoginFail(val message: String) : LoginSideEffect

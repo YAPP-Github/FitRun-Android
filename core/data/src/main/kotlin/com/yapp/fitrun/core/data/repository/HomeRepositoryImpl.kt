@@ -8,7 +8,7 @@ import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
 class HomeRepositoryImpl @Inject constructor(
-    private val homeDataSource: HomeDataSource
+    private val homeDataSource: HomeDataSource,
 ) : HomeRepository {
     override suspend fun getHomeData(): Result<HomeResultEntity> {
         return runCatching {
@@ -20,7 +20,7 @@ class HomeRepositoryImpl @Inject constructor(
             onFailure = { exception ->
                 if (exception is CancellationException) throw exception
                 Result.failure(exception)
-            }
+            },
         )
     }
 }

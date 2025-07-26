@@ -57,7 +57,6 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindHomeDataSource(homeDataSourceImpl: HomeDataSourceImpl): HomeDataSource
-
 }
 
 @Module
@@ -95,7 +94,7 @@ internal object NetworkModule {
     @TokenOkHttpClient
     internal fun provideTokenOkHttpClient(
         tokenInterceptor: TokenInterceptor,
-        @BaseOkHttpClient baseClient: OkHttpClient
+        @BaseOkHttpClient baseClient: OkHttpClient,
     ): OkHttpClient {
         return baseClient.newBuilder()
             .addInterceptor(tokenInterceptor)
@@ -118,7 +117,7 @@ internal object NetworkModule {
     @Provides
     @Singleton
     internal fun provideAuthApiService(
-        @Named("BaseRetrofit") retrofit: Retrofit
+        @Named("BaseRetrofit") retrofit: Retrofit,
     ): AuthApiService {
         return retrofit.create(AuthApiService::class.java)
     }
@@ -126,7 +125,7 @@ internal object NetworkModule {
     @Provides
     @Singleton
     internal fun provideUserApiService(
-        @Named("BaseRetrofit") retrofit: Retrofit
+        @Named("BaseRetrofit") retrofit: Retrofit,
     ): UserApiService {
         return retrofit.create(UserApiService::class.java)
     }
@@ -134,7 +133,7 @@ internal object NetworkModule {
     @Provides
     @Singleton
     internal fun provideGoalApiService(
-        @Named("BaseRetrofit") retrofit: Retrofit
+        @Named("BaseRetrofit") retrofit: Retrofit,
     ): GoalApiService {
         return retrofit.create(GoalApiService::class.java)
     }
@@ -142,9 +141,8 @@ internal object NetworkModule {
     @Provides
     @Singleton
     internal fun provideHomeApiService(
-        @Named("BaseRetrofit") retrofit: Retrofit
+        @Named("BaseRetrofit") retrofit: Retrofit,
     ): HomeApiService {
         return retrofit.create(HomeApiService::class.java)
     }
-
 }

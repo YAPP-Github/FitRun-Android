@@ -17,6 +17,6 @@ dependencies {
         projects.core.designsystem,
 
         libs.androidx.core.ktx,
-        libs.androidx.appcompat
+        libs.androidx.appcompat,
     )
 }

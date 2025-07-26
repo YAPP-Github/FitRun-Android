@@ -30,12 +30,12 @@ class FitRunSplashViewModel @Inject constructor(
     private val titleTextList: List<Int> = listOf(
         R.string.work_through_1_title,
         R.string.work_through_2_title,
-        R.string.work_through_3_title
+        R.string.work_through_3_title,
     )
     private val descriptionTextList: List<Int> = listOf(
         R.string.work_through_1_description,
         R.string.work_through_2_description,
-        R.string.work_through_3_description
+        R.string.work_through_3_description,
     )
 
     init {
@@ -54,12 +54,11 @@ class FitRunSplashViewModel @Inject constructor(
                         showSplash = false,
                         showWorkThrough = true,
                         titleTextList = titleTextList,
-                        descriptionTextList = descriptionTextList
+                        descriptionTextList = descriptionTextList,
                     )
                 }
                 workThroughRepository.setIsFirstTime(false)
-            }
-            else {
+            } else {
                 checkAutoLogin()
             }
         }
@@ -73,8 +72,7 @@ class FitRunSplashViewModel @Inject constructor(
             if (accessToken.isNotEmpty()) {
                 Log.d(this@FitRunSplashViewModel.javaClass.name, "AccessToken: $accessToken")
                 postSideEffect(FitRunSplashSideEffect.ValidateToken)
-            }
-            else {
+            } else {
                 validateTokenAndLogin()
             }
         }
@@ -99,7 +97,7 @@ class FitRunSplashViewModel @Inject constructor(
                     intent {
                         postSideEffect(FitRunSplashSideEffect.AutoLoginFail)
                     }
-                }
+                },
             )
         }
     }
@@ -114,5 +112,4 @@ class FitRunSplashViewModel @Inject constructor(
             postSideEffect(FitRunSplashSideEffect.AutoLoginFail)
         }
     }
-
 }

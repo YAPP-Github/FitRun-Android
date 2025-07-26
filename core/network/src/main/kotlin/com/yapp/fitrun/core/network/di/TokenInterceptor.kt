@@ -7,7 +7,7 @@ import okhttp3.Response
 import javax.inject.Inject
 
 class TokenInterceptor @Inject constructor(
-    private val tokenDataSource: TokenDataSource
+    private val tokenDataSource: TokenDataSource,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

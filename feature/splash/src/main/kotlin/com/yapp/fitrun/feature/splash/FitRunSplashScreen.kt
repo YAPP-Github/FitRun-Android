@@ -44,20 +44,17 @@ internal fun FitRunsSplashRoute(
                             if (error is KakaoSdkError && error.isInvalidTokenError()) {
                                 Log.e("FitRunSplashRoute", "invalid accessToken!")
                                 viewModel.autoLoginFail()
-                            }
-                            else {
+                            } else {
                                 Log.e("FitRunSplashRoute", "error!")
                                 viewModel.autoLoginFail()
                             }
-                        }
-                        else {
+                        } else {
                             Log.d("FitRunSplashRoute", "valid accessToken!")
                             viewModel.autoLoginSuccess()
                         }
                     }
-                }
-                else {
-                    //로그인 필요
+                } else {
+                    // 로그인 필요
                     Log.e("FitRunSplashRoute", "accessToken is not exists")
                     viewModel.autoLoginFail()
                 }
@@ -73,7 +70,7 @@ internal fun FitRunsSplashRoute(
 
     FitRunSplashScreen(
         uiState = uiState,
-        onClickWorkThroughStart = navigateToLogin
+        onClickWorkThroughStart = navigateToLogin,
     )
 }
 
@@ -86,7 +83,7 @@ internal fun FitRunSplashScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.bg_brand))
+                .background(colorResource(R.color.bg_brand)),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo_splash_text),

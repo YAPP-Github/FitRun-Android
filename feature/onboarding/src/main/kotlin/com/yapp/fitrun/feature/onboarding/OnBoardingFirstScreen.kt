@@ -67,19 +67,18 @@ internal fun OnBoardingFirstScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .verticalScroll(scrollState)
+            .verticalScroll(scrollState),
     ) {
         OnBoardingTopAppBar(
             onLeftNavigationClick = {},
             onRightNavigationClick = {},
-            progress = 0.25f
+            progress = 0.25f,
         )
-        Box(
-        ) {
+        Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 45.dp)
+                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 45.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.on_boarding_first_title),
@@ -108,30 +107,28 @@ internal fun OnBoardingFirstScreen(
                         stringResource(R.string.on_boarding_first_question2_option2),
                         stringResource(R.string.on_boarding_first_question2_option3),
                     ),
-                    onClick =  onClickOnBoardingFirstQuestion2,
-                    visible = uiState.isSelectedOnBoardingFirstQ3State
+                    onClick = onClickOnBoardingFirstQuestion2,
+                    visible = uiState.isSelectedOnBoardingFirstQ3State,
                 )
 
                 OnBoardingQuestionGroup(
                     questionTitle = stringResource(R.string.on_boarding_first_question3),
-                    questionOptions =
-                        listOf(
-                            stringResource(R.string.on_boarding_first_question3_option1),
-                            stringResource(R.string.on_boarding_first_question3_option2),
-                            stringResource(R.string.on_boarding_first_question3_option3),
-                        ),
+                    questionOptions = listOf(
+                        stringResource(R.string.on_boarding_first_question3_option1),
+                        stringResource(R.string.on_boarding_first_question3_option2),
+                        stringResource(R.string.on_boarding_first_question3_option3),
+                    ),
                     onClick = onClickOnBoardingFirstQuestion3,
-                    visible = uiState.isSelectedOnBoardingFirstQ4State
+                    visible = uiState.isSelectedOnBoardingFirstQ4State,
                 )
 
                 OnBoardingQuestionGroup(
                     questionTitle = stringResource(R.string.on_boarding_first_question4),
-                    questionOptions =
-                        listOf(
-                            stringResource(R.string.on_boarding_first_question4_option1),
-                            stringResource(R.string.on_boarding_first_question4_option2),
-                            stringResource(R.string.on_boarding_first_question4_option3),
-                        ),
+                    questionOptions = listOf(
+                        stringResource(R.string.on_boarding_first_question4_option1),
+                        stringResource(R.string.on_boarding_first_question4_option2),
+                        stringResource(R.string.on_boarding_first_question4_option3),
+                    ),
                     onClick = onClickOnBoardingFirstQuestion4,
                 )
             }

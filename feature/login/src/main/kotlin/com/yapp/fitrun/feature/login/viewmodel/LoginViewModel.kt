@@ -1,6 +1,6 @@
 package com.yapp.fitrun.feature.login.viewmodel
 
-
+import android.accounts.NetworkErrorException
 import androidx.lifecycle.ViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
 ) : ViewModel(), ContainerHost<LoginState, LoginSideEffect> {
 
     override val container = container<LoginState, LoginSideEffect>(LoginState())
@@ -52,7 +52,7 @@ class LoginViewModel @Inject constructor(
             println("accessToken: " + oAuthToken.accessToken)
 
             sendLoginToServer(idToken)
-        } catch (e: Exception) {
+        } catch (e: NetworkErrorException) {
             reduce { state.copy(isLoading = false) }
             postSideEffect(LoginSideEffect.LoginFail("로그인 처리 중 오류: ${e.message}"))
         }
@@ -69,7 +69,6 @@ class LoginViewModel @Inject constructor(
                 reduce { state.copy(isLoading = false) }
 
                 postSideEffect(LoginSideEffect.NavigateToMain(isNew = loginResponse.isNewUser))
-
             }.onFailure { throwable ->
                 reduce { state.copy(isLoading = false) }
                 println("@@@@ $throwable")

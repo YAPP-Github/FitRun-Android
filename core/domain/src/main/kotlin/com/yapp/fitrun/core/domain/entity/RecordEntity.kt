@@ -5,5 +5,5 @@ data class RecordEntity(
     val recentPace: Int? = null,
     val recentTime: Int? = null,
     val thisWeekRunningCount: Int,
-    val totalDistance: Double
+    val totalDistance: Double,
 )
