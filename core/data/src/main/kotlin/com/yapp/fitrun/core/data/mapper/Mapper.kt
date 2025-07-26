@@ -1,5 +1,6 @@
 package com.yapp.fitrun.core.data.mapper
 
+import com.yapp.fitrun.core.domain.entity.GoalEntity
 import com.yapp.fitrun.core.domain.entity.HomeResultEntity
 import com.yapp.fitrun.core.domain.entity.LoginResultEntity
 import com.yapp.fitrun.core.domain.entity.OnBoardingAnswers
@@ -17,6 +18,7 @@ import com.yapp.fitrun.core.network.model.response.RunnerResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
 import com.yapp.fitrun.core.network.model.response.UserGoalResponse
 import com.yapp.fitrun.core.network.model.response.UserResponse
+import com.yapp.fitrun.core.network.model.response.goal.GoalResponse
 
 // Network → Domain 변환
 internal fun LoginResponse.toEntity() =
@@ -77,4 +79,16 @@ internal fun HomeResponse.toEntity() =
         userEntity = user.toEntity(),
         recordEntity = recordResponse.toEntity(),
         userGoalEntity = userGoalResponse.toEntity(),
+    )
+
+
+internal fun GoalResponse.toEntity() =
+    GoalEntity(
+        goalId = goalId,
+        userId = userId,
+        runningPurpose = runningPurpose,
+        weeklyRunCount = weeklyRunCount,
+        paceGoal = paceGoal,
+        distanceMeter = distanceMeter,
+        timeGoal = timeGoal
     )

@@ -59,5 +59,6 @@ include(
     ":feature:mypage",
     ":feature:record",
     ":feature:onboarding",
-    ":feature:running"
+    ":feature:running",
+    ":feature:setgoal"
 )

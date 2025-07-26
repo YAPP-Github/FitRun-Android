@@ -11,6 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.yapp.fitrun.feature.crew.navigateToCrew
+import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigateToMyPage
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFirst
@@ -21,6 +22,7 @@ import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingThird
 import com.yapp.fitrun.feature.record.navigateToRecord
 import com.yapp.fitrun.feature.running.navigateToPlaying
 import com.yapp.fitrun.feature.running.navigateToReady
+import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoal
 
 @Keep
 internal class MainNavigator(
@@ -37,7 +39,11 @@ internal class MainNavigator(
         }
 
     fun navigate(tab: MainTab, route: Any? = null) {
-        val id = navController.graph.findNode(route)?.id ?: navController.graph.findStartDestination().id
+        val id =
+            navController.graph.findNode(route)?.id ?: navController.graph.findStartDestination().id
+        // 온보딩 테스트 용도로 route 변경
+        val startDestination = HomeRoute
+
         val navOptions = navOptions {
             popUpTo(id) {
                 saveState = true
@@ -85,8 +91,14 @@ internal class MainNavigator(
         navController.navigateToReady()
     }
 
+    fun navigateToSetGoal() {
+        navController.navigateToSetGoal()
+    }
+
     fun navigateToPlaying() {
-        navController.navigateToPlaying()
+        fun navigateToPlaying() {
+            navController.navigateToPlaying()
+        }
     }
 }
 

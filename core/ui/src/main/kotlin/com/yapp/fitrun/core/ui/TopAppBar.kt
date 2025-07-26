@@ -133,6 +133,35 @@ fun NavigationTopAppBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FitRunTopAppBar(
+    modifier: Modifier = Modifier,
+    onLeftNavigationClick: () -> Unit = {},
+) {
+    TopAppBar(
+        modifier = Modifier.background(Color.White),
+        title = {},
+        navigationIcon = {
+            IconButton(
+                onClick = onLeftNavigationClick
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back),
+                    contentDescription = "navigation back icon"
+                )
+            }
+        },
+        colors = TopAppBarColors(
+            containerColor = Color.Unspecified,
+            scrolledContainerColor = Color.Unspecified,
+            navigationIconContentColor = Color.Unspecified,
+            titleContentColor = Color.Unspecified,
+            actionIconContentColor = Color.Unspecified,
+        )
+    )
+}
+
 @Preview
 @Composable
 fun OnBoardingTopAppBarPreview() {
@@ -148,4 +177,11 @@ fun NavigationTopAppBarPreview() {
         leftNavigationIconTint = Color.White,
         isRightIconVisible = true,
     )
+}
+
+
+@Preview
+@Composable
+private fun ILabTopAppBarPreview() {
+    FitRunTopAppBar()
 }

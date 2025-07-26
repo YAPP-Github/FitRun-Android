@@ -1,4 +1,4 @@
-package com.yapp.fitrun.core.network.model.request
+package com.yapp.fitrun.core.network.model.request.goal
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
