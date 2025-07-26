@@ -1,10 +1,12 @@
 package com.yapp.fitrun.feature.running
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.yapp.fitrun.feature.running.finish.FinishRoute
 import com.yapp.fitrun.feature.running.playing.PlayingRoute
+import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingViewModel
 import com.yapp.fitrun.feature.running.ready.ReadyRoute
 import kotlinx.serialization.Serializable
 
@@ -40,7 +42,9 @@ fun NavGraphBuilder.runningNavGraph(
     }
 
     composable<PlayingRoute> {
-        PlayingRoute()
+        val viewModel = hiltViewModel<PlayingViewModel>()
+
+        PlayingRoute(viewModel = viewModel)
     }
 
     composable<FinishRoute> {

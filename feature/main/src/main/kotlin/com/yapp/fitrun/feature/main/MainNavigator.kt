@@ -84,6 +84,7 @@ internal class MainNavigator(
 
     fun navigateToRunning() {
         navController.navigateToReady()
+//        navController.navigateToPlaying()
     }
 
     fun navigateToSetGoal() {
@@ -91,9 +92,7 @@ internal class MainNavigator(
     }
 
     fun navigateToPlaying() {
-        fun navigateToPlaying() {
-            navController.navigateToPlaying()
-        }
+        navController.navigateToPlaying()
     }
 }
 

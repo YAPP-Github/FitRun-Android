@@ -46,6 +46,7 @@ include(
     ":core:datastore",
     ":core:ui",
     ":core:network",
+    ":core:room"
 )
 
 // feature
@@ -60,5 +61,5 @@ include(
     ":feature:record",
     ":feature:onboarding",
     ":feature:running",
-    ":feature:setgoal"
+    ":feature:setgoal",
 )

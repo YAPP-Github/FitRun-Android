@@ -143,7 +143,6 @@ fun ToggleSwitch(
     val switchWidth = 50.dp
     val switchHeight = 30.dp
     val padding = 2.dp
-
     val transition = updateTransition(checked, label = "switch_transition")
 
     val thumbSize by transition.animateDp(label = "thumb_size") { isChecked ->

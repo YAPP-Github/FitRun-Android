@@ -8,19 +8,16 @@ plugins {
 }
 
 android {
-    setNamespace("core.data")
+    setNamespace("core.room")
 }
 
 // Add library
 dependencies {
     implementations(
-        projects.core.common,
-        projects.core.network,
-        projects.core.datastore,
-        projects.core.domain,
-        projects.core.room,
-        libs.retrofit.core,
-        libs.retrofit.kotlin.serialization,
+        libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
+        libs.room,
+        libs.room.runtime,
     )
+    ksp(libs.room.compiler)
 }

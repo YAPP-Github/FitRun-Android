@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.setgoal.component
 
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -48,6 +49,7 @@ import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption2_semiBold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
+import java.util.Locale
 import kotlin.text.toInt
 
 @Composable
@@ -116,7 +118,7 @@ fun PaceInputWithProgress(
                 // 슬라이더 값에 따라 페이스 텍스트 업데이트
                 val minutes = (newValue / 60).toInt()
                 val seconds = (newValue % 60).toInt()
-//                paceText = String.format("%d'%02d\"", minutes, seconds)
+                paceText = String.format(Locale.getDefault(), "%d'%02d\"", minutes, seconds)
                 onPaceChange(paceText)
             },
         )
@@ -248,24 +250,27 @@ private fun CustomPaceSlider(
 }
 
 private fun parsePaceToSeconds(paceText: String): Int? {
-    // 숫자만 추출
-    val digitsOnly = paceText.filter { it.isDigit() }
+    return try {
+        // 숫자만 추출
+        val digitsOnly = paceText.filter { it.isDigit() }
 
-    return when (digitsOnly.length) {
-        0 -> null
-        1 -> digitsOnly.toInt() * 60 // 분만 입력된 경우
-        2 -> {
-            val minutes = digitsOnly[0].toString().toInt()
-            val tensOfSeconds = digitsOnly[1].toString().toInt()
-            minutes * 60 + tensOfSeconds * 10 // 두 번째 숫자는 초의 십의 자리
+        when (digitsOnly.length) {
+            0 -> null
+            1 -> digitsOnly.toInt() * 60 // 분만 입력된 경우
+            2 -> {
+                val minutes = digitsOnly[0].toString().toInt()
+                val tensOfSeconds = digitsOnly[1].toString().toInt()
+                minutes * 60 + tensOfSeconds * 10 // 두 번째 숫자는 초의 십의 자리
+            }
+            3 -> {
+                val minutes = digitsOnly[0].toString().toInt()
+                val seconds = digitsOnly.substring(1).toInt()
+                if (seconds > 59) null else minutes * 60 + seconds
+            }
+            else -> null
         }
-
-        3 -> {
-            val minutes = digitsOnly[0].toString().toInt()
-            val seconds = digitsOnly.substring(1).toInt()
-            if (seconds > 59) null else minutes * 60 + seconds
-        }
-
-        else -> null
+    } catch (e: NumberFormatException) {
+        Log.w("Parser", "Invalid pace format: $paceText", e)
+        null
     }
 }
