@@ -19,6 +19,7 @@ import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingThird
 import com.yapp.fitrun.feature.record.navigateToRecord
+import com.yapp.fitrun.feature.record.navigateToRecordDetail
 import com.yapp.fitrun.feature.running.navigateToPlaying
 import com.yapp.fitrun.feature.running.navigateToReady
 import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoal
@@ -93,6 +94,10 @@ internal class MainNavigator(
 
     fun navigateToPlaying() {
         navController.navigateToPlaying()
+    }
+
+    fun navigateToRecordDetail(recordId: Int) {
+        navController.navigateToRecordDetail(recordId)
     }
 }
 

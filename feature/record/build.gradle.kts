@@ -17,7 +17,11 @@ dependencies {
     implementations(
         libs.androidx.core.ktx,
         libs.kotlinx.serialization.json,
-        projects.feature.navigator,
+        libs.naver.map,
+        libs.naver.map.compose,
+
         projects.core.domain,
+        projects.core.ui,
+        projects.core.designsystem,
     )
 }
