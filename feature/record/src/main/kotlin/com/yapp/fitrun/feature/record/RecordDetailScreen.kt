@@ -50,9 +50,9 @@ import com.yapp.fitrun.core.designsystem.Number_number2_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
-import com.yapp.fitrun.feature.record.viewmodel.Record
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailState
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailViewModel
+import com.yapp.fitrun.feature.record.viewmodel.RecordInfo
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -150,7 +150,7 @@ internal fun RecordDetailScreen(
 
 @Composable
 internal fun RecordDetailTitleSection(
-    record: Record?,
+    record: RecordInfo?,
 ) {
     Row(
         modifier = Modifier
@@ -226,7 +226,7 @@ internal fun RecordDetailGoalSection() {
 
 @Composable
 internal fun RecordDetailInfoSection(
-    record: Record?,
+    record: RecordInfo?,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,

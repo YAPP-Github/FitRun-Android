@@ -8,10 +8,10 @@ data class RecordState(
     val totalTime: String = "",
     val timeGoalAchievedCount: Int = 0,
     val distanceGoalAchievedCount: Int = 0,
-    val recordList: MutableList<Record> = mutableListOf(),
+    val recordList: List<RecordInfo> = emptyList(),
 )
 
-data class Record(
+data class RecordInfo(
     val recordId: Int = 0,
     val startAt: String = "",
     val totalTime: String = "",

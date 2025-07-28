@@ -39,4 +39,6 @@ data class RecordData(
     val totalDistance: Double,
     @SerialName("totalTime")
     val totalTime: Long,
+    @SerialName("imageUrl")
+    val imageUrl: String,
 )

@@ -112,6 +112,7 @@ internal fun RecordListResponse.toEntity() =
                 it.averagePace,
                 it.totalDistance,
                 it.totalTime,
+                it.imageUrl,
             )
         },
         recordCount = recordCount,
