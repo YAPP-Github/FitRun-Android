@@ -17,6 +17,7 @@ import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 import com.yapp.fitrun.feature.record.recordNavGraph
 import com.yapp.fitrun.feature.running.runningNavGraph
+import com.yapp.fitrun.feature.running.runningonboarding.runningOnBoardingNavGraph
 import com.yapp.fitrun.feature.setgoal.navigation.setGoalNavGraph
 
 @Composable
@@ -58,7 +59,7 @@ internal fun MainNavHost(
         ) {
             homeNavGraph(
                 padding = padding,
-                onNavigateToRunning = navigator::navigateToRunning,
+                onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst, // For UT
                 onNavigateToSetGoal = navigator::navigateToSetGoal,
             )
             recordNavGraph(
@@ -78,6 +79,13 @@ internal fun MainNavHost(
                 onNavigateToOnBoardingThird = navigator::navigateToOnBoardingThird,
                 onNavigateToOnBoardingFourth = navigator::navigateToOnBoardingFourth,
                 onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
+            )
+            runningOnBoardingNavGraph(
+                navController = navigator.navController,
+                onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToReady = navigator::navigateToRunning,
+                onNavigateToRunningOnBoardingSecond = navigator::navigateToRunningOnBoardingSecond,
+                onNavigateToRunningOnBoardingThird = navigator::navigateToRunningOnBoardingThird,
             )
             runningNavGraph(onNavigateToPlay = navigator::navigateToPlaying)
             setGoalNavGraph()
