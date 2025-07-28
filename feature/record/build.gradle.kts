@@ -19,6 +19,7 @@ dependencies {
         libs.kotlinx.serialization.json,
         libs.naver.map,
         libs.naver.map.compose,
+        libs.coil,
 
         projects.core.domain,
         projects.core.ui,
