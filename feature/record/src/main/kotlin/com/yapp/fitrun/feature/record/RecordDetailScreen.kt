@@ -64,9 +64,9 @@ internal fun RecordDetailRoute(
     viewModel: RecordDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
-//    LaunchedEffect(recordId) {
-//        viewModel.loadRecordDetail(recordId)
-//    }
+    LaunchedEffect(recordId) {
+        viewModel.loadRecordDetail(recordId)
+    }
 
     viewModel.collectSideEffect { _ ->
     }

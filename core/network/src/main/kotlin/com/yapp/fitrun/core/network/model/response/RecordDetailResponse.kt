@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class RecordDetailResponse(
     @SerialName("userId")
     val userId: Int,
+    @SerialName("title")
+    val title: String,
     @SerialName("recordId")
     val recordId: Int,
     @SerialName("runningPoints")
@@ -15,6 +17,8 @@ data class RecordDetailResponse(
     val totalTime: Long,
     @SerialName("totalDistance")
     val totalDistance: Double,
+    @SerialName("averagePace")
+    val averagePace: Long,
     @SerialName("startAt")
     val startAt: String,
     @SerialName("segments")

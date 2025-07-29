@@ -2,10 +2,12 @@ package com.yapp.fitrun.core.domain.entity
 
 data class RecordDetailEntity(
     val userId: Int,
+    val title: String,
     val recordId: Int,
     val runningPoints: List<RecordDetailRunningPointEntity>,
     val totalTime: Long,
     val totalDistance: Double,
+    val averagePace: Long,
     val startAt: String,
     val segments: List<RecordDetailSegmentsEntity>,
 )
