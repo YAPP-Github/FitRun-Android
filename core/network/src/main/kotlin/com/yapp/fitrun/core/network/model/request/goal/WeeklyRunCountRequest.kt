@@ -7,4 +7,6 @@ import kotlinx.serialization.Serializable
 data class WeeklyRunCountRequest(
     @SerialName("count")
     val count: Int,
+    @SerialName("remindAlert")
+    val remindAlert: Boolean,
 )

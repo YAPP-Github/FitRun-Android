@@ -50,17 +50,18 @@ import com.yapp.fitrun.core.designsystem.Caption_caption2_semiBold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 import java.util.Locale
+import kotlin.math.roundToInt
 import kotlin.text.toInt
 
 @Composable
-fun SetPaceSection() {
-    var currentPace by remember { mutableStateOf("7'00\"") }
-
+fun SetPaceSection(
+    initialPace: Int = 420, // 초 단위, 기본값 7'00" = 420초
+    onPaceChange: (Int) -> Unit = {},
+) {
     PaceInputWithProgress(
-        onPaceChange = { pace ->
-            currentPace = pace
-            // 페이스 변경 처리
-            println("Current pace: $pace")
+        initialPace = initialPace,
+        onPaceChange = { paceSeconds ->
+            onPaceChange(paceSeconds)
         },
     )
 }
@@ -69,11 +70,30 @@ fun SetPaceSection() {
 @Composable
 fun PaceInputWithProgress(
     modifier: Modifier = Modifier,
-    onPaceChange: (String) -> Unit = {},
+    initialPace: Int = 420,
+    onPaceChange: (Int) -> Unit = {},
 ) {
-    var paceText by remember { mutableStateOf("7'00\"") }
+    // 초기 페이스 텍스트 계산
+    val initialMinutes = initialPace / 60
+    val initialSeconds = initialPace % 60
+    val initialPaceText = String.format(Locale.getDefault(), "%d'%02d\"", initialMinutes, initialSeconds)
+
+    var paceText by remember { mutableStateOf(initialPaceText) }
     var isFocused by remember { mutableStateOf(false) }
-    var sliderValue by remember { mutableFloatStateOf(420f) } // 초 단위 (7분 = 420초)
+
+    // 초기 슬라이더 값 계산
+    val initialSliderValue = when (initialPace) {
+        360 -> 0f // 6'00"
+        420 -> 1f // 7'00"
+        480 -> 2f // 8'00"
+        else -> when {
+            initialPace <= 390 -> 0f
+            initialPace <= 450 -> 1f
+            else -> 2f
+        }
+    }
+
+    var sliderValue by remember { mutableFloatStateOf(initialSliderValue) }
     val scrollState = rememberScrollState()
 
     Column(
@@ -97,11 +117,15 @@ fun PaceInputWithProgress(
             value = paceText,
             onValueChange = { newValue ->
                 paceText = newValue
-                onPaceChange(newValue)
-                // 텍스트 입력에 따라 슬라이더 값도 업데이트
                 val seconds = parsePaceToSeconds(newValue)
-                if (seconds != null && seconds in 240..600) {
-                    sliderValue = seconds.toFloat()
+                if (seconds != null) {
+                    onPaceChange(seconds)
+                    // 텍스트 입력에 따라 슬라이더 값도 업데이트
+                    sliderValue = when {
+                        seconds <= 390 -> 0f // 6'30" 이하는 6'00"
+                        seconds <= 450 -> 1f // 7'30" 이하는 7'00"
+                        else -> 2f // 그 이상은 8'00"
+                    }
                 }
             },
             isFocused = isFocused,
@@ -116,10 +140,17 @@ fun PaceInputWithProgress(
             onValueChange = { newValue ->
                 sliderValue = newValue
                 // 슬라이더 값에 따라 페이스 텍스트 업데이트
-                val minutes = (newValue / 60).toInt()
-                val seconds = (newValue % 60).toInt()
+                val roundedValue = newValue.roundToInt()
+                val paceSeconds = when (roundedValue) {
+                    0 -> 360 // 6'00"
+                    1 -> 420 // 7'00"
+                    2 -> 480 // 8'00"
+                    else -> 420
+                }
+                val minutes = paceSeconds / 60
+                val seconds = paceSeconds % 60
                 paceText = String.format(Locale.getDefault(), "%d'%02d\"", minutes, seconds)
-                onPaceChange(paceText)
+                onPaceChange(paceSeconds)
             },
         )
     }
@@ -202,11 +233,20 @@ private fun CustomPaceSlider(
     onValueChange: (Float) -> Unit,
 ) {
     Column {
-        // Custom Slider
+        // Custom Slider with 3 steps
         Slider(
             value = value,
-            onValueChange = onValueChange,
-            valueRange = 240f..600f, // 4분(240초) ~ 10분(600초)
+            onValueChange = { newValue ->
+                // 가장 가까운 단계로 스냅
+                val snappedValue = when {
+                    newValue < 0.5f -> 0f
+                    newValue < 1.5f -> 1f
+                    else -> 2f
+                }
+                onValueChange(snappedValue)
+            },
+            valueRange = 0f..2f,
+            steps = 1, // 3개의 위치를 만들기 위해 1 step (0, 1, 2)
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
@@ -214,6 +254,8 @@ private fun CustomPaceSlider(
                 thumbColor = Color.Black,
                 activeTrackColor = Color.Black,
                 inactiveTrackColor = Color.LightGray,
+                activeTickColor = Color.Transparent,
+                inactiveTickColor = Color.Transparent,
             ),
             thumb = {
                 // Custom Thumb
@@ -230,21 +272,27 @@ private fun CustomPaceSlider(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(
-                text = "워밍업",
-                style = Caption_caption2_semiBold,
-                color = colorResource(R.color.fg_text_tertiary),
-            )
-            Text(
-                text = "루틴",
-                style = Caption_caption2_semiBold,
-                color = colorResource(R.color.fg_text_tertiary),
-            )
-            Text(
-                text = "챌린지",
-                style = Caption_caption2_semiBold,
-                color = colorResource(R.color.fg_text_tertiary),
-            )
+            Column(horizontalAlignment = Alignment.Start) {
+                Text(
+                    text = "워밍업",
+                    style = Caption_caption2_semiBold,
+                    color = colorResource(R.color.fg_text_tertiary),
+                )
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "루틴",
+                    style = Caption_caption2_semiBold,
+                    color = colorResource(R.color.fg_text_tertiary),
+                )
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = "챌린지",
+                    style = Caption_caption2_semiBold,
+                    color = colorResource(R.color.fg_text_tertiary),
+                )
+            }
         }
     }
 }

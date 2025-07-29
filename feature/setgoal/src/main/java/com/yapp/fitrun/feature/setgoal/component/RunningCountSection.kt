@@ -50,24 +50,31 @@ import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 
 @Composable
-fun SetRunningCountSection() {
-    var currentRunningCount by remember { mutableStateOf("") }
+fun SetRunningCountSection(
+    initialCount: Int = 3,
+    isRemindEnabled: Boolean = false,
+    onRunningCountChange: (Int) -> Unit = {},
+    onRemindEnabledChange: (Boolean) -> Unit = {},
+) {
     RunningCountInput(
-        onRunningCountChange = { runningCount ->
-            currentRunningCount = runningCount
-        },
+        initialCount = initialCount,
+        isRemindEnabled = isRemindEnabled,
+        onRunningCountChange = onRunningCountChange,
+        onRemindEnabledChange = onRemindEnabledChange,
     )
 }
 
 @Composable
 fun RunningCountInput(
     modifier: Modifier = Modifier,
-    onRunningCountChange: (String) -> Unit = {},
+    initialCount: Int = 3,
+    isRemindEnabled: Boolean = false,
+    onRunningCountChange: (Int) -> Unit = {},
+    onRemindEnabledChange: (Boolean) -> Unit = {},
 ) {
     val scrollState = rememberScrollState()
-    var runningCountText by remember { mutableStateOf("3") }
-//    var isFocused by remember { mutableStateOf(false) }
-    var isAlarm by remember { mutableStateOf(false) }
+    var runningCountText by remember { mutableStateOf(initialCount.toString()) }
+    var isAlarm by remember { mutableStateOf(isRemindEnabled) }
 
     Column(
         modifier = modifier
@@ -86,13 +93,19 @@ fun RunningCountInput(
         RunningCountTextField(
             value = runningCountText,
             onValueChange = { newValue ->
-                runningCountText = newValue
-                onRunningCountChange(newValue)
+                // 숫자만 허용
+                val filteredValue = newValue.filter { it.isDigit() }
+                // 최대 2자리까지만 허용
+                val limitedValue = filteredValue.take(2)
+                runningCountText = limitedValue
+
+                // 유효한 숫자인 경우에만 콜백 호출
+                limitedValue.toIntOrNull()?.let { count ->
+                    if (count in 1..14) { // 1~14회까지만 허용
+                        onRunningCountChange(count)
+                    }
+                }
             },
-//            isFocused = isFocused,
-//            onFocusChanged = { focused ->
-//                isFocused = focused
-//            },
         )
         Spacer(modifier = Modifier.height(40.dp))
         Row(
@@ -124,11 +137,9 @@ fun RunningCountInput(
                     .clip(RoundedCornerShape(50))
                     .clickable {
                         isAlarm = !isAlarm
+                        onRemindEnabledChange(isAlarm)
                     },
                 checked = isAlarm,
-//                onCheckedChange = {
-//                    isAlarm = it
-//                },
             )
         }
     }
@@ -137,7 +148,6 @@ fun RunningCountInput(
 @Composable
 fun ToggleSwitch(
     checked: Boolean,
-//    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val switchWidth = 50.dp
@@ -178,8 +188,6 @@ fun ToggleSwitch(
 private fun RunningCountTextField(
     value: String,
     onValueChange: (String) -> Unit,
-//    isFocused: Boolean,
-//    onFocusChanged: (Boolean) -> Unit,
 ) {
     Row(
         modifier = Modifier

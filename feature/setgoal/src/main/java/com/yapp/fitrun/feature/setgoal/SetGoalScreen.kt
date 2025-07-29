@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -24,6 +25,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -51,16 +54,73 @@ import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
 import com.yapp.fitrun.feature.setgoal.component.SetPaceSection
 import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection
+import com.yapp.fitrun.feature.setgoal.viewmodel.SetGoalSideEffect
+import com.yapp.fitrun.feature.setgoal.viewmodel.SetGoalState
+import com.yapp.fitrun.feature.setgoal.viewmodel.SetGoalViewModel
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-internal fun SetGoalRoute() {
-    SetGoalScreen()
+internal fun SetGoalRoute(
+    viewModel: SetGoalViewModel = hiltViewModel(),
+    onNavigateToComplete: () -> Unit = {},
+) {
+    val state by viewModel.collectAsState()
+    var showLottie by remember { mutableStateOf(false) }
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is SetGoalSideEffect.ShowSuccessToast -> {
+                // Toast 표시 (필요한 경우)
+            }
+
+            is SetGoalSideEffect.ShowErrorToast -> {
+                // Error Toast 표시 (필요한 경우)
+            }
+
+            SetGoalSideEffect.ShowCompleteLottie -> {
+                showLottie = true
+            }
+
+            SetGoalSideEffect.NavigateToComplete -> {
+                onNavigateToComplete()
+            }
+        }
+    }
+
+    SetGoalScreen(
+        state = state,
+        showLottie = showLottie,
+        onPaceChange = { paceSeconds ->
+            viewModel.setPaceInUI(paceSeconds)
+        },
+        onRunCountChange = { count ->
+            viewModel.setWeeklyRunCountInUI(count)
+        },
+        onRemindEnabledChange = { enabled ->
+            viewModel.setRemindEnabledInUI(enabled)
+        },
+        onSubmit = {
+            viewModel.submitGoals()
+        },
+        onLottieAnimationEnd = {
+            showLottie = false
+            onNavigateToComplete()
+        },
+    )
 }
 
 @Composable
-internal fun SetGoalScreen() {
-    var showLottie by remember { mutableStateOf(false) }
+internal fun SetGoalScreen(
+    state: SetGoalState,
+    showLottie: Boolean,
+    onPaceChange: (Int) -> Unit,
+    onRunCountChange: (Int) -> Unit,
+    onRemindEnabledChange: (Boolean) -> Unit,
+    onSubmit: () -> Unit,
+    onLottieAnimationEnd: () -> Unit,
+) {
     val pagerState = rememberPagerState(pageCount = { 2 })
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -70,8 +130,9 @@ internal fun SetGoalScreen() {
             bottomBar = {
                 Button(
                     onClick = {
-                        showLottie = true
+                        onSubmit()
                     },
+                    enabled = !state.isLoading,
                     modifier = Modifier
                         .padding(horizontal = 20.dp, vertical = 12.dp)
                         .fillMaxWidth()
@@ -82,11 +143,18 @@ internal fun SetGoalScreen() {
                         containerColor = colorResource(R.color.bg_interactive_primary),
                     ),
                 ) {
-                    Text(
-                        text = "루틴 설정하기",
-                        color = colorResource(R.color.fg_text_interactive_inverse),
-                        style = Body_body3_semiBold,
-                    )
+                    if (state.isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            color = colorResource(R.color.fg_text_interactive_inverse),
+                        )
+                    } else {
+                        Text(
+                            text = "루틴 설정하기",
+                            color = colorResource(R.color.fg_text_interactive_inverse),
+                            style = Body_body3_semiBold,
+                        )
+                    }
                 }
             },
         ) { innerPadding ->
@@ -107,17 +175,32 @@ internal fun SetGoalScreen() {
                     userScrollEnabled = false,
                 ) { page ->
                     when (page) {
-                        0 -> SetPaceSection()
-                        1 -> SetRunningCountSection()
+                        0 -> SetPaceSection(
+                            initialPace = state.currentPaceInput ?: 420,
+                            onPaceChange = { paceSeconds ->
+                                onPaceChange(paceSeconds)
+                            },
+                        )
+
+                        1 -> SetRunningCountSection(
+                            initialCount = state.currentRunCountInput ?: 3,
+                            isRemindEnabled = state.currentRemindEnabled,
+                            onRunningCountChange = { count ->
+                                onRunCountChange(count)
+                            },
+                            onRemindEnabledChange = { enabled ->
+                                onRemindEnabledChange(enabled)
+                            },
+                        )
                     }
                 }
             }
         }
+
+        // Lottie Animation Overlay
         if (showLottie) {
             LottieAnimationOverlay(
-                onAnimationEnd = {
-                    showLottie = false
-                },
+                onAnimationEnd = onLottieAnimationEnd,
             )
         }
     }
@@ -238,5 +321,13 @@ fun HorizontalPagerIndicator(
 @Preview
 @Composable
 private fun SetGoalScreenPreview() {
-    SetGoalScreen()
+    SetGoalScreen(
+        SetGoalState(),
+        true,
+        {},
+        {},
+        {},
+        {},
+        {},
+    )
 }

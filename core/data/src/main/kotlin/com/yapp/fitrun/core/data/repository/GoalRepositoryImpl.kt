@@ -113,7 +113,7 @@ class GoalRepositoryImpl @Inject constructor(
     ): Result<GoalEntity> {
         return runCatching {
             val response = goalDatasource.setWeeklyRunningCountGoal(
-                WeeklyRunCountRequest(count),
+                WeeklyRunCountRequest(count, isRemindEnabled),
             )
             response.result.toEntity()
         }.fold(
@@ -131,7 +131,7 @@ class GoalRepositoryImpl @Inject constructor(
     ): Result<GoalEntity> {
         return runCatching {
             val response = goalDatasource.updateWeeklyRunCountGoal(
-                WeeklyRunCountRequest(count),
+                WeeklyRunCountRequest(count, isRemindEnabled),
             )
             response.result.toEntity()
         }.fold(
