@@ -19,4 +19,5 @@ data class RecordDataEntity(
     val averagePace: Long,
     val totalDistance: Double,
     val totalTime: Long,
+    val imageUrl: String,
 )

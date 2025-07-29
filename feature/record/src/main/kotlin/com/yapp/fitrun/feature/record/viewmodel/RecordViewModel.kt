@@ -1,7 +1,11 @@
 package com.yapp.fitrun.feature.record.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.yapp.fitrun.core.domain.repository.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -10,75 +14,44 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecordViewModel @Inject constructor(
-    // TODO
+    private val recordRepository: RecordRepository,
 ) : ViewModel(), ContainerHost<RecordState, RecordSideEffect> {
     override val container = container<RecordState, RecordSideEffect>(RecordState())
 
     init {
-        val dummyRecord = mutableListOf(
-            Record(
-                recordId = 1,
-                startAt = "7월 22일",
-                totalTime = "1:23:22",
-                averagePace = "7'18''",
-                totalDistance = 15.2,
-                runningRouteImage = "",
-            ),
-            Record(
-                recordId = 2,
-                startAt = "7월 23일",
-                totalTime = "2:12:22",
-                averagePace = "6'18''",
-                totalDistance = 3.2,
-                runningRouteImage = "",
-            ),
-            Record(
-                recordId = 3,
-                startAt = "7월 24일",
-                totalTime = "3:23:22",
-                averagePace = "5'18''",
-                totalDistance = 20.7,
-                runningRouteImage = "",
-            ),
-            Record(
-                recordId = 4,
-                startAt = "7월 25일",
-                totalTime = "1:23:22",
-                averagePace = "7'18''",
-                totalDistance = 15.2,
-                runningRouteImage = "",
-            ),
-            Record(
-                recordId = 5,
-                startAt = "7월 26일",
-                totalTime = "1:23:22",
-                averagePace = "7'18''",
-                totalDistance = 15.2,
-                runningRouteImage = "",
-            ),
-            Record(
-                recordId = 6,
-                startAt = "7월 29일",
-                totalTime = "1:23:22",
-                averagePace = "7'18''",
-                totalDistance = 15.2,
-                runningRouteImage = "",
-            ),
-        )
-
-        intent {
-            reduce {
-                state.copy(
-                    isLoading = false,
-                    totalDistance = 27.4,
-                    recordCount = dummyRecord.size,
-                    averagePace = "6'00''",
-                    totalTime = "18:34:23",
-                    timeGoalAchievedCount = 3,
-                    distanceGoalAchievedCount = 4,
-                    recordList = dummyRecord,
-                )
-            }
+        viewModelScope.launch {
+            recordRepository.getRecordList()
+                .onSuccess { response ->
+                    intent {
+                        reduce {
+                            state.copy(
+                                isLoading = false,
+                                totalDistance = response.totalDistance / 1000f,
+                                recordCount = response.recordCount,
+                                averagePace = response.averagePace.toString(), // TODO: calculate pace
+                                totalTime = response.totalTime.toString(), // TODO: calculate time
+                                timeGoalAchievedCount = response.timeGoalAchievedCount,
+                                distanceGoalAchievedCount = response.distanceGoalAchievedCount,
+                                recordList = response.records.map {
+                                    RecordInfo(
+                                        recordId = it.recordId,
+                                        startAt = it.startAt,
+                                        totalTime = it.totalTime.toString(), // TODO: calculate pace
+                                        averagePace = it.averagePace.toString(), // TODO: calculate time
+                                        totalDistance = it.totalDistance,
+                                        runningRouteImage = it.imageUrl,
+                                    )
+                                },
+                            )
+                        }
+                    }
+                }
+                .onFailure {
+                    Log.e(
+                        this@RecordViewModel.javaClass.name,
+                        "getRecordList: " + it.message.toString(),
+                    )
+                }
         }
     }
 }

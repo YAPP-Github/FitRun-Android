@@ -2,6 +2,7 @@ package com.yapp.fitrun.feature.record
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,12 +29,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.yapp.fitrun.core.designsystem.Body_body1_bold
 import com.yapp.fitrun.core.designsystem.Body_body2_semiBold
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
@@ -46,7 +51,7 @@ import com.yapp.fitrun.core.designsystem.Head_h6_semiBold
 import com.yapp.fitrun.core.designsystem.Number_number2_bold
 import com.yapp.fitrun.core.designsystem.Number_number3_bold
 import com.yapp.fitrun.core.designsystem.R
-import com.yapp.fitrun.feature.record.viewmodel.Record
+import com.yapp.fitrun.feature.record.viewmodel.RecordInfo
 import com.yapp.fitrun.feature.record.viewmodel.RecordSideEffect
 import com.yapp.fitrun.feature.record.viewmodel.RecordState
 import com.yapp.fitrun.feature.record.viewmodel.RecordViewModel
@@ -370,7 +375,7 @@ private fun StatisticItem(
 
 @Composable
 private fun RunningRecordCard(
-    record: Record,
+    record: RecordInfo,
     modifier: Modifier = Modifier,
     onNavigateToRecordDetail: () -> Unit,
 ) {
@@ -421,6 +426,24 @@ private fun RunningRecordCard(
                         )
                     }
                 }
+
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(record.runningRouteImage)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.ic_no_data),
+                    contentDescription = "Running Course",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .border(
+                            width = 1.dp,
+                            shape = RoundedCornerShape(8.dp),
+                            color = colorResource(R.color.fg_nuetral_gray400),
+                        )
+                        .width(80.dp)
+                        .height(60.dp),
+                )
 
                 Image(
                     painter = painterResource(id = R.drawable.dummy_map),
@@ -479,7 +502,7 @@ private fun RunningRecordCard(
 private fun RecordScreenPreview() {
     RecordScreen(
         padding = PaddingValues(0.dp),
-        uiState = RecordState(recordList = mutableListOf(Record())),
+        uiState = RecordState(recordList = emptyList()),
         onNavigateToRecordDetail = {},
     )
 }

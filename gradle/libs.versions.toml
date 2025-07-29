@@ -79,8 +79,11 @@ naver-map = "3.22.0"
 naver-map-location = "21.0.2"
 naver-map-compose = "1.8.2"
 
-#room
+# room
 room = "2.7.2"
+
+# coil
+coil = "3.3.0"
 
 [libraries]
 # gradle
@@ -182,6 +185,9 @@ naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", 
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+
+# coil
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 

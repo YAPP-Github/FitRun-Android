@@ -28,10 +28,10 @@ class RecordDetailViewModel @Inject constructor(
         }
     }
 
-    private fun getDummyRecord(recordId: Int): Record {
+    private fun getDummyRecord(recordId: Int): RecordInfo {
         // RecordViewModel과 동일한 더미 데이터 사용
         val dummyRecords = listOf(
-            Record(
+            RecordInfo(
                 recordId = 1,
                 startAt = "7월 22일",
                 totalTime = "1:23:22",
@@ -39,7 +39,7 @@ class RecordDetailViewModel @Inject constructor(
                 totalDistance = 15.2,
                 runningRouteImage = "",
             ),
-            Record(
+            RecordInfo(
                 recordId = 2,
                 startAt = "7월 23일",
                 totalTime = "2:12:22",
@@ -47,7 +47,7 @@ class RecordDetailViewModel @Inject constructor(
                 totalDistance = 3.2,
                 runningRouteImage = "",
             ),
-            Record(
+            RecordInfo(
                 recordId = 3,
                 startAt = "7월 24일",
                 totalTime = "3:23:22",
@@ -55,7 +55,7 @@ class RecordDetailViewModel @Inject constructor(
                 totalDistance = 20.7,
                 runningRouteImage = "",
             ),
-            Record(
+            RecordInfo(
                 recordId = 4,
                 startAt = "7월 25일",
                 totalTime = "1:23:22",
@@ -63,7 +63,7 @@ class RecordDetailViewModel @Inject constructor(
                 totalDistance = 15.2,
                 runningRouteImage = "",
             ),
-            Record(
+            RecordInfo(
                 recordId = 5,
                 startAt = "7월 26일",
                 totalTime = "1:23:22",
@@ -71,7 +71,7 @@ class RecordDetailViewModel @Inject constructor(
                 totalDistance = 15.2,
                 runningRouteImage = "",
             ),
-            Record(
+            RecordInfo(
                 recordId = 6,
                 startAt = "7월 29일",
                 totalTime = "1:23:22",
