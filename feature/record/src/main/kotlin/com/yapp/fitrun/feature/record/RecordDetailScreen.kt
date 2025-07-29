@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.NaverMap
+import com.naver.maps.map.compose.PathOverlay
 import com.yapp.fitrun.core.designsystem.Body_body1_bold
 import com.yapp.fitrun.core.designsystem.Body_body2_semiBold
 import com.yapp.fitrun.core.designsystem.Body_body3_regular
@@ -52,7 +53,6 @@ import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailState
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailViewModel
-import com.yapp.fitrun.feature.record.viewmodel.RecordInfo
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -64,11 +64,9 @@ internal fun RecordDetailRoute(
     viewModel: RecordDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
-
-    // recordId로 데이터 로딩
-    LaunchedEffect(recordId) {
-        viewModel.loadRecordDetail(recordId)
-    }
+//    LaunchedEffect(recordId) {
+//        viewModel.loadRecordDetail(recordId)
+//    }
 
     viewModel.collectSideEffect { _ ->
     }
@@ -103,7 +101,7 @@ internal fun RecordDetailScreen(
 
         // 상단 타이틀
         item {
-            RecordDetailTitleSection(record = uiState.record)
+            RecordDetailTitleSection(uiState.title)
         }
 
         // 목표 달성 섹션
@@ -115,19 +113,19 @@ internal fun RecordDetailScreen(
         // 총 러닝 거리 섹션
         item {
             Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailInfoSection(record = uiState.record)
+            RecordDetailInfoSection(uiState)
         }
 
         // 러닝 코스 섹션
         item {
             Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailRouteSection()
+            RecordDetailRouteSection(uiState)
         }
 
         // 랩 구간 섹션
         item {
             Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailLabSection()
+            RecordDetailLabSection(uiState)
         }
 
         // 삭제 버튼
@@ -150,7 +148,7 @@ internal fun RecordDetailScreen(
 
 @Composable
 internal fun RecordDetailTitleSection(
-    record: RecordInfo?,
+    title: String,
 ) {
     Row(
         modifier = Modifier
@@ -164,7 +162,7 @@ internal fun RecordDetailTitleSection(
                 .wrapContentWidth(),
         ) {
             Text(
-                text = "${record?.startAt ?: ""} 러닝",
+                text = title,
                 style = Head_h2_bold,
                 color = colorResource(R.color.fg_text_primary),
                 modifier = Modifier.wrapContentWidth(),
@@ -226,7 +224,7 @@ internal fun RecordDetailGoalSection() {
 
 @Composable
 internal fun RecordDetailInfoSection(
-    record: RecordInfo?,
+    uiState: RecordDetailState,
 ) {
     Column(
         horizontalAlignment = Alignment.Start,
@@ -246,7 +244,7 @@ internal fun RecordDetailInfoSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "${record?.totalDistance ?: 0.0}",
+                text = uiState.totalDistance.toString(),
                 style = Number_number2_bold,
                 color = colorResource(R.color.fg_text_primary),
             )
@@ -272,7 +270,7 @@ internal fun RecordDetailInfoSection(
                     color = colorResource(R.color.fg_text_tertiary),
                 )
                 Text(
-                    text = record?.averagePace ?: "n'nn\"",
+                    text = uiState.averagePace,
                     style = Body_body1_bold,
                     color = colorResource(R.color.fg_text_primary),
                     modifier = Modifier.padding(top = 4.dp),
@@ -288,7 +286,7 @@ internal fun RecordDetailInfoSection(
                     color = colorResource(R.color.fg_text_tertiary),
                 )
                 Text(
-                    text = record?.totalTime ?: "hh:mm:ss",
+                    text = uiState.totalTime,
                     style = Body_body1_bold,
                     color = colorResource(R.color.fg_text_primary),
                     modifier = Modifier.padding(top = 4.dp),
@@ -300,7 +298,9 @@ internal fun RecordDetailInfoSection(
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
-internal fun RecordDetailRouteSection() {
+internal fun RecordDetailRouteSection(
+    uiState: RecordDetailState,
+) {
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -352,13 +352,22 @@ internal fun RecordDetailRouteSection() {
                     isRotateGesturesEnabled = false,
                     isTiltGesturesEnabled = false,
                 ),
-            ) {}
+            ) {
+                PathOverlay(
+                    coords = uiState.runningPoint,
+                    width = 4.dp,
+                    outlineWidth = 0.dp,
+                    color = colorResource(R.color.bg_interactive_primary),
+                )
+            }
         }
     }
 }
 
 @Composable
-internal fun RecordDetailLabSection() {
+internal fun RecordDetailLabSection(
+    uiState: RecordDetailState,
+) {
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -397,7 +406,7 @@ internal fun RecordDetailLabSection() {
             )
         }
 
-        repeat(6) { index ->
+        repeat(uiState.segments.size) { index ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -423,7 +432,7 @@ internal fun RecordDetailLabSection() {
                         ),
                 ) {
                     Text(
-                        text = "6'10\"",
+                        text = uiState.segments[index].averagePace,
                         style = Body_body2_semiBold,
                         color = colorResource(R.color.fg_text_interactive_inverse),
                         textAlign = TextAlign.Start,
@@ -451,5 +460,7 @@ private fun RecordDetailScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun RecordDetailLabSectionPreview() {
-    RecordDetailLabSection()
+    RecordDetailLabSection(
+        uiState = RecordDetailState(),
+    )
 }
