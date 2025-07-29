@@ -2,26 +2,28 @@ package com.yapp.fitrun.feature.running.runningonboarding
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -34,12 +36,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -67,6 +72,7 @@ import com.yapp.fitrun.core.designsystem.pretendardFamily
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
+import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingSideEffect
 
 @Composable
@@ -222,19 +228,24 @@ internal fun RunningOnBoardingSecondScreen(
 
         Row(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 44.dp, start = 20.dp, end = 20.dp)
-                .align(Alignment.CenterHorizontally),
+                .height(200.dp),
+            horizontalArrangement = Arrangement.Center,
         ) {
             GoalButton(
+                modifier = Modifier.weight(0.5f),
                 onClick = { onClickSetGoal(0) },
                 imageResource = painterResource(R.drawable.ic_running_clock),
                 title = stringResource(R.string.running_on_boarding_goal_time),
                 description = stringResource(R.string.running_on_boarding_goal_time_content),
             )
 
+            Spacer(modifier = Modifier.width(12.dp))
+
             GoalButton(
+                modifier = Modifier.weight(0.5f),
                 onClick = { onClickSetGoal(1) },
-                modifier = Modifier.padding(start = 12.dp),
                 imageResource = painterResource(R.drawable.ic_running_track),
                 title = stringResource(R.string.running_on_boarding_goal_distance),
                 description = stringResource(R.string.running_on_boarding_goal_distance_content),
@@ -263,14 +274,13 @@ fun GoalButton(
     description: String,
 ) {
     Button(
-        modifier = modifier
-            .height(200.dp)
-            .widthIn(0.dp, 160.dp),
+        modifier = modifier.fillMaxHeight().fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.border_radius_500)),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = colorResource(R.color.fg_nuetral_gray900),
         ),
+        contentPadding = PaddingValues(0.dp),
     ) {
         Column(
             modifier = Modifier
@@ -337,7 +347,17 @@ internal fun RunningOnBoardingThirdScreen(
     navigateToReady: () -> Unit,
     onClickSaveGoal: () -> Unit,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     val goalValue = remember { mutableStateOf(if (uiState.isShowTimeGoal) "30" else "3") }
+    val composition by rememberLottieComposition(LottieCompositionSpec.Asset("toast_set_goal_completed.json"))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = 1,
+        speed = 1.0f,
+        restartOnPlay = false,
+        isPlaying = uiState.isSetGoalSuccess,
+    )
 
     Column(
         modifier = Modifier
@@ -358,7 +378,13 @@ internal fun RunningOnBoardingThirdScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .imePadding()
+                    .noRippleClickable {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
@@ -379,10 +405,10 @@ internal fun RunningOnBoardingThirdScreen(
                     style = Body_body3_regular,
                 )
 
+                Spacer(modifier = Modifier.weight(0.2f))
+
                 Row(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .padding(top = 80.dp),
+                    modifier = Modifier.wrapContentSize(),
                 ) {
                     BasicTextField(
                         modifier = Modifier.width(IntrinsicSize.Min),
@@ -402,6 +428,9 @@ internal fun RunningOnBoardingThirdScreen(
                                 alignment = LineHeightStyle.Alignment.Center,
                                 trim = LineHeightStyle.Trim.None,
                             ),
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
                         ),
                         decorationBox = { innerTextField ->
                             Column(
@@ -432,34 +461,25 @@ internal fun RunningOnBoardingThirdScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(0.8f))
 
                 FitRunTextButton(
-                    modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 46.dp),
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                     onClick = onClickSaveGoal,
                     text = stringResource(R.string.running_on_boarding_set_goal_run),
                 )
+
+                Spacer(modifier = Modifier.height(46.dp))
             }
 
-            androidx.compose.animation.AnimatedVisibility(
-                visible = uiState.isSetGoalSuccess,
-                modifier = Modifier.align(Alignment.TopCenter),
-                enter = slideInVertically() + expandVertically(
-                    expandFrom = Alignment.Top,
-                ) + fadeIn(
-                    initialAlpha = 0.3f,
-                ),
-            ) {
-                Image(
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(top = 192.dp),
-                    alpha = 1.0f,
-                    painter = painterResource(R.drawable.ic_success_toast),
-                    contentDescription = "success",
-                    contentScale = ContentScale.Fit,
-                )
-            }
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier
+                    .wrapContentSize()
+                    .align(Alignment.TopCenter)
+                    .padding(top = 192.dp),
+            )
         }
     }
 }

@@ -117,7 +117,7 @@
     <string name="running_on_boarding_skip">건너뛰기</string>
     <string name="running_on_boarding_goal_time_content">한번에 몇분을\n목표로 달릴지 정해요</string>
     <string name="running_on_boarding_goal_distance">목표 거리</string>
-    <string name="running_on_boarding_goal_distance_content">한번에 km를\n목표로 달릴지 정해요</string>
+    <string name="running_on_boarding_goal_distance_content">한번에 몇 km를\n목표로 달릴지 정해요</string>
     <string name="running_on_boarding_info">목표는 마이페이지에서 수정할 수 있어요!</string>
     <string name="running_on_boarding_goal_distance_title">한 번에 몇 km를 달려볼까요?</string>
     <string name="running_on_boarding_goal_distance_description">러닝을 처음 시작할 땐\n3km를 목표로 달리는 걸 추천해요.</string>
