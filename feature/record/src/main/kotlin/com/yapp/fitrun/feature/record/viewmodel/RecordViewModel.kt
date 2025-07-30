@@ -3,6 +3,8 @@ package com.yapp.fitrun.feature.record.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yapp.fitrun.core.common.convertTimeToPace
+import com.yapp.fitrun.core.common.formatMillisToString
 import com.yapp.fitrun.core.domain.repository.RecordRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -28,16 +30,16 @@ class RecordViewModel @Inject constructor(
                                 isLoading = false,
                                 totalDistance = response.totalDistance / 1000f,
                                 recordCount = response.recordCount,
-                                averagePace = response.averagePace.toString(), // TODO: calculate pace
-                                totalTime = response.totalTime.toString(), // TODO: calculate time
+                                averagePace = convertTimeToPace(response.averagePace),
+                                totalTime = formatMillisToString(response.totalTime),
                                 timeGoalAchievedCount = response.timeGoalAchievedCount,
                                 distanceGoalAchievedCount = response.distanceGoalAchievedCount,
                                 recordList = response.records.map {
                                     RecordInfo(
                                         recordId = it.recordId,
                                         startAt = it.startAt,
-                                        totalTime = it.totalTime.toString(), // TODO: calculate pace
-                                        averagePace = it.averagePace.toString(), // TODO: calculate time
+                                        totalTime = formatMillisToString(it.totalTime),
+                                        averagePace = convertTimeToPace(it.averagePace),
                                         totalDistance = it.totalDistance,
                                         runningRouteImage = it.imageUrl,
                                     )

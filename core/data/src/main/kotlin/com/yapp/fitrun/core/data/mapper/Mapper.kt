@@ -127,12 +127,20 @@ internal fun RecordListResponse.toEntity() =
 internal fun RecordDetailResponse.toEntity() =
     RecordDetailEntity(
         userId = userId,
+        title = title,
         recordId = recordId,
         runningPoints = runningPoints.map { RecordDetailRunningPointEntity(it.lon, it.lat) },
         totalTime = totalTime,
         totalDistance = totalDistance,
+        averagePace = averagePace,
         startAt = startAt,
-        segments = segments.map { RecordDetailSegmentsEntity(it.orderNo, it.distanceMeter, it.averagePace) },
+        segments = segments.map {
+            RecordDetailSegmentsEntity(
+                it.orderNo,
+                it.distanceMeter,
+                it.averagePace,
+            )
+        },
     )
 
 internal fun Location.toEntity() =
