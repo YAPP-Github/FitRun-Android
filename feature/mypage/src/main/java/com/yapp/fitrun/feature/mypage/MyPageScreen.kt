@@ -31,6 +31,10 @@ internal fun MyPageScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(
+                top = padding.calculateTopPadding(),
+                bottom = padding.calculateBottomPadding(),
+            )
             .background(Color.White)
             .padding(padding),
     ) {

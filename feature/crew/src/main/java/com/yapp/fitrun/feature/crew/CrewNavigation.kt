@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.crew
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -13,10 +14,12 @@ fun NavController.navigateToCrew(navOptions: NavOptions) {
     navigate(CrewRoute, navOptions)
 }
 
-fun NavGraphBuilder.crewNavGraph() {
+fun NavGraphBuilder.crewNavGraph(
+    padding: PaddingValues,
+) {
     composable<CrewRoute> {
         CrewRoute(
-            // TODO: viewmodel
+            padding = padding,
         )
     }
 }

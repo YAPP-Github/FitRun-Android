@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -63,6 +64,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun SetGoalRoute(
+    padding: PaddingValues,
     viewModel: SetGoalViewModel = hiltViewModel(),
     onNavigateToComplete: () -> Unit = {},
 ) {
@@ -90,6 +92,7 @@ internal fun SetGoalRoute(
     }
 
     SetGoalScreen(
+        padding = padding,
         state = state,
         showLottie = showLottie,
         onPaceChange = { paceSeconds ->
@@ -113,6 +116,7 @@ internal fun SetGoalRoute(
 
 @Composable
 internal fun SetGoalScreen(
+    padding: PaddingValues,
     state: SetGoalState,
     showLottie: Boolean,
     onPaceChange: (Int) -> Unit,
@@ -123,9 +127,15 @@ internal fun SetGoalScreen(
 ) {
     val pagerState = rememberPagerState(pageCount = { 2 })
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         Scaffold(
-            modifier = Modifier.imePadding(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    bottom = padding.calculateBottomPadding(),
+                ),
             topBar = { NavigationTopAppBar() },
             bottomBar = {
                 Button(
@@ -322,6 +332,7 @@ fun HorizontalPagerIndicator(
 @Composable
 private fun SetGoalScreenPreview() {
     SetGoalScreen(
+        PaddingValues(),
         SetGoalState(),
         true,
         {},

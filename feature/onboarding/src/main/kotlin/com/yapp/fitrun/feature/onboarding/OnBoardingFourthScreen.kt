@@ -3,6 +3,7 @@ package com.yapp.fitrun.feature.onboarding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -29,6 +30,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun OnBoardingFourthRoute(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     onNavigateToOnBoardingResult: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
@@ -40,6 +42,7 @@ internal fun OnBoardingFourthRoute(
         }
     }
     OnBoardingFourthScreen(
+        padding = padding,
         onBackClick = onBackClick,
         onNavigateToOnBoardingResult = viewModel::onClickOnBoardingFourth,
     )
@@ -47,6 +50,7 @@ internal fun OnBoardingFourthRoute(
 
 @Composable
 internal fun OnBoardingFourthScreen(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     onNavigateToOnBoardingResult: (Int) -> Unit,
 ) {
@@ -54,6 +58,10 @@ internal fun OnBoardingFourthScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(
+                top = padding.calculateTopPadding(),
+                bottom = padding.calculateBottomPadding(),
+            )
             .background(Color.White)
             .verticalScroll(scrollState),
     ) {
@@ -98,5 +106,6 @@ fun OnBoardingFourthPreview() {
     OnBoardingFourthScreen(
         onBackClick = {},
         onNavigateToOnBoardingResult = {},
+        padding = PaddingValues(),
     )
 }
