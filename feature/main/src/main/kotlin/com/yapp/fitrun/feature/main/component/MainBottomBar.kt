@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.yapp.fitrun.core.designsystem.Caption_caption3_semiBold
@@ -47,7 +48,7 @@ internal fun MainBottomBar(
     ) {
         Column {
             Spacer(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(Color(0xFFEEEEEE)),
@@ -114,4 +115,16 @@ private fun RowScope.MainBottomBarItem(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun MainBottomBarPreview() {
+    MainBottomBar(
+        modifier = Modifier.background(Color.White),
+        visible = true,
+        tabs = MainTab.entries.toList(),
+        currentTab = MainTab.HOME,
+        onTabSelected = { },
+    )
 }

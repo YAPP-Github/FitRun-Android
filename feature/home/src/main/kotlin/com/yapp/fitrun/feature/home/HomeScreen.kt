@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -102,27 +103,20 @@ internal fun HomeRoute(
         }
     }
 
-    Box(
+    HomeScreen(
+        padding = padding,
         modifier = Modifier.fillMaxSize(),
-    ) {
-        HomeScreen(
-            modifier = Modifier.padding(padding),
-            state = state,
-            fetchCurrentLocation = viewModel::fetchCurrentLocation,
-            onStartRunningClick = onNavigateToRunning,
-            onSetGoalClick = onNavigateToSetGoal,
-        )
-        if (state.isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-            )
-        }
-    }
+        state = state,
+        fetchCurrentLocation = viewModel::fetchCurrentLocation,
+        onStartRunningClick = onNavigateToRunning,
+        onSetGoalClick = onNavigateToSetGoal,
+    )
 }
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalNaverMapApi::class)
 @Composable
 internal fun HomeScreen(
+    padding: PaddingValues,
     modifier: Modifier = Modifier,
     state: HomeState,
     fetchCurrentLocation: () -> Unit = {},
@@ -161,21 +155,31 @@ internal fun HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(bottom = padding.calculateBottomPadding())
             .background(color = Color(0xFFF9F9F9)),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
+        }
+
         Column(
-            modifier = Modifier.background(
-                color = Color(0xFFF5F5F9),
-            ),
+            modifier = Modifier
+                .background(
+                    color = Color(0xFFF5F5F9),
+                ),
         ) {
-            Spacer(modifier = Modifier.height(52.dp))
+            Spacer(modifier = Modifier.padding(top = padding.calculateTopPadding()))
+
             Text(
                 text = state.homeTitleResId?.let { stringResource(it) } ?: "",
                 textAlign = TextAlign.Start,
                 color = colorResource(R.color.fg_text_primary),
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, top = 12.dp, bottom = 12.dp)
+                    .padding(start = 20.dp, end = 20.dp, top = 52.dp, bottom = 12.dp)
                     .fillMaxWidth(),
                 style = Head_h3_bold,
             )
@@ -457,5 +461,8 @@ fun PermissionDeniedComponent() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(state = HomeState())
+    HomeScreen(
+        padding = PaddingValues(),
+        state = HomeState(),
+    )
 }

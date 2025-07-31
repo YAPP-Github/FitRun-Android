@@ -3,6 +3,7 @@ package com.yapp.fitrun.feature.onboarding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -32,6 +33,7 @@ import com.yapp.fitrun.feature.onboarding.viewmodel.OnBoardingState
 
 @Composable
 internal fun OnBoardingFirstRoute(
+    padding: PaddingValues,
     onNavigateToOnBoardingSecond: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
@@ -45,6 +47,7 @@ internal fun OnBoardingFirstRoute(
     }
 
     OnBoardingFirstScreen(
+        padding = padding,
         uiState = uiState,
         onClickOnBoardingFirstQuestion1 = viewModel::onClickOnBoardingFirstQuestion1,
         onClickOnBoardingFirstQuestion2 = viewModel::onClickOnBoardingFirstQuestion2,
@@ -55,6 +58,7 @@ internal fun OnBoardingFirstRoute(
 
 @Composable
 internal fun OnBoardingFirstScreen(
+    padding: PaddingValues,
     uiState: OnBoardingState,
     onClickOnBoardingFirstQuestion1: (Int) -> Unit,
     onClickOnBoardingFirstQuestion2: (Int) -> Unit,
@@ -66,6 +70,10 @@ internal fun OnBoardingFirstScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(
+                top = padding.calculateTopPadding(),
+                bottom = padding.calculateBottomPadding(),
+            )
             .background(Color.White)
             .verticalScroll(scrollState),
     ) {
@@ -140,6 +148,7 @@ internal fun OnBoardingFirstScreen(
 @Composable
 fun OnBoardingFirstPreview() {
     OnBoardingFirstScreen(
+        padding = PaddingValues(),
         OnBoardingState(),
         onClickOnBoardingFirstQuestion1 = {},
         onClickOnBoardingFirstQuestion2 = {},

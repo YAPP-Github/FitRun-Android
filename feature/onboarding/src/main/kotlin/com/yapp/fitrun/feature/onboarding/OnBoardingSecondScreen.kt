@@ -3,6 +3,7 @@ package com.yapp.fitrun.feature.onboarding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -32,6 +33,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun OnBoardingSecondRoute(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     onNavigateToOnBoardingThird: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
@@ -46,6 +48,7 @@ internal fun OnBoardingSecondRoute(
     }
 
     OnBoardingSecondScreen(
+        padding = padding,
         uiState = uiState,
         onClickOnBoardingSecondQuestion1 = viewModel::onClickOnBoardingSecondQuestion1,
         onClickOnBoardingSecondQuestion2 = viewModel::onClickOnBoardingSecondQuestion2,
@@ -55,6 +58,7 @@ internal fun OnBoardingSecondRoute(
 
 @Composable
 internal fun OnBoardingSecondScreen(
+    padding: PaddingValues,
     uiState: OnBoardingState,
     onClickOnBoardingSecondQuestion1: (Int) -> Unit,
     onClickOnBoardingSecondQuestion2: (Int) -> Unit,
@@ -65,6 +69,10 @@ internal fun OnBoardingSecondScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(
+                top = padding.calculateTopPadding(),
+                bottom = padding.calculateBottomPadding(),
+            )
             .background(Color.White)
             .verticalScroll(scrollState),
     ) {
@@ -117,6 +125,7 @@ internal fun OnBoardingSecondScreen(
 @Composable
 fun OnBoardingSecondPreview() {
     OnBoardingSecondScreen(
+        padding = PaddingValues(),
         uiState = OnBoardingState(),
         onBackClick = {},
         onClickOnBoardingSecondQuestion1 = {},

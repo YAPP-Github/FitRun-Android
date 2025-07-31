@@ -77,11 +77,13 @@ import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoar
 
 @Composable
 internal fun RunningOnBoardingFirstRoute(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     navigateToReady: () -> Unit,
     navigateToRunningOnBoardingSecond: () -> Unit,
 ) {
     RunningOnBoardingFirstScreen(
+        padding = padding,
         navigateToReady = navigateToReady,
         onBackClick = onBackClick,
         navigateToRunningOnBoardingSecond = navigateToRunningOnBoardingSecond,
@@ -90,6 +92,7 @@ internal fun RunningOnBoardingFirstRoute(
 
 @Composable
 internal fun RunningOnBoardingFirstScreen(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     navigateToReady: () -> Unit,
     navigateToRunningOnBoardingSecond: () -> Unit,
@@ -134,7 +137,7 @@ internal fun RunningOnBoardingFirstScreen(
                 enter = fadeIn(
                     initialAlpha = 0f,
                     animationSpec = tween(
-                        durationMillis = 200,
+                        durationMillis = 100,
                         easing = FastOutSlowInEasing,
                     ),
                 ),
@@ -161,7 +164,11 @@ internal fun RunningOnBoardingFirstScreen(
                         modifier = Modifier.clickable { navigateToReady() },
                     )
 
-                    Spacer(modifier = Modifier.height(28.dp))
+                    Spacer(
+                        modifier = Modifier
+                            .padding(bottom = padding.calculateBottomPadding())
+                            .height(28.dp),
+                    )
                 }
             }
         }
@@ -170,6 +177,7 @@ internal fun RunningOnBoardingFirstScreen(
 
 @Composable
 internal fun RunningOnBoardingSecondRoute(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     navigateToReady: () -> Unit,
     navigateToRunningOnBoardingThird: () -> Unit,
@@ -183,6 +191,7 @@ internal fun RunningOnBoardingSecondRoute(
     }
 
     RunningOnBoardingSecondScreen(
+        padding = padding,
         navigateToReady = navigateToReady,
         onBackClick = onBackClick,
         onClickSetGoal = viewModel::onClickSetGoal,
@@ -191,6 +200,7 @@ internal fun RunningOnBoardingSecondRoute(
 
 @Composable
 internal fun RunningOnBoardingSecondScreen(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     navigateToReady: () -> Unit,
     onClickSetGoal: (Int) -> Unit,
@@ -255,7 +265,9 @@ internal fun RunningOnBoardingSecondScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         FitRunTextIconButton(
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
+            modifier = Modifier
+                .padding(bottom = padding.calculateBottomPadding())
+                .padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
             text = stringResource(R.string.running_on_boarding_info),
             textColor = colorResource(R.color.fg_text_secondary),
             textStyle = Body_body4_bold,
@@ -274,7 +286,9 @@ fun GoalButton(
     description: String,
 ) {
     Button(
-        modifier = modifier.fillMaxHeight().fillMaxWidth(),
+        modifier = modifier
+            .fillMaxHeight()
+            .fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.border_radius_500)),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
@@ -319,6 +333,7 @@ fun GoalButton(
 
 @Composable
 internal fun RunningOnBoardingThirdRoute(
+    padding: PaddingValues,
     onBackClick: () -> Unit,
     navigateToReady: () -> Unit,
     viewModel: RunningOnBoardingViewModel = hiltViewModel(),
@@ -333,6 +348,7 @@ internal fun RunningOnBoardingThirdRoute(
     }
 
     RunningOnBoardingThirdScreen(
+        padding = padding,
         uiState = uiState,
         onBackClick = onBackClick,
         navigateToReady = navigateToReady,
@@ -342,6 +358,7 @@ internal fun RunningOnBoardingThirdRoute(
 
 @Composable
 internal fun RunningOnBoardingThirdScreen(
+    padding: PaddingValues,
     uiState: RunningOnBoardingState,
     onBackClick: () -> Unit,
     navigateToReady: () -> Unit,
@@ -375,7 +392,10 @@ internal fun RunningOnBoardingThirdScreen(
         )
 
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = padding.calculateBottomPadding())
+                .padding(bottom = 12.dp),
         ) {
             Column(
                 modifier = Modifier
@@ -468,8 +488,6 @@ internal fun RunningOnBoardingThirdScreen(
                     onClick = onClickSaveGoal,
                     text = stringResource(R.string.running_on_boarding_set_goal_run),
                 )
-
-                Spacer(modifier = Modifier.height(46.dp))
             }
 
             LottieAnimation(
@@ -488,6 +506,7 @@ internal fun RunningOnBoardingThirdScreen(
 @Composable
 fun RunningOnBoardingFirstScreenPreview() {
     RunningOnBoardingFirstScreen(
+        padding = PaddingValues(),
         navigateToReady = {},
         onBackClick = {},
         navigateToRunningOnBoardingSecond = {},
@@ -498,6 +517,7 @@ fun RunningOnBoardingFirstScreenPreview() {
 @Composable
 fun RunningOnBoardingSecondScreenPreview() {
     RunningOnBoardingSecondScreen(
+        padding = PaddingValues(),
         navigateToReady = {},
         onBackClick = {},
         onClickSetGoal = {},
@@ -508,6 +528,7 @@ fun RunningOnBoardingSecondScreenPreview() {
 @Composable
 fun RunningOnBoardingThirdScreenPreview() {
     RunningOnBoardingThirdScreen(
+        padding = PaddingValues(),
         uiState = RunningOnBoardingState(isSetGoalSuccess = true),
         navigateToReady = {},
         onBackClick = {},

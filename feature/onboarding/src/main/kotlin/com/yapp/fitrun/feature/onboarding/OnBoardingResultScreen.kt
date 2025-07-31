@@ -3,6 +3,7 @@ package com.yapp.fitrun.feature.onboarding
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,12 +36,14 @@ import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun OnBoardingResultRoute(
+    padding: PaddingValues,
     navigateToHome: () -> Unit,
     viewModel: OnBoardingViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
 
     OnBoardingResultScreen(
+        padding = padding,
         uiState = uiState,
         navigateToHome = navigateToHome,
     )
@@ -48,6 +51,7 @@ internal fun OnBoardingResultRoute(
 
 @Composable
 internal fun OnBoardingResultScreen(
+    padding: PaddingValues,
     uiState: OnBoardingState,
     navigateToHome: () -> Unit,
 ) {
@@ -63,6 +67,10 @@ internal fun OnBoardingResultScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(
+                    top = padding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding(),
+                )
                 .background(Color.White),
         ) {
             Spacer(modifier = Modifier.height(72.dp))
@@ -120,6 +128,7 @@ internal fun OnBoardingResultScreen(
 @Composable
 fun OnBoardingResultPreview() {
     OnBoardingResultScreen(
+        padding = PaddingValues(),
         uiState = OnBoardingState(isLoading = false),
         navigateToHome = {},
     )

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -95,11 +96,11 @@ internal fun WorkThroughScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .background(Color.White),
+            .background(Color.White)
+            .statusBarsPadding(),
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
         PagerIndicator(
+            modifier = Modifier.padding(top = 40.dp),
             pageCount = pagerState.pageCount,
             currentPage = pagerState.currentPage,
             targetPage = pagerState.currentPage,
@@ -133,7 +134,7 @@ internal fun WorkThroughScreen(
 
         FitRunTextButton(
             modifier = Modifier
-                .systemBarsPadding()
+                .navigationBarsPadding()
                 .padding(start = 20.dp, end = 20.dp, bottom = 25.dp),
             onClick = {
                 if (pagerState.currentPage == 2) {
@@ -145,10 +146,10 @@ internal fun WorkThroughScreen(
                 }
             },
             text =
-            if (pagerState.currentPage == 2)
-                stringResource(id = R.string.work_through_start)
-            else
-                stringResource(id = R.string.work_through_next),
+                if (pagerState.currentPage == 2)
+                    stringResource(id = R.string.work_through_start)
+                else
+                    stringResource(id = R.string.work_through_next),
             textColor = colorResource(R.color.fg_text_interactive_inverse),
             textStyle = Body_body3_semiBold,
             buttonColor = colorResource(R.color.bg_interactive_secondary),

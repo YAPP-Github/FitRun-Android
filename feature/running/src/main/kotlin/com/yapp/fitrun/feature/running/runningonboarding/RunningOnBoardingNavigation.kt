@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.running.runningonboarding
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -33,6 +34,7 @@ fun NavController.navigateToRunningOnBoardingThird() {
 }
 
 fun NavGraphBuilder.runningOnBoardingNavGraph(
+    padding: PaddingValues,
     navController: NavController,
     onBackClick: () -> Unit,
     onNavigateToReady: () -> Unit,
@@ -44,6 +46,7 @@ fun NavGraphBuilder.runningOnBoardingNavGraph(
     ) {
         composable<RunningOnBoardingFirstRoute> {
             RunningOnBoardingFirstRoute(
+                padding = padding,
                 onBackClick = onBackClick,
                 navigateToReady = onNavigateToReady,
                 navigateToRunningOnBoardingSecond = onNavigateToRunningOnBoardingSecond,
@@ -54,6 +57,7 @@ fun NavGraphBuilder.runningOnBoardingNavGraph(
             val viewModel = entry.sharedViewModel<RunningOnBoardingViewModel>(navController)
 
             RunningOnBoardingSecondRoute(
+                padding = padding,
                 onBackClick = onBackClick,
                 navigateToReady = onNavigateToReady,
                 viewModel = viewModel,
@@ -64,6 +68,7 @@ fun NavGraphBuilder.runningOnBoardingNavGraph(
         composable<RunningOnBoardingThirdRoute> { entry ->
             val viewModel = entry.sharedViewModel<RunningOnBoardingViewModel>(navController)
             RunningOnBoardingThirdRoute(
+                padding = padding,
                 onBackClick = onBackClick,
                 navigateToReady = onNavigateToReady,
                 viewModel = viewModel,
