@@ -61,7 +61,7 @@ internal fun MainNavHost(
             homeNavGraph(
                 padding = padding,
                 onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst, // For UT
-                onNavigateToSetGoal = navigator::navigateToSetGoalOnBoarding,
+                onNavigateToSetGoal = navigator::navigateToSetGoal,
             )
             recordNavGraph(
                 onBackClick = { navigator.navController.popBackStack() },
