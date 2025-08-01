@@ -48,10 +48,12 @@ import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Number_number1_bold
 import com.yapp.fitrun.core.designsystem.Number_number3_bold
 import com.yapp.fitrun.core.designsystem.R
+import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingSideEffect
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingState
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingViewModel
 import com.yapp.fitrun.feature.running.service.PlayingService
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import java.util.Locale
 
 @Composable
