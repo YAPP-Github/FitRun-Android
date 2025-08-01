@@ -15,6 +15,7 @@ import com.yapp.fitrun.feature.main.MainTab
 import com.yapp.fitrun.feature.mypage.myPageNavGraph
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
+import com.yapp.fitrun.feature.record.navigateToRecordDetail
 import com.yapp.fitrun.feature.record.recordNavGraph
 import com.yapp.fitrun.feature.running.runningNavGraph
 import com.yapp.fitrun.feature.running.runningonboarding.runningOnBoardingNavGraph
@@ -60,10 +61,11 @@ internal fun MainNavHost(
             homeNavGraph(
                 padding = padding,
                 onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst, // For UT
-                onNavigateToSetGoal = navigator::navigateToSetGoal,
+                onNavigateToSetGoal = navigator::navigateToSetGoalOnBoarding,
             )
             recordNavGraph(
                 onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToSetGoalOnBoarding = navigator::navigateToSetGoalOnBoarding,
                 padding = padding,
                 onNavigateToRecordDetail = navigator::navigateToRecordDetail,
             )
@@ -94,8 +96,15 @@ internal fun MainNavHost(
             runningNavGraph(
                 padding = padding,
                 onNavigateToPlay = navigator::navigateToPlaying,
+                onNavigateToSetGoalOnBoarding = { navigator.navigateToRecordDetail(1) },
             )
-            setGoalNavGraph(padding = padding)
+            setGoalNavGraph(
+                padding = padding,
+                onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToRecordDetail = { recordId ->
+                    navigator.navController.navigateToRecordDetail(recordId)
+                },
+            )
         }
     }
 }

@@ -24,6 +24,7 @@ fun NavController.navigateToRecordDetail(recordId: Int) {
 
 fun NavGraphBuilder.recordNavGraph(
     onBackClick: () -> Unit,
+    onNavigateToSetGoalOnBoarding: () -> Unit,
     onNavigateToRecordDetail: (Int) -> Unit,
     padding: PaddingValues,
 ) {
@@ -39,6 +40,7 @@ fun NavGraphBuilder.recordNavGraph(
 
         RecordDetailRoute(
             onBackClick = onBackClick,
+            onNavigateToSetGoalOnBoarding = onNavigateToSetGoalOnBoarding,
             recordId = recordDetailRoute.recordId,
             padding = padding,
         )

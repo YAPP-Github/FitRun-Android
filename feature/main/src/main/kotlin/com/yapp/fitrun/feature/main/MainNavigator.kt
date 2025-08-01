@@ -25,6 +25,7 @@ import com.yapp.fitrun.feature.running.runningonboarding.navigateToRunningOnBoar
 import com.yapp.fitrun.feature.running.runningonboarding.navigateToRunningOnBoardingSecond
 import com.yapp.fitrun.feature.running.runningonboarding.navigateToRunningOnBoardingThird
 import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoal
+import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoalOnBoarding
 
 @Keep
 internal class MainNavigator(
@@ -102,6 +103,10 @@ internal class MainNavigator(
 
     fun navigateToSetGoal() {
         navController.navigateToSetGoal()
+    }
+
+    fun navigateToSetGoalOnBoarding() {
+        navController.navigateToSetGoalOnBoarding()
     }
 
     fun navigateToPlaying() {

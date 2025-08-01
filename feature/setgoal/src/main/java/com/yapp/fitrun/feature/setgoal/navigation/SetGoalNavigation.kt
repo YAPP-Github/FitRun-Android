@@ -18,8 +18,14 @@ fun NavController.navigateToSetGoal() {
     navigate(SetGoalRoute)
 }
 
+fun NavController.navigateToSetGoalOnBoarding() {
+    navigate(SetGoalOnBoardingRoute)
+}
+
 fun NavGraphBuilder.setGoalNavGraph(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
+    onNavigateToRecordDetail: (Int) -> Unit,
 ) {
     composable<SetGoalRoute> {
         SetGoalRoute(
@@ -29,8 +35,9 @@ fun NavGraphBuilder.setGoalNavGraph(
 
     composable<SetGoalOnBoardingRoute> {
         SetGoalOnBoardingRoute(
+            onBackClick = onBackClick,
             padding = padding,
-            onNavigateToComplete = {},
+            onNavigateToComplete = onNavigateToRecordDetail,
         )
     }
 }

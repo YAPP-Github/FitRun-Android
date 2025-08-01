@@ -51,6 +51,7 @@ import com.yapp.fitrun.core.designsystem.Number_number2_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
+import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailState
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -59,13 +60,14 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @Composable
 internal fun RecordDetailRoute(
     onBackClick: () -> Unit,
+    onNavigateToSetGoalOnBoarding: () -> Unit,
     padding: PaddingValues,
     recordId: Int,
     viewModel: RecordDetailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
     LaunchedEffect(recordId) {
-        viewModel.loadRecordDetail(recordId)
+//        viewModel.loadRecordDetail(recordId)
     }
 
     viewModel.collectSideEffect { _ ->
@@ -73,6 +75,8 @@ internal fun RecordDetailRoute(
 
     RecordDetailScreen(
         onBackClick = onBackClick,
+        onNavigateToSetGoalOnBoarding = onNavigateToSetGoalOnBoarding,
+        recordId = recordId,
         uiState = uiState,
         padding = padding,
     )
@@ -81,71 +85,92 @@ internal fun RecordDetailRoute(
 @Composable
 internal fun RecordDetailScreen(
     onBackClick: () -> Unit,
+    onNavigateToSetGoalOnBoarding: () -> Unit,
+    recordId: Int,
     uiState: RecordDetailState,
     padding: PaddingValues,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = padding.calculateTopPadding(),
-                bottom = padding.calculateBottomPadding(),
-            )
-            .background(colorResource(R.color.bg_secondary))
-            .padding(padding),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        item {
-            NavigationTopAppBar(
-                onLeftNavigationClick = onBackClick,
-                leftNavigationIconTint = colorResource(R.color.fg_icon_primary),
-                isRightIconVisible = false,
-            )
+    Box()
+    {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(R.color.bg_secondary)),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            item {
+                NavigationTopAppBar(
+                    onLeftNavigationClick = onBackClick,
+                    leftNavigationIconTint = colorResource(R.color.fg_icon_primary),
+                    isRightIconVisible = false,
+                )
+            }
+
+            // 상단 타이틀
+            item {
+                RecordDetailTitleSection(uiState.title)
+            }
+
+            // 목표 달성 섹션
+            item {
+                Spacer(modifier = Modifier.height(28.dp))
+                RecordDetailGoalSection()
+            }
+
+            // 총 러닝 거리 섹션
+            item {
+                Spacer(modifier = Modifier.height(28.dp))
+                RecordDetailInfoSection(uiState)
+            }
+
+            // 러닝 코스 섹션
+            item {
+                Spacer(modifier = Modifier.height(28.dp))
+                RecordDetailRouteSection(uiState)
+            }
+
+            // 랩 구간 섹션
+            item {
+                Spacer(modifier = Modifier.height(28.dp))
+                RecordDetailLabSection(uiState)
+            }
+
+            // 삭제 버튼
+            item {
+                Spacer(modifier = Modifier.height(48.dp))
+                FitRunTextIconButton(
+                    modifier = Modifier
+                        .width(130.dp)
+                        .padding(bottom = padding.calculateBottomPadding()),
+                    onClick = {},
+                    text = "삭제하기",
+                    textColor = colorResource(R.color.fg_text_secondary),
+                    textStyle = Caption_caption2_bold,
+                    imageResource = painterResource(R.drawable.ic_trash),
+                    buttonColor = colorResource(R.color.fg_nuetral_gray400),
+                    iconModifier = Modifier.size(14.dp),
+                )
+                Spacer(modifier = Modifier.height(80.dp))
+            }
         }
 
-        // 상단 타이틀
-        item {
-            RecordDetailTitleSection(uiState.title)
-        }
-
-        // 목표 달성 섹션
-        item {
-            Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailGoalSection()
-        }
-
-        // 총 러닝 거리 섹션
-        item {
-            Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailInfoSection(uiState)
-        }
-
-        // 러닝 코스 섹션
-        item {
-            Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailRouteSection(uiState)
-        }
-
-        // 랩 구간 섹션
-        item {
-            Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailLabSection(uiState)
-        }
-
-        // 삭제 버튼
-        item {
-            Spacer(modifier = Modifier.height(48.dp))
-            FitRunTextIconButton(
-                modifier = Modifier.width(130.dp),
-                onClick = {},
-                text = "삭제하기",
-                textColor = colorResource(R.color.fg_text_secondary),
-                textStyle = Caption_caption2_bold,
-                imageResource = painterResource(R.drawable.ic_trash),
-                buttonColor = colorResource(R.color.fg_nuetral_gray400),
-                iconModifier = Modifier.size(14.dp),
-            )
-            Spacer(modifier = Modifier.height(80.dp))
+        if (recordId == 1) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(colorResource(R.color.black_alpha_600))
+            ) {
+                Image(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .width(290.dp)
+                        .height(360.dp)
+                        .noRippleClickable { onNavigateToSetGoalOnBoarding()  },
+                    painter = painterResource(R.drawable.ic_popup),
+                    contentDescription = "set time goal",
+                    contentScale = ContentScale.Fit,
+                )
+            }
         }
     }
 }
@@ -166,7 +191,7 @@ internal fun RecordDetailTitleSection(
                 .wrapContentWidth(),
         ) {
             Text(
-                text = title,
+                text = "7월 20일 점심 러닝",
                 style = Head_h2_bold,
                 color = colorResource(R.color.fg_text_primary),
                 modifier = Modifier.wrapContentWidth(),
@@ -248,7 +273,7 @@ internal fun RecordDetailInfoSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = uiState.totalDistance.toString(),
+                text = "6.0",
                 style = Number_number2_bold,
                 color = colorResource(R.color.fg_text_primary),
             )
@@ -274,7 +299,7 @@ internal fun RecordDetailInfoSection(
                     color = colorResource(R.color.fg_text_tertiary),
                 )
                 Text(
-                    text = uiState.averagePace,
+                    text = "7'18''",
                     style = Body_body1_bold,
                     color = colorResource(R.color.fg_text_primary),
                     modifier = Modifier.padding(top = 4.dp),
@@ -290,7 +315,7 @@ internal fun RecordDetailInfoSection(
                     color = colorResource(R.color.fg_text_tertiary),
                 )
                 Text(
-                    text = uiState.totalTime,
+                    text = "4:20:40",
                     style = Body_body1_bold,
                     color = colorResource(R.color.fg_text_primary),
                     modifier = Modifier.padding(top = 4.dp),
@@ -339,29 +364,38 @@ internal fun RecordDetailRouteSection(
                     shape = RoundedCornerShape(12.dp),
                 ),
         ) {
-            NaverMap(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        shape = RoundedCornerShape(12.dp),
-                        color = Color.Unspecified,
+            if (uiState.runningPoint.size >= 2) {
+                NaverMap(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            shape = RoundedCornerShape(12.dp),
+                            color = Color.Unspecified,
+                        ),
+                    uiSettings = MapUiSettings(
+                        isZoomControlEnabled = false,
+                        isCompassEnabled = false,
+                        isScaleBarEnabled = false,
+                        isLocationButtonEnabled = false,
+                        isScrollGesturesEnabled = true,
+                        isZoomGesturesEnabled = true,
+                        isRotateGesturesEnabled = false,
+                        isTiltGesturesEnabled = false,
                     ),
-                uiSettings = MapUiSettings(
-                    isZoomControlEnabled = false,
-                    isCompassEnabled = false,
-                    isScaleBarEnabled = false,
-                    isLocationButtonEnabled = false,
-                    isScrollGesturesEnabled = true,
-                    isZoomGesturesEnabled = true,
-                    isRotateGesturesEnabled = false,
-                    isTiltGesturesEnabled = false,
-                ),
-            ) {
-                PathOverlay(
-                    coords = uiState.runningPoint,
-                    width = 4.dp,
-                    outlineWidth = 0.dp,
-                    color = colorResource(R.color.bg_interactive_primary),
+                ) {
+                    PathOverlay(
+                        coords = uiState.runningPoint,
+                        width = 4.dp,
+                        outlineWidth = 0.dp,
+                        color = colorResource(R.color.bg_interactive_primary),
+                    )
+                }
+            } else {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(R.drawable.img_dummy_route),
+                    contentDescription = "running route error",
+                    contentScale = ContentScale.Fit,
                 )
             }
         }
@@ -410,41 +444,219 @@ internal fun RecordDetailLabSection(
             )
         }
 
-        repeat(uiState.segments.size) { index ->
-            Row(
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "1",
+                style = Body_body4_medium,
+                color = colorResource(R.color.fg_text_secondary),
+                modifier = Modifier.size(20.dp),
+                textAlign = TextAlign.Center,
+            )
+
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, top = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                    .padding(start = 35.dp)
+                    .width(180.dp)
+                    .height(44.dp)
+                    .background(
+                        color = colorResource(R.color.fg_nuetral_gray600),
+                        shape = RoundedCornerShape(10.dp),
+                    ),
             ) {
                 Text(
-                    text = "${index + 1}",
-                    style = Body_body4_medium,
-                    color = colorResource(R.color.fg_text_secondary),
-                    modifier = Modifier.size(20.dp),
-                    textAlign = TextAlign.Center,
-                )
-
-                Box(
+                    text = "6'10''",
+                    style = Body_body2_semiBold,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    textAlign = TextAlign.Start,
                     modifier = Modifier
-                        .padding(start = 35.dp)
-                        .width(212.dp)
-                        .height(44.dp)
-                        .background(
-                            color = colorResource(R.color.fg_nuetral_gray600),
-                            shape = RoundedCornerShape(10.dp),
-                        ),
-                ) {
-                    Text(
-                        text = uiState.segments[index].averagePace,
-                        style = Body_body2_semiBold,
-                        color = colorResource(R.color.fg_text_interactive_inverse),
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .align(Alignment.CenterStart),
-                    )
-                }
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterStart),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "2",
+                style = Body_body4_medium,
+                color = colorResource(R.color.fg_text_secondary),
+                modifier = Modifier.size(20.dp),
+                textAlign = TextAlign.Center,
+            )
+
+            Box(
+                modifier = Modifier
+                    .padding(start = 35.dp)
+                    .width(160.dp)
+                    .height(44.dp)
+                    .background(
+                        color = colorResource(R.color.fg_nuetral_gray600),
+                        shape = RoundedCornerShape(10.dp),
+                    ),
+            ) {
+                Text(
+                    text = "6'20''",
+                    style = Body_body2_semiBold,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterStart),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "3",
+                style = Body_body4_medium,
+                color = colorResource(R.color.fg_text_secondary),
+                modifier = Modifier.size(20.dp),
+                textAlign = TextAlign.Center,
+            )
+
+            Box(
+                modifier = Modifier
+                    .padding(start = 35.dp)
+                    .width(212.dp)
+                    .height(44.dp)
+                    .background(
+                        color = colorResource(R.color.bg_interactive_primary),
+                        shape = RoundedCornerShape(10.dp),
+                    ),
+            ) {
+                Text(
+                    text = "6'00''",
+                    style = Body_body2_semiBold,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterStart),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "4",
+                style = Body_body4_medium,
+                color = colorResource(R.color.fg_text_secondary),
+                modifier = Modifier.size(20.dp),
+                textAlign = TextAlign.Center,
+            )
+
+            Box(
+                modifier = Modifier
+                    .padding(start = 35.dp)
+                    .width(140.dp)
+                    .height(44.dp)
+                    .background(
+                        color = colorResource(R.color.fg_nuetral_gray600),
+                        shape = RoundedCornerShape(10.dp),
+                    ),
+            ) {
+                Text(
+                    text = "6'30''",
+                    style = Body_body2_semiBold,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterStart),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "5",
+                style = Body_body4_medium,
+                color = colorResource(R.color.fg_text_secondary),
+                modifier = Modifier.size(20.dp),
+                textAlign = TextAlign.Center,
+            )
+
+            Box(
+                modifier = Modifier
+                    .padding(start = 35.dp)
+                    .width(120.dp)
+                    .height(44.dp)
+                    .background(
+                        color = colorResource(R.color.fg_nuetral_gray600),
+                        shape = RoundedCornerShape(10.dp),
+                    ),
+            ) {
+                Text(
+                    text = "6'40''",
+                    style = Body_body2_semiBold,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterStart),
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 20.dp, top = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "6",
+                style = Body_body4_medium,
+                color = colorResource(R.color.fg_text_secondary),
+                modifier = Modifier.size(20.dp),
+                textAlign = TextAlign.Center,
+            )
+
+            Box(
+                modifier = Modifier
+                    .padding(start = 35.dp)
+                    .width(100.dp)
+                    .height(44.dp)
+                    .background(
+                        color = colorResource(R.color.fg_nuetral_gray600),
+                        shape = RoundedCornerShape(10.dp),
+                    ),
+            ) {
+                Text(
+                    text = "6'50''",
+                    style = Body_body2_semiBold,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.CenterStart),
+                )
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -456,6 +668,8 @@ internal fun RecordDetailLabSection(
 private fun RecordDetailScreenPreview() {
     RecordDetailScreen(
         padding = PaddingValues(0.dp),
+        onNavigateToSetGoalOnBoarding = {},
+        recordId = 1,
         uiState = RecordDetailState(),
         onBackClick = {},
     )

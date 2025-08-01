@@ -36,6 +36,7 @@ fun NavController.navigateToPlaying() {
 fun NavGraphBuilder.runningNavGraph(
     padding: PaddingValues,
     onNavigateToPlay: () -> Unit = {},
+    onNavigateToSetGoalOnBoarding: () -> Unit,
 ) {
     composable<ReadyRoute> {
         ReadyRoute(
@@ -49,6 +50,7 @@ fun NavGraphBuilder.runningNavGraph(
         PlayingRoute(
             padding = padding,
             viewModel = viewModel,
+            onNavigateToSetGoalOnBoarding = onNavigateToSetGoalOnBoarding,
         )
     }
 

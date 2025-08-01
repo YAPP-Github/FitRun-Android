@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -55,10 +56,12 @@ import kotlin.text.toInt
 
 @Composable
 fun SetPaceSection(
+    modifier: Modifier = Modifier,
     initialPace: Int = 420, // 초 단위, 기본값 7'00" = 420초
     onPaceChange: (Int) -> Unit = {},
 ) {
     PaceInputWithProgress(
+        modifier = modifier,
         initialPace = initialPace,
         onPaceChange = { paceSeconds ->
             onPaceChange(paceSeconds)
@@ -83,9 +86,9 @@ fun PaceInputWithProgress(
 
     // 초기 슬라이더 값 계산
     val initialSliderValue = when (initialPace) {
-        360 -> 0f // 6'00"
+        360 -> 2f // 8'00"
         420 -> 1f // 7'00"
-        480 -> 2f // 8'00"
+        480 -> 0f // 6'00"
         else -> when {
             initialPace <= 390 -> 0f
             initialPace <= 450 -> 1f
@@ -98,16 +101,14 @@ fun PaceInputWithProgress(
 
     Column(
         modifier = modifier
-            .fillMaxHeight()
+            .wrapContentHeight()
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(64.dp))
-        // 일주일에 텍스트
         Text(
-            text = "일주일에",
+            text = "나의 페이스는",
             style = Body_body3_semiBold,
             color = colorResource(R.color.fg_text_secondary),
         )
@@ -122,9 +123,9 @@ fun PaceInputWithProgress(
                     onPaceChange(seconds)
                     // 텍스트 입력에 따라 슬라이더 값도 업데이트
                     sliderValue = when {
-                        seconds <= 390 -> 0f // 6'30" 이하는 6'00"
+                        seconds <= 390 -> 2f // 8'00"
                         seconds <= 450 -> 1f // 7'30" 이하는 7'00"
-                        else -> 2f // 그 이상은 8'00"
+                        else -> 0f // 6'00"
                     }
                 }
             },
@@ -142,9 +143,9 @@ fun PaceInputWithProgress(
                 // 슬라이더 값에 따라 페이스 텍스트 업데이트
                 val roundedValue = newValue.roundToInt()
                 val paceSeconds = when (roundedValue) {
-                    0 -> 360 // 6'00"
+                    0 -> 480 // 8'00"
                     1 -> 420 // 7'00"
-                    2 -> 480 // 8'00"
+                    2 -> 360 // 6'00"
                     else -> 420
                 }
                 val minutes = paceSeconds / 60

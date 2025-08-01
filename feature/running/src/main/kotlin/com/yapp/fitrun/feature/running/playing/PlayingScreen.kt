@@ -51,6 +51,7 @@ import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingSideEffect
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingState
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingViewModel
+import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingSideEffect
 import com.yapp.fitrun.feature.running.service.PlayingService
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -60,8 +61,16 @@ import java.util.Locale
 internal fun PlayingRoute(
     padding: PaddingValues,
     viewModel: PlayingViewModel,
+    onNavigateToSetGoalOnBoarding: () -> Unit,
 ) {
     val state by viewModel.collectAsState()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is PlayingSideEffect.ShowStopConfirmDialog -> onNavigateToSetGoalOnBoarding()
+            else -> {}
+        }
+    }
 
     PlayingScreen(
         padding = padding,

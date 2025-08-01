@@ -88,6 +88,7 @@ internal fun SetGoalRoute(
             SetGoalSideEffect.NavigateToComplete -> {
                 onNavigateToComplete()
             }
+            else -> {}
         }
     }
 
