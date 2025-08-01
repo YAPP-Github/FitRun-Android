@@ -23,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,12 +53,14 @@ import com.yapp.fitrun.core.designsystem.pretendardFamily
 
 @Composable
 fun SetRunningCountSection(
+    modifier: Modifier = Modifier,
     initialCount: Int = 3,
     isRemindEnabled: Boolean = false,
     onRunningCountChange: (Int) -> Unit = {},
     onRemindEnabledChange: (Boolean) -> Unit = {},
 ) {
     RunningCountInput(
+        modifier = modifier,
         initialCount = initialCount,
         isRemindEnabled = isRemindEnabled,
         onRunningCountChange = onRunningCountChange,
@@ -212,6 +216,7 @@ private fun RunningCountTextField(
                     trim = LineHeightStyle.Trim.None,
                 ),
             ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             decorationBox = { innerTextField ->
                 Column(
                     modifier = Modifier
