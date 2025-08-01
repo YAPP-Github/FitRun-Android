@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -41,6 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +56,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.yapp.fitrun.core.designsystem.Body_body2_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.R
+import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
 import com.yapp.fitrun.feature.setgoal.component.SetPaceSection
 import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection
@@ -88,6 +93,7 @@ internal fun SetGoalRoute(
             SetGoalSideEffect.NavigateToComplete -> {
                 onNavigateToComplete()
             }
+
             else -> {}
         }
     }
@@ -127,9 +133,17 @@ internal fun SetGoalScreen(
     onLottieAnimationEnd: () -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = { 2 })
+    val focusManager = LocalFocusManager.current
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .focusable(true)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
     ) {
         Scaffold(
             modifier = Modifier
@@ -137,36 +151,19 @@ internal fun SetGoalScreen(
                 .padding(
                     bottom = padding.calculateBottomPadding(),
                 ),
-            topBar = { NavigationTopAppBar() },
-            bottomBar = {
-                Button(
-                    onClick = {
-                        onSubmit()
-                    },
-                    enabled = !state.isLoading,
+            topBar = {
+                NavigationTopAppBar(
                     modifier = Modifier
-                        .padding(horizontal = 20.dp, vertical = 12.dp)
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .imePadding(),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = colorResource(R.color.bg_interactive_primary),
-                    ),
-                ) {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
-                            color = colorResource(R.color.fg_text_interactive_inverse),
-                        )
-                    } else {
-                        Text(
-                            text = "루틴 설정하기",
-                            color = colorResource(R.color.fg_text_interactive_inverse),
-                            style = Body_body3_semiBold,
-                        )
-                    }
-                }
+                )
+            },
+            bottomBar = {
+                FitRunTextButton(
+                    modifier = Modifier
+                        .padding(start = 20.dp, end = 20.dp)
+                        .advancedImePadding(),
+                    onClick = onSubmit,
+                    text = "루틴 설정하기",
+                )
             },
         ) { innerPadding ->
             Column(
@@ -187,6 +184,7 @@ internal fun SetGoalScreen(
                 ) { page ->
                     when (page) {
                         0 -> SetPaceSection(
+                            modifier = Modifier,
                             initialPace = state.currentPaceInput ?: 420,
                             onPaceChange = { paceSeconds ->
                                 onPaceChange(paceSeconds)
@@ -194,6 +192,7 @@ internal fun SetGoalScreen(
                         )
 
                         1 -> SetRunningCountSection(
+                            modifier = Modifier,
                             initialCount = state.currentRunCountInput ?: 3,
                             isRemindEnabled = state.currentRemindEnabled,
                             onRunningCountChange = { count ->

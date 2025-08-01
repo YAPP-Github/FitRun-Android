@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,12 +38,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -80,7 +86,6 @@ fun PaceInputWithProgress(
     val initialMinutes = initialPace / 60
     val initialSeconds = initialPace % 60
     val initialPaceText = String.format(Locale.getDefault(), "%d'%02d\"", initialMinutes, initialSeconds)
-
     var paceText by remember { mutableStateOf(initialPaceText) }
     var isFocused by remember { mutableStateOf(false) }
 
@@ -101,10 +106,97 @@ fun PaceInputWithProgress(
 
     Column(
         modifier = modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
+            .padding(horizontal = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(64.dp))
+        Text(
+            text = "일주일에",
+            style = Body_body3_semiBold,
+            color = colorResource(R.color.fg_text_secondary),
+        )
+
+        // Pace Input TextField
+        PaceTextField(
+            value = paceText,
+            onValueChange = { newValue ->
+                paceText = newValue
+                val seconds = parsePaceToSeconds(newValue)
+                if (seconds != null) {
+                    onPaceChange(seconds)
+                    // 텍스트 입력에 따라 슬라이더 값도 업데이트
+                    sliderValue = when {
+                        seconds <= 390 -> 2f // 8'00"
+                        seconds <= 450 -> 1f // 7'30" 이하는 7'00"
+                        else -> 0f // 6'00"
+                    }
+                }
+            },
+            isFocused = isFocused,
+            onFocusChanged = { focused ->
+                isFocused = focused
+            },
+        )
+        Spacer(modifier = Modifier.height(40.dp))
+        // Custom Styled Slider
+        CustomPaceSlider(
+            value = sliderValue,
+            onValueChange = { newValue ->
+                sliderValue = newValue
+                // 슬라이더 값에 따라 페이스 텍스트 업데이트
+                val roundedValue = newValue.roundToInt()
+                val paceSeconds = when (roundedValue) {
+                    0 -> 480 // 8'00"
+                    1 -> 420 // 7'00"
+                    2 -> 360 // 6'00"
+                    else -> 420
+                }
+                val minutes = paceSeconds / 60
+                val seconds = paceSeconds % 60
+                paceText = String.format(Locale.getDefault(), "%d'%02d\"", minutes, seconds)
+                onPaceChange(paceSeconds)
+            },
+        )
+    }
+}
+
+@Composable
+fun SetPaceOnBoardingSection(
+    modifier: Modifier = Modifier,
+    initialPace: Int = 420, // 초 단위, 기본값 7'00" = 420초
+    onPaceChange: (Int) -> Unit = {},
+) {
+    val focusManager = LocalFocusManager.current
+    // 초기 페이스 텍스트 계산
+    val initialMinutes = initialPace / 60
+    val initialSeconds = initialPace % 60
+    val initialPaceText = String.format(Locale.getDefault(), "%d'%02d\"", initialMinutes, initialSeconds)
+
+    var paceText by remember { mutableStateOf(initialPaceText) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    // 초기 슬라이더 값 계산
+    val initialSliderValue = when (initialPace) {
+        360 -> 2f // 8'00"
+        420 -> 1f // 7'00"
+        480 -> 0f // 6'00"
+        else -> when {
+            initialPace <= 390 -> 0f
+            initialPace <= 450 -> 1f
+            else -> 2f
+        }
+    }
+
+    var sliderValue by remember { mutableFloatStateOf(initialSliderValue) }
+
+    Column(
+        modifier = modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .verticalScroll(scrollState),
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -174,13 +266,21 @@ private fun PaceTextField(
         label = "underlineHeightAnimation",
     )
 
+    // TextFieldValue를 사용하여 커서 위치 제어
+    var textFieldValue by remember(value) {
+        mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
             BasicTextField(
-                value = value,
+                value = textFieldValue,
                 onValueChange = { newValue ->
+                    val oldText = textFieldValue.text
+                    val newText = newValue.text
+
                     // 숫자만 추출
-                    val digitsOnly = newValue.filter { it.isDigit() }
+                    val digitsOnly = newText.filter { it.isDigit() }
 
                     // 최대 3자리까지만 허용 (9'59" 까지 가능)
                     val limitedDigits = digitsOnly.take(3)
@@ -193,6 +293,26 @@ private fun PaceTextField(
                         3 -> "${limitedDigits[0]}'${limitedDigits[1]}${limitedDigits[2]}\""
                         else -> value // 이 경우는 발생하지 않음
                     }
+
+                    // 커서 위치 계산
+                    val cursorPosition = when {
+                        // 새로운 문자가 추가되었을 때
+                        formattedValue.length > oldText.length -> {
+                            when (limitedDigits.length) {
+                                1 -> 2 // 1' 다음 위치
+                                2 -> 3 // 1'2 다음 위치
+                                3 -> 5 // 1'23" 다음 위치
+                                else -> formattedValue.length
+                            }
+                        }
+                        // 삭제되었을 때는 기본 동작 유지
+                        else -> newValue.selection.start.coerceAtMost(formattedValue.length)
+                    }
+
+                    textFieldValue = TextFieldValue(
+                        text = formattedValue,
+                        selection = TextRange(cursorPosition),
+                    )
 
                     onValueChange(formattedValue)
                 },
