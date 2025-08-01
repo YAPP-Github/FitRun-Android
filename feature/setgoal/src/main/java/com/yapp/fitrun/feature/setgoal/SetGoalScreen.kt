@@ -58,6 +58,7 @@ import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
+import com.yapp.fitrun.core.ui.advancedImePadding
 import com.yapp.fitrun.feature.setgoal.component.SetPaceSection
 import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection
 import com.yapp.fitrun.feature.setgoal.viewmodel.SetGoalSideEffect

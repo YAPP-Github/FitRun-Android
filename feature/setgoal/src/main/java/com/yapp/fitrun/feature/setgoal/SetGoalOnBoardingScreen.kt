@@ -51,6 +51,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
+import com.yapp.fitrun.core.ui.advancedImePadding
 import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.setgoal.component.SetPaceOnBoardingSection
 import com.yapp.fitrun.feature.setgoal.viewmodel.SetGoalSideEffect
@@ -138,7 +139,7 @@ internal fun SetGoalOnBoardingScreen(
         bottomBar = {
             FitRunTextButton(
                 modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp)
+                    .padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
                     .advancedImePadding(),
                 onClick = onSubmit,
                 text = "설정하기",
@@ -206,7 +207,6 @@ internal fun SetGoalOnBoardingScreen(
             Image(
                 modifier = Modifier
                     .padding(start = 20.dp, end = 20.dp, bottom = 36.dp)
-                    .clickable { }
                     .align(Alignment.CenterHorizontally),
                 painter = painterResource(R.drawable.ic_info),
                 contentDescription = "set pace goal",
@@ -227,17 +227,4 @@ fun SetGoalOnBoardingScreenPreview() {
         onSnackBarClick = {},
         showSnackBar = true,
     )
-}
-
-fun Modifier.advancedImePadding() = composed {
-    var consumePadding by remember { mutableStateOf(0) }
-    onGloballyPositioned { coordinates ->
-        consumePadding = coordinates.findRootCoordinates().size.height -
-                (coordinates.positionInWindow().y + coordinates.size.height).toInt()
-                    .coerceAtLeast(0)
-    }
-        .consumeWindowInsets(
-            PaddingValues(bottom = with(LocalDensity.current) { consumePadding.toDp() })
-        )
-        .imePadding()
 }

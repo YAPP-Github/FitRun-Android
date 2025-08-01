@@ -6,6 +6,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,14 +28,19 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -72,6 +79,7 @@ import com.yapp.fitrun.core.designsystem.pretendardFamily
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
+import com.yapp.fitrun.core.ui.advancedImePadding
 import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingSideEffect
 
@@ -364,6 +372,7 @@ internal fun RunningOnBoardingThirdScreen(
     navigateToReady: () -> Unit,
     onClickSaveGoal: () -> Unit,
 ) {
+    var isFocused by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val goalValue = remember { mutableStateOf(if (uiState.isShowTimeGoal) "30" else "3") }
@@ -376,128 +385,135 @@ internal fun RunningOnBoardingThirdScreen(
         isPlaying = uiState.isSetGoalSuccess,
     )
 
-    Column(
+    Scaffold(
         modifier = Modifier
+            .background(colorResource(R.color.fg_nuetral_gray1000))
             .fillMaxSize()
-            .background(colorResource(R.color.fg_nuetral_gray1000)),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .focusable(true)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
+        topBar = {
+            NavigationTopAppBar(
+                onLeftNavigationClick = onBackClick,
+                leftNavigationIconTint = colorResource(R.color.fg_icon_interactive_inverse),
+                isRightIconVisible = false,
+            )
+        },
+        bottomBar = {
+            FitRunTextButton(
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
+                    .padding(bottom = padding.calculateBottomPadding())
+                    .advancedImePadding(),
+                onClick = onClickSaveGoal,
+                text = stringResource(R.string.running_on_boarding_set_goal_run),
+            )
+        },
     ) {
-        NavigationTopAppBar(
-            onLeftNavigationClick = onBackClick,
-            onRightNavigationClick = navigateToReady,
-            leftNavigationIconTint = colorResource(R.color.fg_icon_interactive_inverse),
-            rightIconText = stringResource(R.string.running_on_boarding_skip),
-            rightIconColor = colorResource(R.color.fg_text_interactive_secondary),
-            isRightIconVisible = true,
-        )
-
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = padding.calculateBottomPadding())
-                .padding(bottom = 12.dp),
+                .background(colorResource(R.color.fg_nuetral_gray1000)),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .imePadding()
-                    .noRippleClickable {
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally,
+                    .padding(it),
             ) {
-                Text(
-                    text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_title)
-                    else stringResource(R.string.running_on_boarding_goal_distance_title),
-                    modifier = Modifier.padding(top = 36.dp),
-                    textAlign = TextAlign.Center,
-                    color = colorResource(R.color.fg_text_interactive_inverse),
-                    style = Head_h2_bold,
-                )
-
-                Text(
-                    text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_description)
-                    else stringResource(R.string.running_on_boarding_goal_distance_description),
-                    modifier = Modifier.padding(top = 12.dp),
-                    textAlign = TextAlign.Center,
-                    color = colorResource(R.color.fg_nuetral_gray400),
-                    style = Body_body3_regular,
-                )
-
-                Spacer(modifier = Modifier.weight(0.2f))
-
-                Row(
-                    modifier = Modifier.wrapContentSize(),
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    BasicTextField(
-                        modifier = Modifier.width(IntrinsicSize.Min),
-                        value = goalValue.value,
-                        onValueChange = {
-                            goalValue.value = it
-                        },
-                        textStyle = TextStyle(
-                            textAlign = TextAlign.End,
-                            fontFamily = pretendardFamily,
-                            fontWeight = FontWeight(LocalContext.current.resources.getInteger(R.integer.font_weight_normal_bold)),
-                            fontSize = 52.sp,
-                            color = colorResource(R.color.fg_text_interactive_inverse),
-                            lineHeight = dimensionResource(id = R.dimen.line_height_1700).value.sp,
-                            letterSpacing = dimensionResource(id = R.dimen.number_letter_spacing).value.sp,
-                            lineHeightStyle = LineHeightStyle(
-                                alignment = LineHeightStyle.Alignment.Center,
-                                trim = LineHeightStyle.Trim.None,
-                            ),
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Number,
-                        ),
-                        decorationBox = { innerTextField ->
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(all = 16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                            ) {
-                                innerTextField()
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(2.dp)
-                                        .background(colorResource(R.color.bg_interactive_primary)),
-                                )
-                            }
-                        },
+                    Text(
+                        text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_title)
+                        else stringResource(R.string.running_on_boarding_goal_distance_title),
+                        modifier = Modifier.padding(top = 36.dp),
+                        textAlign = TextAlign.Center,
+                        color = colorResource(R.color.fg_text_interactive_inverse),
+                        style = Head_h2_bold,
                     )
 
                     Text(
-                        text = if (uiState.isShowTimeGoal) "분" else "km",
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .padding(top = 10.dp),
+                        text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_description)
+                        else stringResource(R.string.running_on_boarding_goal_distance_description),
+                        modifier = Modifier.padding(top = 12.dp),
                         textAlign = TextAlign.Center,
-                        color = colorResource(R.color.fg_text_disabled),
-                        style = Head_h1_bold,
+                        color = colorResource(R.color.fg_nuetral_gray400),
+                        style = Body_body3_regular,
                     )
+
+                    Row(
+                        modifier = Modifier.wrapContentSize(),
+                    ) {
+                        BasicTextField(
+                            modifier = Modifier
+                                .width(IntrinsicSize.Min)
+                                .onFocusChanged { focused ->
+                                    isFocused = focused.isFocused
+                                },
+                            value = goalValue.value,
+                            onValueChange = {
+                                goalValue.value = it
+                            },
+                            textStyle = TextStyle(
+                                textAlign = TextAlign.End,
+                                fontFamily = pretendardFamily,
+                                fontWeight = FontWeight(LocalContext.current.resources.getInteger(R.integer.font_weight_normal_bold)),
+                                fontSize = 52.sp,
+                                color = colorResource(R.color.fg_text_interactive_inverse),
+                                lineHeight = dimensionResource(id = R.dimen.line_height_1700).value.sp,
+                                letterSpacing = dimensionResource(id = R.dimen.number_letter_spacing).value.sp,
+                                lineHeightStyle = LineHeightStyle(
+                                    alignment = LineHeightStyle.Alignment.Center,
+                                    trim = LineHeightStyle.Trim.None,
+                                ),
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number,
+                            ),
+                            decorationBox = { innerTextField ->
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(all = 16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    innerTextField()
+                                    Spacer(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(2.dp)
+                                            .background(if (isFocused) colorResource(R.color.bg_interactive_primary) else Color.Unspecified),
+                                    )
+                                }
+                            },
+                        )
+
+                        Text(
+                            text = if (uiState.isShowTimeGoal) "분" else "km",
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(top = 10.dp),
+                            textAlign = TextAlign.Center,
+                            color = colorResource(R.color.fg_text_disabled),
+                            style = Head_h1_bold,
+                        )
+                    }
                 }
 
-                Spacer(modifier = Modifier.weight(0.8f))
-
-                FitRunTextButton(
-                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    onClick = onClickSaveGoal,
-                    text = stringResource(R.string.running_on_boarding_set_goal_run),
+                LottieAnimation(
+                    composition = composition,
+                    progress = { progress },
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.TopCenter)
+                        .padding(top = 192.dp),
                 )
             }
-
-            LottieAnimation(
-                composition = composition,
-                progress = { progress },
-                modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.TopCenter)
-                    .padding(top = 192.dp),
-            )
         }
     }
 }
