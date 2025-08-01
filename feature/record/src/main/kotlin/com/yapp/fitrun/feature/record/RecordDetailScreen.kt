@@ -90,8 +90,7 @@ internal fun RecordDetailScreen(
     uiState: RecordDetailState,
     padding: PaddingValues,
 ) {
-    Box()
-    {
+    Box {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -158,14 +157,16 @@ internal fun RecordDetailScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(colorResource(R.color.black_alpha_600))
+                    .background(
+                        colorResource(R.color.black_alpha_600),
+                    )
             ) {
                 Image(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .width(290.dp)
                         .height(360.dp)
-                        .noRippleClickable { onNavigateToSetGoalOnBoarding()  },
+                        .noRippleClickable { onNavigateToSetGoalOnBoarding() },
                     painter = painterResource(R.drawable.ic_popup),
                     contentDescription = "set time goal",
                     contentScale = ContentScale.Fit,
