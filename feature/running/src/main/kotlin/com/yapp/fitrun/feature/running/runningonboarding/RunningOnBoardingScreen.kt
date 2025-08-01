@@ -246,7 +246,7 @@ internal fun RunningOnBoardingSecondScreen(
             GoalButton(
                 modifier = Modifier.weight(0.5f),
                 onClick = { onClickSetGoal(0) },
-                imageResource = painterResource(R.drawable.ic_running_clock),
+                imageResource = painterResource(R.drawable.ic_clock),
                 title = stringResource(R.string.running_on_boarding_goal_time),
                 description = stringResource(R.string.running_on_boarding_goal_time_content),
             )
@@ -256,7 +256,7 @@ internal fun RunningOnBoardingSecondScreen(
             GoalButton(
                 modifier = Modifier.weight(0.5f),
                 onClick = { onClickSetGoal(1) },
-                imageResource = painterResource(R.drawable.ic_running_track),
+                imageResource = painterResource(R.drawable.ic_track),
                 title = stringResource(R.string.running_on_boarding_goal_distance),
                 description = stringResource(R.string.running_on_boarding_goal_distance_content),
             )
