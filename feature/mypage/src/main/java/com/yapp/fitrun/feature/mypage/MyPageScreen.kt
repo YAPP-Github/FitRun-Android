@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -69,7 +70,7 @@ internal fun MyPageScreen(
         // 상단 타이틀
         item {
             Text(
-                text = "마이페이지",
+                text = stringResource(R.string.my_page_title),
                 style = Head_h4_bold,
                 color = colorResource(R.color.fg_text_primary),
                 modifier = Modifier
@@ -181,13 +182,13 @@ internal fun UserInfoSection() {
             UserLevelComponent(
                 modifier = Modifier.fillMaxWidth(fraction = 0.5f),
                 iconResource = painterResource(R.drawable.img_chicken),
-                title = "체력 수준",
+                title = stringResource(R.string.my_page_user_level),
                 content = "워밍업 러너",
             )
 
             UserLevelComponent(
                 iconResource = painterResource(R.drawable.img_fire),
-                title = "러닝 목표",
+                title = stringResource(R.string.my_page_user_goal),
                 content = "다이어트",
             )
         }
@@ -203,7 +204,7 @@ internal fun RunningGoalSection() {
             .wrapContentHeight(),
     ) {
         Text(
-            text = "러닝 목표",
+            text = stringResource(R.string.my_page_user_goal),
             style = Body_body4_semiBold,
             color = colorResource(R.color.fg_text_secondary),
         )
@@ -219,7 +220,7 @@ internal fun RunningGoalSection() {
             Spacer(Modifier.height(16.dp))
 
             SettingGoalComponent(
-                title = "목표 거리",
+                title = stringResource(R.string.my_page_user_goal_distance),
                 content = "5km",
                 iconResource = painterResource(R.drawable.ic_track),
                 iconSize = DpSize(width = 31.dp, height = 21.dp),
@@ -228,7 +229,7 @@ internal fun RunningGoalSection() {
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
-                title = "목표 시간",
+                title = stringResource(R.string.my_page_user_goal_time),
                 content = "90분",
                 iconResource = painterResource(R.drawable.ic_clock),
                 iconSize = DpSize(width = 20.dp, height = 21.dp),
@@ -237,7 +238,7 @@ internal fun RunningGoalSection() {
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
-                title = "목표 페이스",
+                title = stringResource(R.string.my_page_user_goal_pace),
                 content = "6'00''",
                 iconResource = painterResource(R.drawable.ic_target),
                 iconSize = DpSize(width = 24.dp, height = 24.dp),
@@ -246,7 +247,7 @@ internal fun RunningGoalSection() {
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
-                title = "러닝 횟수",
+                title = stringResource(R.string.my_page_user_goal_frequency),
                 content = "주 3회",
                 iconResource = painterResource(R.drawable.ic_frequency),
                 iconSize = DpSize(width = 28.dp, height = 28.dp),
@@ -266,7 +267,7 @@ internal fun SettingSection() {
             .wrapContentHeight(),
     ) {
         Text(
-            text = "설정",
+            text = stringResource(R.string.my_page_setting),
             style = Body_body4_semiBold,
             color = colorResource(R.color.fg_text_secondary),
         )
@@ -281,11 +282,11 @@ internal fun SettingSection() {
         ) {
             Spacer(Modifier.height(12.dp))
 
-            SettingTextComponent(title = "러닝 설정")
+            SettingTextComponent(title = stringResource(R.string.my_page_setting_running))
             Spacer(Modifier.height(4.dp))
-            SettingTextComponent(title = "알림 설정")
+            SettingTextComponent(title = stringResource(R.string.my_page_setting_notification))
             Spacer(Modifier.height(4.dp))
-            SettingTextComponent(title = "권한 설정")
+            SettingTextComponent(title = stringResource(R.string.my_page_setting_permission))
 
             Spacer(Modifier.height(12.dp))
         }
@@ -301,7 +302,7 @@ internal fun ServiceSection() {
             .wrapContentHeight(),
     ) {
         Text(
-            text = "서비스",
+            text = stringResource(R.string.my_page_service),
             style = Body_body4_semiBold,
             color = colorResource(R.color.fg_text_secondary),
         )
@@ -316,9 +317,9 @@ internal fun ServiceSection() {
         ) {
             Spacer(Modifier.height(12.dp))
 
-            SettingTextComponent(title = "약관 관리")
+            SettingTextComponent(title = stringResource(R.string.my_page_service_policy))
             Spacer(Modifier.height(4.dp))
-            SettingTextComponent(title = "서비스 이용 안내")
+            SettingTextComponent(title = stringResource(R.string.my_page_service_usage))
             Spacer(Modifier.height(4.dp))
             AppVersionComponent(versionInfo = "1.0.0")
 
@@ -337,7 +338,7 @@ internal fun FooterSection() {
     ) {
         Text(
             modifier = Modifier.padding(top = 23.dp),
-            text = "FitRun",
+            text = stringResource(R.string.app_name),
             style = TextStyle(
                 fontFamily = pretendardFamily,
                 fontWeight = FontWeight.ExtraBold,
@@ -464,7 +465,7 @@ internal fun AppVersionComponent(
         infoText = versionInfo,
     ) {
         Text(
-            text = "앱 버전 정보",
+            text = stringResource(R.string.my_page_service_app_version),
             style = Body_body3_semiBold,
             color = colorResource(R.color.fg_text_primary),
         )
