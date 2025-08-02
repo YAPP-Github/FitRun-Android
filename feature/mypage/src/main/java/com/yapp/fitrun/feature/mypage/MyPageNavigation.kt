@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object MyPageRoute // route to ForYou screen
+data object MyPageRoute
 
 fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MyPageRoute, navOptions)

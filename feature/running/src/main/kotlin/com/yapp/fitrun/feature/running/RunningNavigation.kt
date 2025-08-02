@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.running
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -11,13 +12,13 @@ import com.yapp.fitrun.feature.running.ready.ReadyRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object ReadyRoute // route to ForYou screen
+data object ReadyRoute
 
 @Serializable
-data object PlayingRoute // route to ForYou screen
+data object PlayingRoute
 
 @Serializable
-data object FinishRoute // route to ForYou screen
+data object FinishRoute
 
 fun NavController.navigateToReady() {
     navigate(ReadyRoute)
@@ -33,6 +34,7 @@ fun NavController.navigateToPlaying() {
 }
 
 fun NavGraphBuilder.runningNavGraph(
+    padding: PaddingValues,
     onNavigateToPlay: () -> Unit = {},
 ) {
     composable<ReadyRoute> {
@@ -44,7 +46,10 @@ fun NavGraphBuilder.runningNavGraph(
     composable<PlayingRoute> {
         val viewModel = hiltViewModel<PlayingViewModel>()
 
-        PlayingRoute(viewModel = viewModel)
+        PlayingRoute(
+            padding = padding,
+            viewModel = viewModel,
+        )
     }
 
     composable<FinishRoute> {

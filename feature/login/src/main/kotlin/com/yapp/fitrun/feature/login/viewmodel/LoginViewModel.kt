@@ -46,11 +46,6 @@ class LoginViewModel @Inject constructor(
         try {
             // ID Token 가져오기 (OIDC 필요)
             val idToken = oAuthToken.idToken ?: oAuthToken.accessToken // idToken이 없으면 accessToken 사용
-
-            // TODO: 디버깅 용으로 일단 심어둠
-            println("idToken: " + oAuthToken.idToken)
-            println("accessToken: " + oAuthToken.accessToken)
-
             sendLoginToServer(idToken)
         } catch (e: NetworkErrorException) {
             reduce { state.copy(isLoading = false) }

@@ -21,6 +21,10 @@ class MainActivity : ComponentActivity() {
                 Color.Transparent.toArgb(),
                 Color.Transparent.toArgb(),
             ),
+            navigationBarStyle = SystemBarStyle.light(
+                Color.Transparent.toArgb(),
+                Color.Transparent.toArgb(),
+            ),
         )
 
         val isNew = intent.getBooleanExtra("isNew", false)

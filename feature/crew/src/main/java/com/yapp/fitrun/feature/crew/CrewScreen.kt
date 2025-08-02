@@ -2,7 +2,9 @@ package com.yapp.fitrun.feature.crew
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,14 +16,27 @@ import com.yapp.fitrun.core.designsystem.Head_h1_bold
 import com.yapp.fitrun.core.designsystem.R
 
 @Composable
-internal fun CrewRoute() {
-    CrewScreen()
+internal fun CrewRoute(
+    // TODO: viewmodel
+    padding: PaddingValues,
+) {
+    CrewScreen(
+        padding = padding,
+    )
 }
 
 @Composable
-internal fun CrewScreen() {
+internal fun CrewScreen(
+    padding: PaddingValues,
+) {
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.White),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = padding.calculateTopPadding(),
+                bottom = padding.calculateBottomPadding(),
+            )
+            .background(Color.White),
     ) {
         Text(
             text = "Crew",
@@ -35,5 +50,7 @@ internal fun CrewScreen() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    CrewScreen()
+    CrewScreen(
+        padding = PaddingValues(),
+    )
 }

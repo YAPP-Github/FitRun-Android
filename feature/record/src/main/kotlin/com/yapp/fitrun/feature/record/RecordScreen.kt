@@ -88,14 +88,20 @@ internal fun RecordScreen(
     onNavigateToRecordDetail: (Int) -> Unit,
 ) {
     if (uiState.recordCount == 0) {
-        NoRecordDataView()
+        NoRecordDataView(
+            padding = padding,
+        )
     } else {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.bg_primary))
-                .padding(padding),
-            contentPadding = PaddingValues(horizontal = 20.dp),
+                .background(colorResource(R.color.bg_primary)),
+            contentPadding = PaddingValues(
+                start = 20.dp,
+                end = 20.dp,
+                top = padding.calculateTopPadding(),
+                bottom = padding.calculateBottomPadding(),
+            ),
         ) {
             // 상단 타이틀
             item {
@@ -205,7 +211,7 @@ internal fun RecordScreen(
                                 modifier = Modifier
                                     .width(29.dp)
                                     .height(20.dp),
-                                painter = painterResource(R.drawable.ic_running_track),
+                                painter = painterResource(R.drawable.ic_track),
                                 contentDescription = "set time goal",
                                 contentScale = ContentScale.Fit,
                             )
@@ -251,7 +257,7 @@ internal fun RecordScreen(
                                 modifier = Modifier
                                     .width(29.dp)
                                     .height(20.dp),
-                                painter = painterResource(R.drawable.ic_running_clock),
+                                painter = painterResource(R.drawable.ic_clock),
                                 contentDescription = "set time goal",
                                 contentScale = ContentScale.Fit,
                             )
@@ -303,9 +309,13 @@ internal fun RecordScreen(
 }
 
 @Composable
-private fun NoRecordDataView() {
+private fun NoRecordDataView(
+    padding: PaddingValues,
+) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(R.color.bg_primary)),
     ) {
         Text(
             text = "기록",
@@ -313,6 +323,7 @@ private fun NoRecordDataView() {
             color = colorResource(R.color.fg_text_primary),
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(top = padding.calculateTopPadding())
                 .padding(top = 16.dp, bottom = 16.dp, start = 20.dp),
         )
         Column(
