@@ -67,9 +67,12 @@ internal fun MainNavHost(
                 padding = padding,
                 onNavigateToRecordDetail = navigator::navigateToRecordDetail,
             )
-            crewNavGraph()
+            crewNavGraph(
+                padding = padding,
+            )
             myPageNavGraph(padding = padding)
             onBoardingNavGraph(
+                padding = padding,
                 navController = navigator.navController,
                 onBackClick = { navigator.navController.popBackStack() },
                 onNavigateToHome = {
@@ -81,14 +84,18 @@ internal fun MainNavHost(
                 onNavigateToOnBoardingResult = navigator::navigateToOnBoardingResult,
             )
             runningOnBoardingNavGraph(
+                padding = padding,
                 navController = navigator.navController,
                 onBackClick = { navigator.navController.popBackStack() },
                 onNavigateToReady = navigator::navigateToRunning,
                 onNavigateToRunningOnBoardingSecond = navigator::navigateToRunningOnBoardingSecond,
                 onNavigateToRunningOnBoardingThird = navigator::navigateToRunningOnBoardingThird,
             )
-            runningNavGraph(onNavigateToPlay = navigator::navigateToPlaying)
-            setGoalNavGraph()
+            runningNavGraph(
+                padding = padding,
+                onNavigateToPlay = navigator::navigateToPlaying,
+            )
+            setGoalNavGraph(padding = padding)
         }
     }
 }

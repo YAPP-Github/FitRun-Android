@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.onboarding.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -52,6 +53,7 @@ fun NavController.navigateToOnBoardingResult() {
 }
 
 fun NavGraphBuilder.onBoardingNavGraph(
+    padding: PaddingValues,
     navController: NavController,
     onBackClick: () -> Unit,
     onNavigateToHome: () -> Unit,
@@ -67,6 +69,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingFirstRoute(
+                padding = padding,
                 onNavigateToOnBoardingSecond = onNavigateToOnBoardingSecond,
                 viewModel = viewModel,
             )
@@ -76,6 +79,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingSecondRoute(
+                padding = padding,
                 onBackClick = onBackClick,
                 onNavigateToOnBoardingThird = onNavigateToOnBoardingThird,
                 viewModel = viewModel,
@@ -86,6 +90,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingThirdRoute(
+                padding = padding,
                 onBackClick = onBackClick,
                 onNavigateToOnBoardingFourth = onNavigateToOnBoardingFourth,
                 viewModel = viewModel,
@@ -96,6 +101,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingFourthRoute(
+                padding = padding,
                 onBackClick = onBackClick,
                 onNavigateToOnBoardingResult = onNavigateToOnBoardingResult,
                 viewModel = viewModel,
@@ -106,6 +112,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)
 
             OnBoardingResultRoute(
+                padding = padding,
                 navigateToHome = onNavigateToHome,
                 viewModel = viewModel,
             )
