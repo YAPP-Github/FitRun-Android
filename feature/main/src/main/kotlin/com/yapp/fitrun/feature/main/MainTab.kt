@@ -4,7 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.yapp.fitrun.feature.crew.CrewRoute
 import com.yapp.fitrun.feature.home.HomeRoute
-import com.yapp.fitrun.feature.mypage.MyPageRoute
+import com.yapp.fitrun.feature.mypage.navigation.MyPageRoute
 import com.yapp.fitrun.feature.record.RecordRoute
 import kotlin.reflect.KClass
 import com.yapp.fitrun.core.designsystem.R
