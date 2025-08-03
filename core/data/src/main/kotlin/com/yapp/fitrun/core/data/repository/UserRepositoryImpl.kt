@@ -3,7 +3,7 @@ package com.yapp.fitrun.core.data.repository
 import com.yapp.fitrun.core.data.mapper.toEntity
 import com.yapp.fitrun.core.domain.entity.OnBoardingEntity
 import com.yapp.fitrun.core.domain.entity.RunnerEntity
-import com.yapp.fitrun.core.domain.entity.UserEntity
+import com.yapp.fitrun.core.domain.entity.UserInfoEntity
 import com.yapp.fitrun.core.domain.repository.UserRepository
 import com.yapp.fitrun.core.network.UserDataSource
 import com.yapp.fitrun.core.network.model.request.OnBoardingAnswers
@@ -14,7 +14,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource,
 ) : UserRepository {
-    override suspend fun getUserInfo(): Result<UserEntity> {
+    override suspend fun getUserInfo(): Result<UserInfoEntity> {
         return runCatching {
             userDataSource.getUserInfo()
         }.fold(

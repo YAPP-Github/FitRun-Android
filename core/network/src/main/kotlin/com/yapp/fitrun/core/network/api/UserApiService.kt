@@ -4,7 +4,7 @@ import com.yapp.fitrun.core.network.model.request.OnBoardingRequest
 import com.yapp.fitrun.core.network.model.response.BaseResponse
 import com.yapp.fitrun.core.network.model.response.OnBoardingResponse
 import com.yapp.fitrun.core.network.model.response.RunnerResponse
-import com.yapp.fitrun.core.network.model.response.UserResponse
+import com.yapp.fitrun.core.network.model.response.UserInfoResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -13,7 +13,7 @@ import retrofit2.http.POST
 
 interface UserApiService {
     @GET("/api/v1/users")
-    suspend fun getUserInfo(): BaseResponse<UserResponse>
+    suspend fun getUserInfo(): BaseResponse<UserInfoResponse>
 
     @DELETE("/api/v1/users")
     suspend fun deleteAccount()

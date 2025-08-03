@@ -14,9 +14,9 @@ data class GoalResponse(
     @SerialName("weeklyRunningCount")
     val weeklyRunCount: Int? = null,
     @SerialName("paceGoal")
-    val paceGoal: Int? = null,
-    @SerialName("distanceMeter")
-    val distanceMeter: Double? = null,
+    val paceGoal: Long? = null,
+    @SerialName("distanceMeterGoal")
+    val distanceMeterGoal: Double? = null,
     @SerialName("timeGoal")
-    val timeGoal: Int? = null,
+    val timeGoal: Long? = null,
 )
