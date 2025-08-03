@@ -18,6 +18,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,26 +30,38 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_regular
 import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Body_body4_semiBold
 import com.yapp.fitrun.core.designsystem.Head_h2_semiBold
-import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
+import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun ChangeRunningPurposeRoute(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.collectAsState()
+
     ChangeRunningPurposeScreen(
+        uiState = uiState,
         padding = padding,
+        onBackClick = onBackClick,
     )
 }
 
 @Composable
 internal fun ChangeRunningPurposeScreen(
+    uiState: MyPageState,
     padding: PaddingValues,
+    onBackClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -56,8 +69,13 @@ internal fun ChangeRunningPurposeScreen(
             .background(colorResource(R.color.bg_primary)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        if (uiState.isLoading) {
+            // TODO
+        }
+
         FitRunTextTopAppBar(
             title = "러닝 목적 변경",
+            onLeftNavigationClick = onBackClick,
         )
         Text(
             modifier = Modifier.padding(top = 80.dp),
@@ -95,7 +113,6 @@ internal fun ChangeRunningPurposeScreen(
             text = "설정하기",
         )
     }
-
 }
 
 @Composable
@@ -107,13 +124,17 @@ internal fun RunningPurposeGroup(
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(selected) }
 
     Column(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(top = 44.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .padding(top = 44.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
             FitRunRadioButton(
+                modifier = Modifier.weight(0.5f),
                 iconResource = iconResources[0],
                 selectedOption = selectedOption,
                 text = runningPurposeOption[0],
@@ -122,6 +143,7 @@ internal fun RunningPurposeGroup(
             Spacer(modifier = Modifier.width(16.dp))
 
             FitRunRadioButton(
+                modifier = Modifier.weight(0.5f),
                 iconResource = iconResources[1],
                 selectedOption = selectedOption,
                 text = runningPurposeOption[1],
@@ -136,6 +158,7 @@ internal fun RunningPurposeGroup(
             horizontalArrangement = Arrangement.Center,
         ) {
             FitRunRadioButton(
+                modifier = Modifier.weight(0.5f),
                 iconResource = iconResources[2],
                 selectedOption = selectedOption,
                 text = runningPurposeOption[2],
@@ -144,6 +167,7 @@ internal fun RunningPurposeGroup(
             Spacer(modifier = Modifier.width(16.dp))
 
             FitRunRadioButton(
+                modifier = Modifier.weight(0.5f),
                 iconResource = iconResources[3],
                 selectedOption = selectedOption,
                 text = runningPurposeOption[3],
@@ -155,6 +179,7 @@ internal fun RunningPurposeGroup(
 
 @Composable
 internal fun FitRunRadioButton(
+    modifier: Modifier = Modifier,
     iconResource: Painter,
     selectedOption: String,
     text: String,
@@ -163,7 +188,7 @@ internal fun FitRunRadioButton(
     Column(
         Modifier
             .height(104.dp)
-            .width(160.dp)
+            .then(modifier)
             .background(
                 color = if (selectedOption == text) {
                     colorResource(R.color.bg_interactive_selected)
@@ -216,5 +241,9 @@ internal fun FitRunRadioButton(
 @Preview
 @Composable
 fun ChangeRunningPurposeScreenPreview() {
-    ChangeRunningPurposeScreen(PaddingValues())
+    ChangeRunningPurposeScreen(
+        uiState = MyPageState(),
+        padding = PaddingValues(),
+        onBackClick = {},
+    )
 }

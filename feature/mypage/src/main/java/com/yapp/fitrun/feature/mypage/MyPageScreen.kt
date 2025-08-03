@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -34,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Body_body4_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption1_medium
@@ -42,20 +44,37 @@ import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 import com.yapp.fitrun.core.ui.noRippleClickable
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun MyPageRoute(
     padding: PaddingValues,
+    onNavigateToChangeRunningLevel: () -> Unit,
+    onNavigateToChangeRunningPurpose: () -> Unit,
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.collectAsState()
+
     MyPageScreen(
+        uiState = uiState,
         padding = padding,
+        onNavigateToChangeRunningLevel = onNavigateToChangeRunningLevel,
+        onNavigateToChangeRunningPurpose = onNavigateToChangeRunningPurpose,
     )
 }
 
 @Composable
 internal fun MyPageScreen(
+    uiState: MyPageState,
     padding: PaddingValues,
+    onNavigateToChangeRunningLevel: () -> Unit,
+    onNavigateToChangeRunningPurpose: () -> Unit,
 ) {
+    if (uiState.isLoading) {
+        // TODO
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -81,7 +100,10 @@ internal fun MyPageScreen(
 
         // 유저 정보 섹션
         item {
-            UserInfoSection()
+            UserInfoSection(
+                onNavigateToChangeRunningLevel = onNavigateToChangeRunningLevel,
+                onNavigateToChangeRunningPurpose = onNavigateToChangeRunningPurpose,
+            )
         }
 
         // 러닝 목표 섹션
@@ -106,7 +128,10 @@ internal fun MyPageScreen(
 }
 
 @Composable
-internal fun UserInfoSection() {
+internal fun UserInfoSection(
+    onNavigateToChangeRunningLevel: () -> Unit,
+    onNavigateToChangeRunningPurpose: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -179,14 +204,16 @@ internal fun UserInfoSection() {
                 .padding(top = 12.dp, bottom = 20.dp)
                 .noRippleClickable { },
         ) {
-            UserLevelComponent(
+            UserDataComponent(
                 modifier = Modifier.fillMaxWidth(fraction = 0.5f),
+                onClick = onNavigateToChangeRunningLevel,
                 iconResource = painterResource(R.drawable.img_chicken),
                 title = stringResource(R.string.my_page_user_level),
                 content = "워밍업 러너",
             )
 
-            UserLevelComponent(
+            UserDataComponent(
+                onClick = onNavigateToChangeRunningPurpose,
                 iconResource = painterResource(R.drawable.img_fire),
                 title = stringResource(R.string.my_page_user_goal),
                 content = "다이어트",
@@ -357,14 +384,17 @@ internal fun FooterSection() {
 }
 
 @Composable
-internal fun UserLevelComponent(
+internal fun UserDataComponent(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     iconResource: Painter,
     title: String,
     content: String,
 ) {
     Row(
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .noRippleClickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
@@ -523,7 +553,12 @@ internal fun BaseSettingComponent(
 @Preview
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen(PaddingValues())
+    MyPageScreen(
+        uiState = MyPageState(),
+        padding = PaddingValues(),
+        onNavigateToChangeRunningLevel = {},
+        onNavigateToChangeRunningPurpose = {},
+    )
 }
 
 @Preview

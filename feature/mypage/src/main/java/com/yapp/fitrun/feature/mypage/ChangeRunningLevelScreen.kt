@@ -18,6 +18,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -29,26 +30,38 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_regular
 import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Body_body4_semiBold
 import com.yapp.fitrun.core.designsystem.Head_h2_semiBold
-import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
+import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun ChangeRunningLevelRoute(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
+    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.collectAsState()
+
     ChangeRunningLevelScreen(
+        uiState = uiState,
         padding = padding,
+        onBackClick = onBackClick,
     )
 }
 
 @Composable
 internal fun ChangeRunningLevelScreen(
+    uiState: MyPageState,
     padding: PaddingValues,
+    onBackClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -56,15 +69,20 @@ internal fun ChangeRunningLevelScreen(
             .background(colorResource(R.color.bg_primary)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        if (uiState.isLoading) {
+            // TODO
+        }
+
         FitRunTextTopAppBar(
             title = "러닝 레벨 변경",
+            onLeftNavigationClick = onBackClick,
         )
         Text(
             modifier = Modifier.padding(top = 80.dp),
             text = "변경하실 러닝\n레벨을 선택해주세요.",
             style = Head_h2_semiBold,
             color = colorResource(R.color.fg_text_primary),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Text(
@@ -95,7 +113,6 @@ internal fun ChangeRunningLevelScreen(
             text = "설정하기",
         )
     }
-
 }
 
 @Composable
@@ -149,7 +166,7 @@ internal fun RunningLevelGroup(
                         },
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 Image(
                     painter = iconResource[index],
@@ -174,5 +191,9 @@ internal fun RunningLevelGroup(
 @Preview
 @Composable
 fun ChangeRunningLevelScreenPreview() {
-    ChangeRunningLevelScreen(PaddingValues())
+    ChangeRunningLevelScreen(
+        uiState = MyPageState(),
+        padding = PaddingValues(),
+        onBackClick = {},
+    )
 }
