@@ -28,6 +28,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.yapp.fitrun.core.designsystem.Caption_caption3_semiBold
@@ -40,13 +41,16 @@ internal fun MainBottomBar(
     tabs: List<MainTab>,
     currentTab: MainTab?,
     onTabSelected: (MainTab) -> Unit,
+    navBarHeight: Dp,
 ) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + slideIn { IntOffset(0, it.height) },
         exit = fadeOut() + slideOut { IntOffset(0, it.height) },
     ) {
-        Column {
+        Column(
+            modifier = Modifier.background(Color.White),
+        ) {
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -66,6 +70,9 @@ internal fun MainBottomBar(
                     )
                 }
             }
+            Box(
+                modifier = Modifier.height(navBarHeight),
+            )
         }
     }
 }
@@ -126,5 +133,6 @@ fun MainBottomBarPreview() {
         tabs = MainTab.entries.toList(),
         currentTab = MainTab.HOME,
         onTabSelected = { },
+        navBarHeight = 30.dp,
     )
 }

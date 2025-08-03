@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
@@ -145,11 +144,8 @@ internal fun WorkThroughScreen(
                     }
                 }
             },
-            text =
-                if (pagerState.currentPage == 2)
-                    stringResource(id = R.string.work_through_start)
-                else
-                    stringResource(id = R.string.work_through_next),
+            text = if (pagerState.currentPage == 2) stringResource(id = R.string.work_through_start)
+            else stringResource(id = R.string.work_through_next),
             textColor = colorResource(R.color.fg_text_interactive_inverse),
             textStyle = Body_body3_semiBold,
             buttonColor = colorResource(R.color.bg_interactive_secondary),

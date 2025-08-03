@@ -21,9 +21,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yapp.fitrun.core.designsystem.Caption_caption2_semiBold
+import com.yapp.fitrun.core.designsystem.Head_h6_bold
 import com.yapp.fitrun.core.designsystem.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +95,7 @@ fun NavigationTopAppBar(
     rightIconColor: Color = Color.Unspecified,
     isRightIconVisible: Boolean = true,
 ) {
-    TopAppBar(
+    CenterAlignedTopAppBar(
         navigationIcon = {
             IconButton(
                 onClick = onLeftNavigationClick,
@@ -162,6 +164,43 @@ fun FitRunTopAppBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FitRunTextTopAppBar(
+    modifier: Modifier = Modifier,
+    onLeftNavigationClick: () -> Unit = {},
+    title: String,
+) {
+    CenterAlignedTopAppBar(
+        modifier = modifier.background(Color.White),
+        title = {
+            Text(
+                text = title,
+                style = Head_h6_bold,
+                color = colorResource(R.color.fg_text_primary),
+                textAlign = TextAlign.Center,
+            )
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = onLeftNavigationClick,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_back),
+                    contentDescription = "navigation back icon",
+                )
+            }
+        },
+        colors = TopAppBarColors(
+            containerColor = Color.Unspecified,
+            scrolledContainerColor = Color.Unspecified,
+            navigationIconContentColor = Color.Unspecified,
+            titleContentColor = Color.Unspecified,
+            actionIconContentColor = Color.Unspecified,
+        ),
+    )
+}
+
 @Preview
 @Composable
 fun OnBoardingTopAppBarPreview() {
@@ -183,4 +222,12 @@ fun NavigationTopAppBarPreview() {
 @Composable
 private fun FitRunTopAppBarPreview() {
     FitRunTopAppBar()
+}
+
+@Preview
+@Composable
+private fun FitRunTextTopAppBarPreview() {
+    FitRunTextTopAppBar(
+        title = "설정",
+    )
 }

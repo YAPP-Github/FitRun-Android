@@ -12,7 +12,7 @@ import com.yapp.fitrun.feature.crew.crewNavGraph
 import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.MainNavigator
 import com.yapp.fitrun.feature.main.MainTab
-import com.yapp.fitrun.feature.mypage.myPageNavGraph
+import com.yapp.fitrun.feature.mypage.navigation.myPageNavGraph
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 import com.yapp.fitrun.feature.record.navigateToRecordDetail

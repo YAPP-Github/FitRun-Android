@@ -67,6 +67,10 @@ internal fun OnBoardingResultScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(
+                    top = padding.calculateTopPadding(),
+                    bottom = padding.calculateBottomPadding(),
+                )
                 .background(Color.White),
         ) {
             Spacer(modifier = Modifier.height(72.dp))

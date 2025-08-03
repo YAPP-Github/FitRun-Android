@@ -19,7 +19,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_fitrun_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_fitrun_logo_round"
+        android:roundIcon="@mipmap/ic_fitrun_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitRun"
         android:usesCleartextTraffic="true"

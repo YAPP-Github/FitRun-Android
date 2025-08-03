@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.yapp.fitrun.feature.setgoal.SetGoalRoute
 import com.yapp.fitrun.feature.setgoal.SetGoalOnBoardingRoute
 import com.yapp.fitrun.feature.setgoal.SetGoalRoute
 import kotlinx.serialization.Serializable

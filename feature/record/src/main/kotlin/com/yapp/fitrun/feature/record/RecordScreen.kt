@@ -211,7 +211,7 @@ internal fun RecordScreen(
                                 modifier = Modifier
                                     .width(29.dp)
                                     .height(20.dp),
-                                painter = painterResource(R.drawable.ic_running_track),
+                                painter = painterResource(R.drawable.ic_track),
                                 contentDescription = "set time goal",
                                 contentScale = ContentScale.Fit,
                             )
@@ -257,7 +257,7 @@ internal fun RecordScreen(
                                 modifier = Modifier
                                     .width(29.dp)
                                     .height(20.dp),
-                                painter = painterResource(R.drawable.ic_running_clock),
+                                painter = painterResource(R.drawable.ic_clock),
                                 contentDescription = "set time goal",
                                 contentScale = ContentScale.Fit,
                             )

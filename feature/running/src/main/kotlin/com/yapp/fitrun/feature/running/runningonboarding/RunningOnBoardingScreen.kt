@@ -254,7 +254,7 @@ internal fun RunningOnBoardingSecondScreen(
             GoalButton(
                 modifier = Modifier.weight(0.5f),
                 onClick = { onClickSetGoal(0) },
-                imageResource = painterResource(R.drawable.ic_running_clock),
+                imageResource = painterResource(R.drawable.ic_clock),
                 title = stringResource(R.string.running_on_boarding_goal_time),
                 description = stringResource(R.string.running_on_boarding_goal_time_content),
             )
@@ -264,7 +264,7 @@ internal fun RunningOnBoardingSecondScreen(
             GoalButton(
                 modifier = Modifier.weight(0.5f),
                 onClick = { onClickSetGoal(1) },
-                imageResource = painterResource(R.drawable.ic_running_track),
+                imageResource = painterResource(R.drawable.ic_track),
                 title = stringResource(R.string.running_on_boarding_goal_distance),
                 description = stringResource(R.string.running_on_boarding_goal_distance_content),
             )
@@ -372,7 +372,6 @@ internal fun RunningOnBoardingThirdScreen(
     navigateToReady: () -> Unit,
     onClickSaveGoal: () -> Unit,
 ) {
-    var isFocused by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val goalValue = remember { mutableStateOf(if (uiState.isShowTimeGoal) "30" else "3") }
@@ -385,135 +384,128 @@ internal fun RunningOnBoardingThirdScreen(
         isPlaying = uiState.isSetGoalSuccess,
     )
 
-    Scaffold(
+    Column(
         modifier = Modifier
-            .background(colorResource(R.color.fg_nuetral_gray1000))
             .fillMaxSize()
-            .focusable(true)
-            .pointerInput(Unit) {
-                detectTapGestures(onTap = {
-                    focusManager.clearFocus()
-                })
-            },
-        topBar = {
-            NavigationTopAppBar(
-                onLeftNavigationClick = onBackClick,
-                leftNavigationIconTint = colorResource(R.color.fg_icon_interactive_inverse),
-                isRightIconVisible = false,
-            )
-        },
-        bottomBar = {
-            FitRunTextButton(
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
-                    .padding(bottom = padding.calculateBottomPadding())
-                    .advancedImePadding(),
-                onClick = onClickSaveGoal,
-                text = stringResource(R.string.running_on_boarding_set_goal_run),
-            )
-        },
+            .background(colorResource(R.color.fg_nuetral_gray1000)),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
+        NavigationTopAppBar(
+            onLeftNavigationClick = onBackClick,
+            onRightNavigationClick = navigateToReady,
+            leftNavigationIconTint = colorResource(R.color.fg_icon_interactive_inverse),
+            rightIconText = stringResource(R.string.running_on_boarding_skip),
+            rightIconColor = colorResource(R.color.fg_text_interactive_secondary),
+            isRightIconVisible = true,
+        )
+
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colorResource(R.color.fg_nuetral_gray1000)),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(bottom = padding.calculateBottomPadding())
+                .padding(bottom = 12.dp),
         ) {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it),
+                    .imePadding()
+                    .noRippleClickable {
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                Text(
+                    text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_title)
+                    else stringResource(R.string.running_on_boarding_goal_distance_title),
+                    modifier = Modifier.padding(top = 36.dp),
+                    textAlign = TextAlign.Center,
+                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    style = Head_h2_bold,
+                )
+
+                Text(
+                    text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_description)
+                    else stringResource(R.string.running_on_boarding_goal_distance_description),
+                    modifier = Modifier.padding(top = 12.dp),
+                    textAlign = TextAlign.Center,
+                    color = colorResource(R.color.fg_nuetral_gray400),
+                    style = Body_body3_regular,
+                )
+
+                Spacer(modifier = Modifier.weight(0.2f))
+
+                Row(
+                    modifier = Modifier.wrapContentSize(),
                 ) {
-                    Text(
-                        text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_title)
-                        else stringResource(R.string.running_on_boarding_goal_distance_title),
-                        modifier = Modifier.padding(top = 36.dp),
-                        textAlign = TextAlign.Center,
-                        color = colorResource(R.color.fg_text_interactive_inverse),
-                        style = Head_h2_bold,
-                    )
-
-                    Text(
-                        text = if (uiState.isShowTimeGoal) stringResource(R.string.running_on_boarding_goal_time_description)
-                        else stringResource(R.string.running_on_boarding_goal_distance_description),
-                        modifier = Modifier.padding(top = 12.dp),
-                        textAlign = TextAlign.Center,
-                        color = colorResource(R.color.fg_nuetral_gray400),
-                        style = Body_body3_regular,
-                    )
-
-                    Row(
-                        modifier = Modifier.wrapContentSize(),
-                    ) {
-                        BasicTextField(
-                            modifier = Modifier
-                                .width(IntrinsicSize.Min)
-                                .onFocusChanged { focused ->
-                                    isFocused = focused.isFocused
-                                },
-                            value = goalValue.value,
-                            onValueChange = {
-                                goalValue.value = it
-                            },
-                            textStyle = TextStyle(
-                                textAlign = TextAlign.End,
-                                fontFamily = pretendardFamily,
-                                fontWeight = FontWeight(LocalContext.current.resources.getInteger(R.integer.font_weight_normal_bold)),
-                                fontSize = 52.sp,
-                                color = colorResource(R.color.fg_text_interactive_inverse),
-                                lineHeight = dimensionResource(id = R.dimen.line_height_1700).value.sp,
-                                letterSpacing = dimensionResource(id = R.dimen.number_letter_spacing).value.sp,
-                                lineHeightStyle = LineHeightStyle(
-                                    alignment = LineHeightStyle.Alignment.Center,
-                                    trim = LineHeightStyle.Trim.None,
-                                ),
+                    BasicTextField(
+                        modifier = Modifier.width(IntrinsicSize.Min),
+                        value = goalValue.value,
+                        onValueChange = {
+                            goalValue.value = it
+                        },
+                        textStyle = TextStyle(
+                            textAlign = TextAlign.End,
+                            fontFamily = pretendardFamily,
+                            fontWeight = FontWeight(LocalContext.current.resources.getInteger(R.integer.font_weight_normal_bold)),
+                            fontSize = 52.sp,
+                            color = colorResource(R.color.fg_text_interactive_inverse),
+                            lineHeight = dimensionResource(id = R.dimen.line_height_1700).value.sp,
+                            letterSpacing = dimensionResource(id = R.dimen.number_letter_spacing).value.sp,
+                            lineHeightStyle = LineHeightStyle(
+                                alignment = LineHeightStyle.Alignment.Center,
+                                trim = LineHeightStyle.Trim.None,
                             ),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number,
-                            ),
-                            decorationBox = { innerTextField ->
-                                Column(
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                        ),
+                        decorationBox = { innerTextField ->
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(all = 16.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                innerTextField()
+                                Spacer(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(all = 16.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    innerTextField()
-                                    Spacer(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(2.dp)
-                                            .background(if (isFocused) colorResource(R.color.bg_interactive_primary) else Color.Unspecified),
-                                    )
-                                }
-                            },
-                        )
+                                        .height(2.dp)
+                                        .background(colorResource(R.color.bg_interactive_primary)),
+                                )
+                            }
+                        },
+                    )
 
-                        Text(
-                            text = if (uiState.isShowTimeGoal) "분" else "km",
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .padding(top = 10.dp),
-                            textAlign = TextAlign.Center,
-                            color = colorResource(R.color.fg_text_disabled),
-                            style = Head_h1_bold,
-                        )
-                    }
+                    Text(
+                        text = if (uiState.isShowTimeGoal) "분" else "km",
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(top = 10.dp),
+                        textAlign = TextAlign.Center,
+                        color = colorResource(R.color.fg_text_disabled),
+                        style = Head_h1_bold,
+                    )
                 }
 
-                LottieAnimation(
-                    composition = composition,
-                    progress = { progress },
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .align(Alignment.TopCenter)
-                        .padding(top = 192.dp),
+                Spacer(modifier = Modifier.weight(0.8f))
+
+                FitRunTextButton(
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                    onClick = onClickSaveGoal,
+                    text = stringResource(R.string.running_on_boarding_set_goal_run),
                 )
             }
+
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier
+                    .wrapContentSize()
+                    .align(Alignment.TopCenter)
+                    .padding(top = 192.dp),
+            )
         }
     }
 }

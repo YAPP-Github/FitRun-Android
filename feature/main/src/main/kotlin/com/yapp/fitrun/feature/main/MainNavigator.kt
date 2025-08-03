@@ -12,7 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.yapp.fitrun.feature.crew.navigateToCrew
 import com.yapp.fitrun.feature.home.navigateToHome
-import com.yapp.fitrun.feature.mypage.navigateToMyPage
+import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningLevel
+import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningPurpose
+import com.yapp.fitrun.feature.mypage.navigation.navigateToMyPage
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFourth
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
@@ -115,6 +117,14 @@ internal class MainNavigator(
 
     fun navigateToRecordDetail(recordId: Int) {
         navController.navigateToRecordDetail(recordId)
+    }
+
+    fun navigateToChangeRunningLevel() {
+        navController.navigateToChangeRunningLevel()
+    }
+
+    fun navigateToChangeRunningPurpose() {
+        navController.navigateToChangeRunningPurpose()
     }
 }
 
