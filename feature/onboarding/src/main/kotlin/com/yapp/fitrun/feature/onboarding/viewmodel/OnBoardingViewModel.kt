@@ -2,6 +2,7 @@ package com.yapp.fitrun.feature.onboarding.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.yapp.fitrun.core.common.RunningPurpose
 import com.yapp.fitrun.core.domain.entity.OnBoardingAnswers
 import com.yapp.fitrun.core.domain.entity.OnBoardingEntity
 import com.yapp.fitrun.core.domain.repository.GoalRepository
@@ -15,14 +16,6 @@ import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 
 enum class Answers { A, B, C }
-enum class RunningPurpose(
-    val purpose: String,
-) {
-    A("WEIGHT_LOSS_PURPOSE"),
-    B("HEALTH_MAINTENANCE_PURPOSE"),
-    C("DAILY_STRENGTH_IMPROVEMENT"),
-    D("COMPETITION_PREPARATION"),
-}
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(

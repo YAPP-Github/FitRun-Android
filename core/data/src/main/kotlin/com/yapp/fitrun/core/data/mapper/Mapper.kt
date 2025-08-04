@@ -16,6 +16,7 @@ import com.yapp.fitrun.core.domain.entity.RunnerEntity
 import com.yapp.fitrun.core.domain.entity.TokenEntity
 import com.yapp.fitrun.core.domain.entity.UserEntity
 import com.yapp.fitrun.core.domain.entity.UserGoalEntity
+import com.yapp.fitrun.core.domain.entity.UserInfoEntity
 import com.yapp.fitrun.core.network.model.response.HomeResponse
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.OnBoardingResponse
@@ -25,6 +26,7 @@ import com.yapp.fitrun.core.network.model.response.RecordResponse
 import com.yapp.fitrun.core.network.model.response.RunnerResponse
 import com.yapp.fitrun.core.network.model.response.TokenResponse
 import com.yapp.fitrun.core.network.model.response.UserGoalResponse
+import com.yapp.fitrun.core.network.model.response.UserInfoResponse
 import com.yapp.fitrun.core.network.model.response.UserResponse
 import com.yapp.fitrun.core.network.model.response.goal.GoalResponse
 import com.yapp.fitrun.core.room.model.Location
@@ -97,7 +99,7 @@ internal fun GoalResponse.toEntity() =
         runningPurpose = runningPurpose,
         weeklyRunCount = weeklyRunCount,
         paceGoal = paceGoal,
-        distanceMeter = distanceMeter,
+        distanceMeterGoal = distanceMeterGoal,
         timeGoal = timeGoal,
     )
 
@@ -153,4 +155,10 @@ internal fun LocationEntity.toModel() =
     Location(
         lat = lat,
         lng = lng,
+    )
+
+internal fun UserInfoResponse.toEntity() =
+    UserInfoEntity(
+        user = user.toEntity(),
+        goal = goal?.toEntity(),
     )

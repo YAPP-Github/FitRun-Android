@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +57,10 @@ internal fun MyPageRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getUserInfo()
+    }
 
     MyPageScreen(
         uiState = uiState,
@@ -101,6 +106,7 @@ internal fun MyPageScreen(
         // 유저 정보 섹션
         item {
             UserInfoSection(
+                uiState = uiState,
                 onNavigateToChangeRunningLevel = onNavigateToChangeRunningLevel,
                 onNavigateToChangeRunningPurpose = onNavigateToChangeRunningPurpose,
             )
@@ -108,7 +114,9 @@ internal fun MyPageScreen(
 
         // 러닝 목표 섹션
         item {
-            RunningGoalSection()
+            RunningGoalSection(
+                uiState = uiState,
+            )
         }
 
         // 설정 섹션
@@ -129,6 +137,7 @@ internal fun MyPageScreen(
 
 @Composable
 internal fun UserInfoSection(
+    uiState: MyPageState,
     onNavigateToChangeRunningLevel: () -> Unit,
     onNavigateToChangeRunningPurpose: () -> Unit,
 ) {
@@ -152,7 +161,7 @@ internal fun UserInfoSection(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "유저명",
+                        text = uiState.userNickName,
                         style = Body_body3_semiBold,
                         color = colorResource(R.color.fg_text_interactive_inverse),
                     )
@@ -168,7 +177,7 @@ internal fun UserInfoSection(
                 }
 
                 Text(
-                    text = "user@gmail.com",
+                    text = uiState.userEmail,
                     style = Caption_caption2_medium,
                     color = colorResource(R.color.fg_text_tertiary),
                     modifier = Modifier.padding(top = 4.dp),
@@ -209,21 +218,23 @@ internal fun UserInfoSection(
                 onClick = onNavigateToChangeRunningLevel,
                 iconResource = painterResource(R.drawable.img_chicken),
                 title = stringResource(R.string.my_page_user_level),
-                content = "워밍업 러너",
+                content = uiState.userLevel,
             )
 
             UserDataComponent(
                 onClick = onNavigateToChangeRunningPurpose,
                 iconResource = painterResource(R.drawable.img_fire),
                 title = stringResource(R.string.my_page_user_goal),
-                content = "다이어트",
+                content = uiState.userRunningPurpose,
             )
         }
     }
 }
 
 @Composable
-internal fun RunningGoalSection() {
+internal fun RunningGoalSection(
+    uiState: MyPageState,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -248,7 +259,7 @@ internal fun RunningGoalSection() {
 
             SettingGoalComponent(
                 title = stringResource(R.string.my_page_user_goal_distance),
-                content = "5km",
+                content = uiState.userGoalDistance,
                 iconResource = painterResource(R.drawable.ic_track),
                 iconSize = DpSize(width = 31.dp, height = 21.dp),
             )
@@ -257,7 +268,7 @@ internal fun RunningGoalSection() {
 
             SettingGoalComponent(
                 title = stringResource(R.string.my_page_user_goal_time),
-                content = "90분",
+                content = uiState.userGoalTime,
                 iconResource = painterResource(R.drawable.ic_clock),
                 iconSize = DpSize(width = 20.dp, height = 21.dp),
             )
@@ -266,7 +277,7 @@ internal fun RunningGoalSection() {
 
             SettingGoalComponent(
                 title = stringResource(R.string.my_page_user_goal_pace),
-                content = "6'00''",
+                content = uiState.userGoalPace,
                 iconResource = painterResource(R.drawable.ic_target),
                 iconSize = DpSize(width = 24.dp, height = 24.dp),
             )
@@ -275,7 +286,7 @@ internal fun RunningGoalSection() {
 
             SettingGoalComponent(
                 title = stringResource(R.string.my_page_user_goal_frequency),
-                content = "주 3회",
+                content = uiState.userGoalFrequency,
                 iconResource = painterResource(R.drawable.ic_frequency),
                 iconSize = DpSize(width = 28.dp, height = 28.dp),
             )

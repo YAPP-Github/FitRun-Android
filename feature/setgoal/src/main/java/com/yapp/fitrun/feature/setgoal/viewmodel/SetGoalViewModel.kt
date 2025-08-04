@@ -123,7 +123,7 @@ class SetGoalViewModel @Inject constructor(
                     state.copy(
                         isLoading = false,
                         goalEntity = goalEntity,
-                        paceGoal = goalEntity.paceGoal,
+                        paceGoal = goalEntity.paceGoal?.toInt(),
                         weeklyRunCount = goalEntity.weeklyRunCount,
                     )
                 }
