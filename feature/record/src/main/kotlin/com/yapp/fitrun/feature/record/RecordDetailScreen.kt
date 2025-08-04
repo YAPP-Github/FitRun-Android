@@ -87,10 +87,6 @@ internal fun RecordDetailScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = padding.calculateTopPadding(),
-                bottom = padding.calculateBottomPadding(),
-            )
             .background(colorResource(R.color.bg_secondary))
             .padding(padding),
         horizontalAlignment = Alignment.CenterHorizontally,

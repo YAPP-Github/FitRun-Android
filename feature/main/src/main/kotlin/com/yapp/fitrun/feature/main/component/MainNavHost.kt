@@ -15,6 +15,7 @@ import com.yapp.fitrun.feature.main.MainTab
 import com.yapp.fitrun.feature.mypage.navigation.myPageNavGraph
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
+import com.yapp.fitrun.feature.record.navigateToRecordDetail
 import com.yapp.fitrun.feature.record.recordNavGraph
 import com.yapp.fitrun.feature.running.runningNavGraph
 import com.yapp.fitrun.feature.running.runningonboarding.runningOnBoardingNavGraph
@@ -64,6 +65,7 @@ internal fun MainNavHost(
             )
             recordNavGraph(
                 onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToSetGoalOnBoarding = navigator::navigateToSetGoalOnBoarding,
                 padding = padding,
                 onNavigateToRecordDetail = navigator::navigateToRecordDetail,
             )
@@ -74,6 +76,9 @@ internal fun MainNavHost(
                 padding = padding,
                 navController = navigator.navController,
                 onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToProfile = navigator::onNavigateToProfile,
+                onWithdrawClick = navigator::onNavigateToWithdraw,
+                onNavigateToConfirmWithdraw = navigator::onNavigateToConfirmWithdraw,
                 onNavigateToChangeRunningLevel = navigator::navigateToChangeRunningLevel,
                 onNavigateToChangeRunningPurpose = navigator::navigateToChangeRunningPurpose,
             )
@@ -100,8 +105,15 @@ internal fun MainNavHost(
             runningNavGraph(
                 padding = padding,
                 onNavigateToPlay = navigator::navigateToPlaying,
+                onNavigateToSetGoalOnBoarding = { navigator.navigateToRecordDetail(1) },
             )
-            setGoalNavGraph(padding = padding)
+            setGoalNavGraph(
+                padding = padding,
+                onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToRecordDetail = { recordId ->
+                    navigator.navController.navigateToRecordDetail(recordId)
+                },
+            )
         }
     }
 }

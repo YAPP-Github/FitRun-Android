@@ -3,6 +3,7 @@ package com.yapp.fitrun.feature.setgoal.viewmodel
 import androidx.lifecycle.ViewModel
 import com.yapp.fitrun.core.domain.repository.GoalRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -17,6 +18,19 @@ class SetGoalViewModel @Inject constructor(
 ) : ViewModel(), ContainerHost<SetGoalState, SetGoalSideEffect> {
 
     override val container: Container<SetGoalState, SetGoalSideEffect> = container(SetGoalState())
+
+    fun showPaceWarning() = intent {
+        reduce { state.copy(showPaceWarning = true) }
+        delay(1500)
+        reduce { state.copy(showPaceWarning = false) }
+    }
+
+    fun setPaceGoalOnBoarding() = intent {
+        reduce { state.copy(setPaceOnBoardingSuccess = true) }
+        delay(3000)
+        reduce { state.copy(setPaceOnBoardingSuccess = false) }
+        postSideEffect(SetGoalSideEffect.NavigateToRecordDetail(0))
+    }
 
     fun setPaceGoal(pace: Int) = intent {
         reduce { state.copy(isLoading = true) }

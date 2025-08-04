@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
@@ -38,9 +39,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,14 +54,15 @@ import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 import java.util.Locale
 import kotlin.math.roundToInt
-import kotlin.text.toInt
 
 @Composable
 fun SetPaceSection(
+    modifier: Modifier = Modifier,
     initialPace: Int = 420, // 초 단위, 기본값 7'00" = 420초
     onPaceChange: (Int) -> Unit = {},
 ) {
     PaceInputWithProgress(
+        modifier = modifier,
         initialPace = initialPace,
         onPaceChange = { paceSeconds ->
             onPaceChange(paceSeconds)
@@ -77,15 +81,14 @@ fun PaceInputWithProgress(
     val initialMinutes = initialPace / 60
     val initialSeconds = initialPace % 60
     val initialPaceText = String.format(Locale.getDefault(), "%d'%02d\"", initialMinutes, initialSeconds)
-
     var paceText by remember { mutableStateOf(initialPaceText) }
     var isFocused by remember { mutableStateOf(false) }
 
     // 초기 슬라이더 값 계산
     val initialSliderValue = when (initialPace) {
-        360 -> 0f // 6'00"
+        360 -> 2f // 8'00"
         420 -> 1f // 7'00"
-        480 -> 2f // 8'00"
+        480 -> 0f // 6'00"
         else -> when {
             initialPace <= 390 -> 0f
             initialPace <= 450 -> 1f
@@ -100,12 +103,11 @@ fun PaceInputWithProgress(
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .verticalScroll(scrollState),
+            .verticalScroll(scrollState)
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(64.dp))
-        // 일주일에 텍스트
         Text(
             text = "일주일에",
             style = Body_body3_semiBold,
@@ -122,9 +124,9 @@ fun PaceInputWithProgress(
                     onPaceChange(seconds)
                     // 텍스트 입력에 따라 슬라이더 값도 업데이트
                     sliderValue = when {
-                        seconds <= 390 -> 0f // 6'30" 이하는 6'00"
+                        seconds <= 390 -> 2f // 8'00"
                         seconds <= 450 -> 1f // 7'30" 이하는 7'00"
-                        else -> 2f // 그 이상은 8'00"
+                        else -> 0f // 6'00"
                     }
                 }
             },
@@ -142,9 +144,94 @@ fun PaceInputWithProgress(
                 // 슬라이더 값에 따라 페이스 텍스트 업데이트
                 val roundedValue = newValue.roundToInt()
                 val paceSeconds = when (roundedValue) {
-                    0 -> 360 // 6'00"
+                    0 -> 480 // 8'00"
                     1 -> 420 // 7'00"
-                    2 -> 480 // 8'00"
+                    2 -> 360 // 6'00"
+                    else -> 420
+                }
+                val minutes = paceSeconds / 60
+                val seconds = paceSeconds % 60
+                paceText = String.format(Locale.getDefault(), "%d'%02d\"", minutes, seconds)
+                onPaceChange(paceSeconds)
+            },
+        )
+    }
+}
+
+@Composable
+fun SetPaceOnBoardingSection(
+    modifier: Modifier = Modifier,
+    initialPace: Int = 420, // 초 단위, 기본값 7'00" = 420초
+    onPaceChange: (Int) -> Unit = {},
+) {
+    // 초기 페이스 텍스트 계산
+    val initialMinutes = initialPace / 60
+    val initialSeconds = initialPace % 60
+    val initialPaceText = String.format(Locale.getDefault(), "%d'%02d\"", initialMinutes, initialSeconds)
+
+    var paceText by remember { mutableStateOf(initialPaceText) }
+    var isFocused by remember { mutableStateOf(false) }
+
+    // 초기 슬라이더 값 계산
+    val initialSliderValue = when (initialPace) {
+        360 -> 2f // 8'00"
+        420 -> 1f // 7'00"
+        480 -> 0f // 6'00"
+        else -> when {
+            initialPace <= 390 -> 0f
+            initialPace <= 450 -> 1f
+            else -> 2f
+        }
+    }
+
+    var sliderValue by remember { mutableFloatStateOf(initialSliderValue) }
+
+    Column(
+        modifier = modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "나의 페이스는",
+            style = Body_body3_semiBold,
+            color = colorResource(R.color.fg_text_secondary),
+        )
+
+        // Pace Input TextField
+        PaceTextField(
+            value = paceText,
+            onValueChange = { newValue ->
+                paceText = newValue
+                val seconds = parsePaceToSeconds(newValue)
+                if (seconds != null) {
+                    onPaceChange(seconds)
+                    // 텍스트 입력에 따라 슬라이더 값도 업데이트
+                    sliderValue = when {
+                        seconds <= 390 -> 2f // 8'00"
+                        seconds <= 450 -> 1f // 7'30" 이하는 7'00"
+                        else -> 0f // 6'00"
+                    }
+                }
+            },
+            isFocused = isFocused,
+            onFocusChanged = { focused ->
+                isFocused = focused
+            },
+        )
+        Spacer(modifier = Modifier.height(40.dp))
+        // Custom Styled Slider
+        CustomPaceSlider(
+            value = sliderValue,
+            onValueChange = { newValue ->
+                sliderValue = newValue
+                // 슬라이더 값에 따라 페이스 텍스트 업데이트
+                val roundedValue = newValue.roundToInt()
+                val paceSeconds = when (roundedValue) {
+                    0 -> 480 // 8'00"
+                    1 -> 420 // 7'00"
+                    2 -> 360 // 6'00"
                     else -> 420
                 }
                 val minutes = paceSeconds / 60
@@ -173,13 +260,21 @@ private fun PaceTextField(
         label = "underlineHeightAnimation",
     )
 
+    // TextFieldValue를 사용하여 커서 위치 제어
+    var textFieldValue by remember(value) {
+        mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row {
             BasicTextField(
-                value = value,
+                value = textFieldValue,
                 onValueChange = { newValue ->
+                    val oldText = textFieldValue.text
+                    val newText = newValue.text
+
                     // 숫자만 추출
-                    val digitsOnly = newValue.filter { it.isDigit() }
+                    val digitsOnly = newText.filter { it.isDigit() }
 
                     // 최대 3자리까지만 허용 (9'59" 까지 가능)
                     val limitedDigits = digitsOnly.take(3)
@@ -192,6 +287,26 @@ private fun PaceTextField(
                         3 -> "${limitedDigits[0]}'${limitedDigits[1]}${limitedDigits[2]}\""
                         else -> value // 이 경우는 발생하지 않음
                     }
+
+                    // 커서 위치 계산
+                    val cursorPosition = when {
+                        // 새로운 문자가 추가되었을 때
+                        formattedValue.length > oldText.length -> {
+                            when (limitedDigits.length) {
+                                1 -> 2 // 1' 다음 위치
+                                2 -> 3 // 1'2 다음 위치
+                                3 -> 5 // 1'23" 다음 위치
+                                else -> formattedValue.length
+                            }
+                        }
+                        // 삭제되었을 때는 기본 동작 유지
+                        else -> newValue.selection.start.coerceAtMost(formattedValue.length)
+                    }
+
+                    textFieldValue = TextFieldValue(
+                        text = formattedValue,
+                        selection = TextRange(cursorPosition),
+                    )
 
                     onValueChange(formattedValue)
                 },

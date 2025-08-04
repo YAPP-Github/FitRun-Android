@@ -30,11 +30,13 @@ fun FitRunTextButton(
     textColor: Color = colorResource(R.color.fg_text_interactive_inverse),
     textStyle: TextStyle = Body_body3_semiBold,
     buttonColor: Color = colorResource(R.color.bg_interactive_primary),
+    enabled: Boolean = true,
 ) {
     FitRunBasicButton(
         modifier = modifier,
         onClick = onClick,
         buttonColor = buttonColor,
+        enabled = enabled,
     ) {
         Text(
             text = text,

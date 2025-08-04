@@ -11,4 +11,7 @@ data class SetGoalState(
     val currentPaceInput: Int? = 420, // 7'00" = 420초
     val currentRunCountInput: Int? = 3,
     val currentRemindEnabled: Boolean = false,
+
+    val showPaceWarning: Boolean = false,
+    val setPaceOnBoardingSuccess: Boolean = false,
 )

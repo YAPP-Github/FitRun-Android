@@ -29,7 +29,7 @@ class RunningOnBoardingViewModel @Inject constructor() : ViewModel(),
 
     fun onClickSaveGoal() = intent {
         reduce { state.copy(isSetGoalSuccess = true) }
-        delay(3000)
+        delay(2800)
         reduce { state.copy(isSetGoalSuccess = false) }
         postSideEffect(RunningOnBoardingSideEffect.NavigateToReady)
     }

@@ -52,6 +52,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 @Composable
 internal fun MyPageRoute(
     padding: PaddingValues,
+    onNavigateToProfile: () -> Unit,
     onNavigateToChangeRunningLevel: () -> Unit,
     onNavigateToChangeRunningPurpose: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
@@ -65,6 +66,7 @@ internal fun MyPageRoute(
     MyPageScreen(
         uiState = uiState,
         padding = padding,
+        onNavigateToProfile = onNavigateToProfile,
         onNavigateToChangeRunningLevel = onNavigateToChangeRunningLevel,
         onNavigateToChangeRunningPurpose = onNavigateToChangeRunningPurpose,
     )
@@ -74,6 +76,7 @@ internal fun MyPageRoute(
 internal fun MyPageScreen(
     uiState: MyPageState,
     padding: PaddingValues,
+    onNavigateToProfile: () -> Unit,
     onNavigateToChangeRunningLevel: () -> Unit,
     onNavigateToChangeRunningPurpose: () -> Unit,
 ) {
@@ -107,6 +110,7 @@ internal fun MyPageScreen(
         item {
             UserInfoSection(
                 uiState = uiState,
+                onNavigateToProfile = onNavigateToProfile,
                 onNavigateToChangeRunningLevel = onNavigateToChangeRunningLevel,
                 onNavigateToChangeRunningPurpose = onNavigateToChangeRunningPurpose,
             )
@@ -138,6 +142,7 @@ internal fun MyPageScreen(
 @Composable
 internal fun UserInfoSection(
     uiState: MyPageState,
+    onNavigateToProfile: () -> Unit,
     onNavigateToChangeRunningLevel: () -> Unit,
     onNavigateToChangeRunningPurpose: () -> Unit,
 ) {
@@ -187,7 +192,7 @@ internal fun UserInfoSection(
             Spacer(modifier = Modifier.weight(1f))
 
             IconButton(
-                onClick = {},
+                onClick = onNavigateToProfile,
             ) {
                 Image(
                     modifier = Modifier
@@ -567,6 +572,7 @@ fun MyPageScreenPreview() {
     MyPageScreen(
         uiState = MyPageState(),
         padding = PaddingValues(),
+        onNavigateToProfile = {},
         onNavigateToChangeRunningLevel = {},
         onNavigateToChangeRunningPurpose = {},
     )
