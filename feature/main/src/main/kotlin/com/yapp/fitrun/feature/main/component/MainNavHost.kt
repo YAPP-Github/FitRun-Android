@@ -72,7 +72,16 @@ internal fun MainNavHost(
             crewNavGraph(
                 padding = padding,
             )
-            myPageNavGraph(padding = padding)
+            myPageNavGraph(
+                padding = padding,
+                navController = navigator.navController,
+                onBackClick = { navigator.navController.popBackStack() },
+                onNavigateToProfile = navigator::onNavigateToProfile,
+                onWithdrawClick = navigator::onNavigateToWithdraw,
+                onNavigateToConfirmWithdraw = navigator::onNavigateToConfirmWithdraw,
+                onNavigateToChangeRunningLevel = navigator::navigateToChangeRunningLevel,
+                onNavigateToChangeRunningPurpose = navigator::navigateToChangeRunningPurpose,
+            )
             onBoardingNavGraph(
                 padding = padding,
                 navController = navigator.navController,

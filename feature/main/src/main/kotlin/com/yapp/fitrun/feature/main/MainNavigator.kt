@@ -15,6 +15,9 @@ import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningLevel
 import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningPurpose
 import com.yapp.fitrun.feature.mypage.navigation.navigateToMyPage
+import com.yapp.fitrun.feature.mypage.navigation.onNavigateToConfirmWithdraw
+import com.yapp.fitrun.feature.mypage.navigation.onNavigateToProfile
+import com.yapp.fitrun.feature.mypage.navigation.onNavigateToWithdraw
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFourth
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
@@ -117,6 +120,18 @@ internal class MainNavigator(
 
     fun navigateToRecordDetail(recordId: Int) {
         navController.navigateToRecordDetail(recordId)
+    }
+
+    fun onNavigateToProfile() {
+        navController.onNavigateToProfile()
+    }
+
+    fun onNavigateToWithdraw() {
+        navController.onNavigateToWithdraw()
+    }
+
+    fun onNavigateToConfirmWithdraw() {
+        navController.onNavigateToConfirmWithdraw()
     }
 
     fun navigateToChangeRunningLevel() {
