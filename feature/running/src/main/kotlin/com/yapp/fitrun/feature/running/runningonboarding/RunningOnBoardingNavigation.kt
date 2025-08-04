@@ -22,7 +22,12 @@ data object RunningOnBoardingSecondRoute
 data object RunningOnBoardingThirdRoute
 
 fun NavController.navigateToRunningOnBoardingFirst() {
-    navigate(RunningOnBoardingFirstRoute)
+    navigate(RunningOnBoardingFirstRoute) {
+        // 현재 화면을 백스택에서 제거
+        popUpTo(currentBackStackEntry?.destination?.route ?: return@navigate) {
+            inclusive = true
+        }
+    }
 }
 
 fun NavController.navigateToRunningOnBoardingSecond() {
