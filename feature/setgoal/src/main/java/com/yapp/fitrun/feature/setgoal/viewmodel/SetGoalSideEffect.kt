@@ -5,5 +5,5 @@ sealed class SetGoalSideEffect {
     data class ShowErrorToast(val message: String) : SetGoalSideEffect()
     data object NavigateToComplete : SetGoalSideEffect()
     data object ShowCompleteLottie : SetGoalSideEffect()
-    data class NavigateToRecordDetail(val recordId: Int): SetGoalSideEffect()
+    data class NavigateToRecordDetail(val recordId: Int) : SetGoalSideEffect()
 }

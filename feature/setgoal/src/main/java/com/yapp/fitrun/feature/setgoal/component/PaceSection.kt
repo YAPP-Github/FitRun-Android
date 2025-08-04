@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,9 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextRange
@@ -58,7 +54,6 @@ import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 import java.util.Locale
 import kotlin.math.roundToInt
-import kotlin.text.toInt
 
 @Composable
 fun SetPaceSection(
@@ -169,7 +164,6 @@ fun SetPaceOnBoardingSection(
     initialPace: Int = 420, // 초 단위, 기본값 7'00" = 420초
     onPaceChange: (Int) -> Unit = {},
 ) {
-    val focusManager = LocalFocusManager.current
     // 초기 페이스 텍스트 계산
     val initialMinutes = initialPace / 60
     val initialSeconds = initialPace % 60

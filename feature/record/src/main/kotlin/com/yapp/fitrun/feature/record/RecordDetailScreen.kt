@@ -51,7 +51,6 @@ import com.yapp.fitrun.core.designsystem.Number_number2_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
-import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailState
 import com.yapp.fitrun.feature.record.viewmodel.RecordDetailViewModel
 import org.orbitmvi.orbit.compose.collectAsState

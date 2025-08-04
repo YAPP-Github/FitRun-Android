@@ -32,12 +32,12 @@ fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
 fun Modifier.advancedImePadding() = composed {
     var consumePadding by remember { mutableStateOf(0) }
     onGloballyPositioned { coordinates ->
-        consumePadding = coordinates.findRootCoordinates().size.height -
-                (coordinates.positionInWindow().y + coordinates.size.height).toInt()
-                    .coerceAtLeast(0)
+        consumePadding =
+            coordinates.findRootCoordinates().size.height - (coordinates.positionInWindow().y + coordinates.size.height).toInt()
+                .coerceAtLeast(0)
     }
         .consumeWindowInsets(
-            PaddingValues(bottom = with(LocalDensity.current) { consumePadding.toDp() })
+            PaddingValues(bottom = with(LocalDensity.current) { consumePadding.toDp() }),
         )
         .imePadding()
 }
