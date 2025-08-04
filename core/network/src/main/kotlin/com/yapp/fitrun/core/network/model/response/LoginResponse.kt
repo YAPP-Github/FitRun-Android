@@ -20,15 +20,3 @@ data class TokenResponse(
     @SerialName("refreshToken")
     val refreshToken: String,
 )
-
-@Serializable
-data class UserResponse(
-    @SerialName("userId")
-    val id: Long,
-    @SerialName("nickname")
-    val nickname: String,
-    @SerialName("email")
-    val email: String? = null,
-    @SerialName("provider")
-    val provider: String? = null,
-)

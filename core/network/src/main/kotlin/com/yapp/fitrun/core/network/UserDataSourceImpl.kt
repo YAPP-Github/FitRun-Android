@@ -4,7 +4,7 @@ import com.yapp.fitrun.core.network.api.UserApiService
 import com.yapp.fitrun.core.network.model.request.OnBoardingRequest
 import com.yapp.fitrun.core.network.model.response.OnBoardingResponse
 import com.yapp.fitrun.core.network.model.response.RunnerResponse
-import com.yapp.fitrun.core.network.model.response.UserResponse
+import com.yapp.fitrun.core.network.model.response.UserInfoResponse
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -12,7 +12,7 @@ class UserDataSourceImpl @Inject constructor(
     private val service: UserApiService,
 ) : UserDataSource {
 
-    override suspend fun getUserInfo(): UserResponse {
+    override suspend fun getUserInfo(): UserInfoResponse {
         val response = service.getUserInfo()
 
         if (response.code == "SUCCESS") {
