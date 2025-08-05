@@ -33,7 +33,7 @@ fun NavGraphBuilder.recordNavGraph(
     onNavigateToRecordDetail: (Int) -> Unit,
     padding: PaddingValues,
 ) {
-    onNavigateToSetGoalOnBoarding()
+    { onNavigateToSetGoalOnBoarding() }
     composable<RecordRoute> {
         RecordRoute(
             padding = padding,
