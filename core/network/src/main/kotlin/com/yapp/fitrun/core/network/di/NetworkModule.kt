@@ -1,6 +1,8 @@
 package com.yapp.fitrun.core.network.di
 
 import com.yapp.fitrun.core.datastore.TokenDataSource
+import com.yapp.fitrun.core.network.AudioDataSource
+import com.yapp.fitrun.core.network.AudioDataSourceImpl
 import com.yapp.fitrun.core.network.AuthDataSource
 import com.yapp.fitrun.core.network.AuthDataSourceImpl
 import com.yapp.fitrun.core.network.BuildConfig
@@ -12,6 +14,7 @@ import com.yapp.fitrun.core.network.RecordDataSource
 import com.yapp.fitrun.core.network.RecordDataSourceImpl
 import com.yapp.fitrun.core.network.UserDataSource
 import com.yapp.fitrun.core.network.UserDataSourceImpl
+import com.yapp.fitrun.core.network.api.AudioApiService
 import com.yapp.fitrun.core.network.api.AuthApiService
 import com.yapp.fitrun.core.network.api.GoalApiService
 import com.yapp.fitrun.core.network.api.HomeApiService
@@ -64,6 +67,10 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindRecordDataSource(recordDataSourceImpl: RecordDataSourceImpl): RecordDataSource
+
+    @Singleton
+    @Binds
+    abstract fun bindAudioDataSource(audioDataSourceImpl: AudioDataSourceImpl): AudioDataSource
 }
 
 @Module
@@ -159,5 +166,13 @@ internal object NetworkModule {
         @Named("BaseRetrofit") retrofit: Retrofit,
     ): RecordApiService {
         return retrofit.create(RecordApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideAudioApiService(
+        @Named("BaseRetrofit") retrofit: Retrofit,
+    ): AudioApiService {
+        return retrofit.create(AudioApiService::class.java)
     }
 }

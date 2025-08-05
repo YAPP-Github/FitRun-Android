@@ -1,5 +1,6 @@
 package com.yapp.fitrun.core.data.mapper
 
+import com.yapp.fitrun.core.domain.entity.AudioEntity
 import com.yapp.fitrun.core.domain.entity.GoalEntity
 import com.yapp.fitrun.core.domain.entity.HomeResultEntity
 import com.yapp.fitrun.core.domain.entity.LocationEntity
@@ -17,6 +18,7 @@ import com.yapp.fitrun.core.domain.entity.TokenEntity
 import com.yapp.fitrun.core.domain.entity.UserEntity
 import com.yapp.fitrun.core.domain.entity.UserGoalEntity
 import com.yapp.fitrun.core.domain.entity.UserInfoEntity
+import com.yapp.fitrun.core.network.model.response.AudioResponse
 import com.yapp.fitrun.core.network.model.response.HomeResponse
 import com.yapp.fitrun.core.network.model.response.LoginResponse
 import com.yapp.fitrun.core.network.model.response.OnBoardingResponse
@@ -30,6 +32,12 @@ import com.yapp.fitrun.core.network.model.response.UserInfoResponse
 import com.yapp.fitrun.core.network.model.response.UserResponse
 import com.yapp.fitrun.core.network.model.response.goal.GoalResponse
 import com.yapp.fitrun.core.room.model.Location
+
+internal fun AudioResponse.toEntity(): AudioEntity {
+    return AudioEntity(
+        audioData = result,
+    )
+}
 
 // Network → Domain 변환
 internal fun LoginResponse.toEntity() =
