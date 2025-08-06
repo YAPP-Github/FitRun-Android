@@ -1,64 +1,61 @@
 package com.yapp.fitrun.core.network
 
+import android.util.Log
 import com.yapp.fitrun.core.network.api.AudioApiService
 import com.yapp.fitrun.core.network.model.request.audio.DistanceFeedbackRequest
 import com.yapp.fitrun.core.network.model.request.audio.PaceFeedbackRequest
 import com.yapp.fitrun.core.network.model.request.audio.RunningInfoRequest
 import com.yapp.fitrun.core.network.model.request.audio.TimeFeedbackRequest
-import com.yapp.fitrun.core.network.model.response.AudioResponse
+import okhttp3.ResponseBody
+import retrofit2.Response
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
 class AudioDataSourceImpl @Inject constructor(
     private val service: AudioApiService,
 ) : AudioDataSource {
-    override suspend fun getAudioCoach(): AudioResponse {
+
+    private val TAG = "AudioDataSource"
+
+    override suspend fun getAudioCoach(): ByteArray {
         val response = service.getAudioCoach()
-
-        if (response.code == "SUCCESS") {
-            return response.result
-        } else {
-            throw CancellationException(response.code)
-        }
+        return extractAudioData(response, "getAudioCoach")
     }
 
-    override suspend fun getRunningInfo(runningInfoRequest: RunningInfoRequest): AudioResponse {
-        val response = service.getRunningInfo(runningInfoRequest)
-
-        if (response.code == "SUCCESS") {
-            return response.result
-        } else {
-            throw CancellationException(response.code)
-        }
+    override suspend fun getRunningInfo(paceMills: String): ByteArray {
+        val response = service.getRunningInfo(RunningInfoRequest(paceMills))
+        return extractAudioData(response, "getRunningInfo")
     }
 
-    override suspend fun getDistanceFeedback(distanceFeedbackRequest: DistanceFeedbackRequest): AudioResponse {
-        val response = service.getDistanceFeedback(distanceFeedbackRequest)
-
-        if (response.code == "SUCCESS") {
-            return response.result
-        } else {
-            throw CancellationException(response.code)
-        }
+    override suspend fun getDistanceFeedback(type: String): ByteArray {
+        val response = service.getDistanceFeedback(DistanceFeedbackRequest(type))
+        return extractAudioData(response, "getDistanceFeedback")
     }
 
-    override suspend fun getPaceFeedback(paceFeedbackRequest: PaceFeedbackRequest): AudioResponse {
-        val response = service.getPaceFeedback(paceFeedbackRequest)
-
-        if (response.code == "SUCCESS") {
-            return response.result
-        } else {
-            throw CancellationException(response.code)
-        }
+    override suspend fun getPaceFeedback(type: String): ByteArray {
+        val response = service.getPaceFeedback(PaceFeedbackRequest(type))
+        return extractAudioData(response, "getPaceFeedback")
     }
 
-    override suspend fun getTimeFeedback(timeFeedbackRequest: TimeFeedbackRequest): AudioResponse {
-        val response = service.getTimeFeedback(timeFeedbackRequest)
+    override suspend fun getTimeFeedback(type: String): ByteArray {
+        val response = service.getTimeFeedback(TimeFeedbackRequest(type))
+        return extractAudioData(response, "getTimeFeedback")
+    }
 
-        if (response.code == "SUCCESS") {
-            return response.result
+    private fun extractAudioData(response: Response<ResponseBody>, methodName: String): ByteArray {
+        if (response.isSuccessful) {
+            val body = response.body()
+            if (body != null) {
+                val audioData = body.bytes()
+                Log.d(TAG, "$methodName: Successfully received audio data, size: ${audioData.size} bytes")
+                return audioData
+            } else {
+                throw CancellationException("$methodName: Response body is null")
+            }
         } else {
-            throw CancellationException(response.code)
+            val errorBody = response.errorBody()?.string()
+            Log.e(TAG, "$methodName: HTTP error ${response.code()}, message: ${response.message()}, error body: $errorBody")
+            throw CancellationException("$methodName: HTTP error ${response.code()} - ${response.message()}")
         }
     }
 }
