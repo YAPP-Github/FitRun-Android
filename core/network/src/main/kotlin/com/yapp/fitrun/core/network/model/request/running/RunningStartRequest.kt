@@ -12,4 +12,3 @@ data class RunningStartRequest(
     @SerialName("timeStamp")
     val timeStamp: String,
 )
-

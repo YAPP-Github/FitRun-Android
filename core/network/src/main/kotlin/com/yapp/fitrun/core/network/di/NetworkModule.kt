@@ -78,7 +78,6 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun bindAudioDataSource(audioDataSourceImpl: AudioDataSourceImpl): AudioDataSource
-
 }
 
 @Module

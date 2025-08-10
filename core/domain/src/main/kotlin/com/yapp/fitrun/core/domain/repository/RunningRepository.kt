@@ -25,12 +25,11 @@ interface RunningRepository {
     suspend fun setRunningUploadImage(
         recordId: Int,
     ): Result<RunningUploadImageEntity>
-
 }
 
 data class RunningPoint(
     val lat: Double,
     val lon: Double,
     val timeStamp: String,
-    val totalRunningTimeMills: Int
+    val totalRunningTimeMills: Int,
 )

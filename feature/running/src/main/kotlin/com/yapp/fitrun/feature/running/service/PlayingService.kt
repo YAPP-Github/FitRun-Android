@@ -21,6 +21,7 @@ import com.yapp.fitrun.core.domain.repository.LocationRepository
 import com.yapp.fitrun.core.domain.repository.RunningPoint
 import com.yapp.fitrun.core.domain.repository.RunningRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -176,7 +177,7 @@ class PlayingService : Service() {
             try {
                 locationRepository.clearAll()
                 Log.d(TAG, "Cleared all previous locations")
-            } catch (e: Exception) {
+            } catch (e: CancellationException) {
                 Log.e(TAG, "Error clearing locations", e)
             }
         }
@@ -205,7 +206,7 @@ class PlayingService : Service() {
                                 val result = runningRepository.setRunningStart(
                                     lat = it.latitude,
                                     lon = it.longitude,
-                                    timeStamp = startTimeStamp ?: getIso8601TimeStamp()
+                                    timeStamp = startTimeStamp ?: getIso8601TimeStamp(),
                                 )
 
                                 result.onSuccess { entity ->
@@ -215,7 +216,7 @@ class PlayingService : Service() {
                                 }.onFailure { exception ->
                                     Log.e(TAG, "Failed to start running", exception)
                                 }
-                            } catch (e: Exception) {
+                            } catch (e: CancellationException) {
                                 Log.e(TAG, "Error calling setRunningStart", e)
                             }
                         }
@@ -223,7 +224,7 @@ class PlayingService : Service() {
                         Log.w(TAG, "Last location is null, waiting for first location update")
                     }
                 }
-            } catch (e: Exception) {
+            } catch (e: CancellationException) {
                 Log.e(TAG, "Error getting last location", e)
             }
         }
@@ -280,7 +281,7 @@ class PlayingService : Service() {
                 }
 
                 Log.d(TAG, "stopService: Successfully saved all data and sent complete request")
-            } catch (e: Exception) {
+            } catch (e: CancellationException) {
                 Log.e(TAG, "stopService: Error saving data", e)
             }
         }
@@ -309,9 +310,9 @@ class PlayingService : Service() {
                     lat = location.lat,
                     lon = location.lng,
                     timeStamp = getIso8601TimeStamp(
-                        runningData.startTimestamp + (index * LOCATION_UPDATE_INTERVAL)
+                        runningData.startTimestamp + (index * LOCATION_UPDATE_INTERVAL),
                     ),
-                    totalRunningTimeMills = (index * LOCATION_UPDATE_INTERVAL).toInt()
+                    totalRunningTimeMills = (index * LOCATION_UPDATE_INTERVAL).toInt(),
                 )
             }
 
@@ -323,7 +324,7 @@ class PlayingService : Service() {
             // 총 칼로리 계산
             val totalCalories = calculateCalories(
                 runningData.distanceMeters / 1000f,
-                runningData.elapsedTimeMillis / 1000 / 60 // 분 단위
+                runningData.elapsedTimeMillis / 1000 / 60, // 분 단위
             )
 
             val result = runningRepository.setRunningComplete(
@@ -333,7 +334,7 @@ class PlayingService : Service() {
                 startAt = startTimeStamp ?: getIso8601TimeStamp(runningData.startTimestamp),
                 totalCalories = totalCalories,
                 totalDistance = (runningData.distanceMeters / 1000f).toDouble(),
-                totalTime = (runningData.elapsedTimeMillis / 1000).toInt()
+                totalTime = (runningData.elapsedTimeMillis / 1000).toInt(),
             )
 
             result.onSuccess {
@@ -341,7 +342,7 @@ class PlayingService : Service() {
             }.onFailure { exception ->
                 Log.e(TAG, "Failed to complete running", exception)
             }
-        } catch (e: Exception) {
+        } catch (e: CancellationException) {
             Log.e(TAG, "Error calling setRunningComplete", e)
         }
     }
@@ -349,8 +350,7 @@ class PlayingService : Service() {
     private fun calculateCalories(distanceKm: Float, timeMinutes: Long): Int {
         // 간단한 칼로리 계산 공식 (체중 70kg 기준)
         val weight = 70f // kg
-        val met = 9.0f // 러닝의 MET 값
-        return (met * weight * timeMinutes / 60f).toInt()
+        return (distanceKm * weight * timeMinutes / 60f).toInt()
     }
 
     private fun startTimer() {
@@ -537,7 +537,7 @@ class PlayingService : Service() {
         runBlocking {
             try {
                 saveBufferedLocations()
-            } catch (e: Exception) {
+            } catch (e: CancellationException) {
                 Log.e(TAG, "onDestroy: Failed to save locations", e)
             }
         }

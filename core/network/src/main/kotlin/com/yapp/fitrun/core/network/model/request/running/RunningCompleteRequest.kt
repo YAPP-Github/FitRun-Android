@@ -16,7 +16,7 @@ data class RunningCompleteRequest(
     @SerialName("totalDistance")
     val totalDistance: Double,
     @SerialName("totalTime")
-    val totalTime: Int
+    val totalTime: Int,
 )
 
 @Serializable
@@ -24,6 +24,5 @@ data class RunningPoint(
     val lat: Double,
     val lon: Double,
     val timeStamp: String,
-    val totalRunningTimeMills: Int
+    val totalRunningTimeMills: Int,
 )
-

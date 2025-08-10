@@ -181,7 +181,7 @@ internal fun UserInfoResponse.toEntity() =
 
 internal fun RunningStartResponse.toEntity() =
     RunningStartEntity(
-        recordId = recordId
+        recordId = recordId,
     )
 
 internal fun RunningCompleteResponse.toEntity() =

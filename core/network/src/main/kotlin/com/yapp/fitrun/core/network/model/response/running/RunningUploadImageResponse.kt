@@ -10,5 +10,5 @@ data class RunningUploadImageResponse(
     @SerialName("recordId")
     val recordId: Int,
     @SerialName("userId")
-    val userId: Int
+    val userId: Int,
 )

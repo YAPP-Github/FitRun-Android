@@ -13,12 +13,12 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 class RunningRepositoryImpl @Inject constructor(
-    private val runningDataSource: RunningDataSource
+    private val runningDataSource: RunningDataSource,
 ) : RunningRepository {
     override suspend fun setRunningStart(
         lat: Double,
         lon: Double,
-        timeStamp: String
+        timeStamp: String,
     ): Result<RunningStartEntity> {
         return runCatching {
             runningDataSource.setRunningStart(RunningStartRequest(lat, lon, timeStamp))
@@ -40,7 +40,7 @@ class RunningRepositoryImpl @Inject constructor(
         startAt: String,
         totalCalories: Int,
         totalDistance: Double,
-        totalTime: Int
+        totalTime: Int,
     ): Result<RunningCompleteEntity> {
         return runCatching {
             runningDataSource.setRunningComplete(
@@ -52,7 +52,7 @@ class RunningRepositoryImpl @Inject constructor(
                     totalCalories,
                     totalDistance,
                     totalTime,
-                )
+                ),
             )
         }.fold(
             onSuccess = {

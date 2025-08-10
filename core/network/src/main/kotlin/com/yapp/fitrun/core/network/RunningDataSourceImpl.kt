@@ -10,7 +10,7 @@ import com.yapp.fitrun.core.network.model.response.running.RunningUploadImageRes
 import javax.inject.Inject
 
 class RunningDataSourceImpl @Inject constructor(
-    private val service: RunningApiService
+    private val service: RunningApiService,
 ) : RunningDataSource {
     override suspend fun setRunningStart(runningStartRequest: RunningStartRequest): RunningStartResponse {
         val response = service.setRunningStart(runningStartRequest)
@@ -24,7 +24,7 @@ class RunningDataSourceImpl @Inject constructor(
 
     override suspend fun setRunningComplete(
         recordId: Int,
-        runningCompleteRequest: RunningCompleteRequest
+        runningCompleteRequest: RunningCompleteRequest,
     ): RunningCompleteResponse {
         val response = service.setRunningComplete(recordId, runningCompleteRequest)
 

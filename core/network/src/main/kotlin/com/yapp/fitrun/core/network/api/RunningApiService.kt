@@ -18,12 +18,11 @@ interface RunningApiService {
     @POST("/api/v1/running/{recordId}")
     suspend fun setRunningComplete(
         @Path("recordId") recordId: Int,
-        @Body runningCompleteRequest: RunningCompleteRequest
+        @Body runningCompleteRequest: RunningCompleteRequest,
     ): BaseResponse<RunningCompleteResponse>
 
     @POST("/api/v1/running/{recordId}/images")
     suspend fun setRunningImageUpload(
         @Path("recordId") recordId: Int,
     ): BaseResponse<RunningUploadImageResponse>
-
 }

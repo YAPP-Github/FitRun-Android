@@ -12,7 +12,7 @@ data class RunningCompleteResponse(
     @SerialName("title")
     val title: String,
     @SerialName("userId")
-    val userId: Int
+    val userId: Int,
 )
 
 @Serializable
@@ -28,5 +28,5 @@ data class RunningPointDto(
     val timeStamp: String,
     val totalRunningDistance: Double,
     val totalRunningTime: Int,
-    val userId: Int
+    val userId: Int,
 )

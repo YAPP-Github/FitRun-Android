@@ -70,4 +70,3 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun bindRunningRepository(runningRepository: RunningRepositoryImpl): RunningRepository
 }
-
