@@ -6,6 +6,7 @@ import com.yapp.fitrun.core.data.repository.GoalRepositoryImpl
 import com.yapp.fitrun.core.data.repository.HomeRepositoryImpl
 import com.yapp.fitrun.core.data.repository.LocationRepositoryImpl
 import com.yapp.fitrun.core.data.repository.RecordRepositoryImpl
+import com.yapp.fitrun.core.data.repository.RunningRepositoryImpl
 import com.yapp.fitrun.core.domain.repository.TokenRepository
 import com.yapp.fitrun.core.data.repository.TokenRepositoryImpl
 import com.yapp.fitrun.core.data.repository.UserRepositoryImpl
@@ -16,6 +17,7 @@ import com.yapp.fitrun.core.domain.repository.GoalRepository
 import com.yapp.fitrun.core.domain.repository.HomeRepository
 import com.yapp.fitrun.core.domain.repository.LocationRepository
 import com.yapp.fitrun.core.domain.repository.RecordRepository
+import com.yapp.fitrun.core.domain.repository.RunningRepository
 import com.yapp.fitrun.core.domain.repository.UserRepository
 import com.yapp.fitrun.core.domain.repository.WorkThroughRepository
 import dagger.Binds
@@ -63,4 +65,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAudioRepository(audioRepository: AudioRepositoryImpl): AudioRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRunningRepository(runningRepository: RunningRepositoryImpl): RunningRepository
 }
+

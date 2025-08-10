@@ -67,7 +67,7 @@ internal fun PlayingRoute(
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is PlayingSideEffect.StopRunning -> {
+            is PlayingSideEffect.NavigateToResult -> {
                 onNavigateToSetGoalOnBoarding()
             }
             else -> {}

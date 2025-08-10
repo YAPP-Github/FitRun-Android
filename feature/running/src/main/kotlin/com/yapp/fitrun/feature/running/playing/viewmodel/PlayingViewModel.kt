@@ -2,6 +2,7 @@ package com.yapp.fitrun.feature.running.playing.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yapp.fitrun.core.domain.repository.AudioRepository
@@ -69,6 +70,7 @@ class PlayingViewModel @Inject constructor(
 
     init {
         observeServiceState()
+        observeRecordId()
         startServiceAutomatically()
         preloadCoachAudio() // 코치 오디오 미리 로드
     }
@@ -96,6 +98,8 @@ class PlayingViewModel @Inject constructor(
                         runningData.distanceMeters / 1000f,
                     ),
                     formattedAvgPace = formatPace(runningData.avgPaceMinPerKm),
+                    recentLocations = runningData.recentLocations,
+                    totalLocationCount = runningData.totalLocationCount,
                 )
             }
 
@@ -117,9 +121,27 @@ class PlayingViewModel @Inject constructor(
                 PlayingService.RunningState.STOPPED -> {
                     stopAudioCoaching()
                     stopPaceUpdateJob()
+                    // 러닝이 종료되면 결과 화면으로 이동
+//                    if (state.recordId != null) {
+//                        postSideEffect(PlayingSideEffect.NavigateToResult(state.recordId!!))
+//                    }
                 }
 
                 else -> {}
+            }
+        }
+    }
+
+    private fun observeRecordId() = intent {
+        PlayingService.recordId.collect { recordId ->
+            Log.d("PlayingViewModel", "Received recordId: $recordId")
+            reduce {
+                state.copy(recordId = recordId)
+            }
+
+            // recordId를 받으면 UI에 알림
+            recordId?.let {
+                postSideEffect(PlayingSideEffect.RunningStarted(it))
             }
         }
     }
@@ -311,7 +333,11 @@ class PlayingViewModel @Inject constructor(
 
     fun onStopClicked() = intent {
         sendCommandToService(PlayingService.ACTION_STOP)
-        postSideEffect(PlayingSideEffect.StopRunning)
+    }
+
+    fun cancelStop() = intent {
+        // 사용자가 정지를 취소한 경우 - 아무 동작 없음
+        Log.d("PlayingViewModel", "Stop cancelled by user")
     }
 
     fun toggleVolume() = intent {
@@ -366,23 +392,27 @@ class PlayingViewModel @Inject constructor(
 // State
 data class PlayingState(
     val runningState: PlayingService.RunningState = PlayingService.RunningState.IDLE,
+    val recordId: Int? = null,
     val elapsedTimeMillis: Long = 0L,
     val distanceKm: Float = 0f,
     val avgPaceMinPerKm: Float = 0f,
     val currentSpeedKmh: Float = 0f,
     val isVolumeOn: Boolean = true,
+    val recentLocations: List<com.yapp.fitrun.core.domain.entity.LocationEntity> = emptyList(),
+    val totalLocationCount: Int = 0,
     // UI용 포맷된 문자열
     val formattedTime: String = "00:00",
     val formattedDistance: String = "0.00",
     val formattedAvgPace: String = "--'--\"",
     // 오디오 코칭
     val preloadedCoachAudio: ByteArray? = null,
-)
+) {
+    // 경로를 그릴 수 있는지 확인하는 헬퍼 메서드
+    fun canDrawPath(): Boolean = recentLocations.size >= 2
+}
 
 // Side Effects
 sealed class PlayingSideEffect {
-    object ShowPauseDialog : PlayingSideEffect()
-    object StopRunning : PlayingSideEffect()
-    object NavigateToResult : PlayingSideEffect()
-    data class ShowError(val message: String) : PlayingSideEffect()
+    data class RunningStarted(val recordId: Int) : PlayingSideEffect()
+    data class NavigateToResult(val recordId: Int) : PlayingSideEffect()
 }
