@@ -44,26 +44,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Number_number1_bold
 import com.yapp.fitrun.core.designsystem.Number_number3_bold
 import com.yapp.fitrun.core.designsystem.R
+import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingSideEffect
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingState
 import com.yapp.fitrun.feature.running.playing.viewmodel.PlayingViewModel
 import com.yapp.fitrun.feature.running.service.PlayingService
 import org.orbitmvi.orbit.compose.collectAsState
-import java.util.Locale
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun PlayingRoute(
     padding: PaddingValues,
     viewModel: PlayingViewModel,
+    onNavigateToSetGoalOnBoarding: () -> Unit,
 ) {
     val state by viewModel.collectAsState()
+    val displayedPace by viewModel.displayedPace.collectAsStateWithLifecycle()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is PlayingSideEffect.NavigateToResult -> {
+                onNavigateToSetGoalOnBoarding()
+            }
+            else -> {}
+        }
+    }
 
     PlayingScreen(
         padding = padding,
         state = state,
+        displayedPace = displayedPace,
         onPauseClicked = viewModel::onPauseClicked,
         onResumeClicked = viewModel::onResumeClicked,
         onStopClicked = viewModel::onStopClicked,
@@ -76,6 +90,7 @@ internal fun PlayingRoute(
 internal fun PlayingScreen(
     padding: PaddingValues,
     state: PlayingState,
+    displayedPace: String = "--'--\"",
     onPauseClicked: () -> Unit = {},
     onResumeClicked: () -> Unit = {},
     onStopClicked: () -> Unit = {},
@@ -135,7 +150,7 @@ internal fun PlayingScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = state.formattedDistance, // 실제 거리 데이터 사용
+                    text = state.formattedDistance,
                     style = Number_number1_bold,
                     color = colorResource(
                         when (state.runningState) {
@@ -182,7 +197,7 @@ internal fun PlayingScreen(
                             color = colorResource(R.color.fg_text_tertiary),
                         )
                         Text(
-                            text = state.formattedAvgPace, // 실제 페이스 데이터 사용
+                            text = displayedPace, // 1초마다 갱신되는 페이스 사용
                             style = Number_number3_bold,
                             color = colorResource(R.color.fg_text_primary),
                         )
@@ -200,39 +215,19 @@ internal fun PlayingScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "속력",
+                            text = "시간",
                             style = Body_body4_regular,
                             color = colorResource(R.color.fg_text_tertiary),
                         )
                         Text(
-                            text = String.format(
-                                Locale.getDefault(),
-                                "%.1f",
-                                state.currentSpeedKmh,
-                            ), // 실제 속도 데이터 사용
+                            text = state.formattedTime,
                             style = Number_number3_bold,
                             color = colorResource(R.color.fg_text_primary),
                         )
                     }
                 }
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(16.dp),
-                ) {
-                    Text(
-                        text = "시간",
-                        style = Body_body4_regular,
-                        color = colorResource(R.color.fg_text_tertiary),
-                    )
-                    Text(
-                        text = state.formattedTime, // 실제 시간 데이터 사용
-                        style = Number_number3_bold,
-                        color = colorResource(R.color.fg_text_primary),
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(37.dp))
+                Spacer(modifier = Modifier.height(128.dp))
 
                 // 버튼 상태 처리
                 when (state.runningState) {
@@ -321,14 +316,15 @@ internal fun PlayingScreen(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun PlayingScreenPreview() {
+private fun PlayingScreenRunningPreview() {
     PlayingScreen(
         padding = PaddingValues(),
         state = PlayingState(
@@ -337,12 +333,43 @@ private fun PlayingScreenPreview() {
             formattedAvgPace = "5'30\"",
             currentSpeedKmh = 10.5f,
             formattedTime = "15:00",
+            isVolumeOn = true,
         ),
+        displayedPace = "5'30\"",
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PlayingScreenPausedPreview() {
+    PlayingScreen(
+        padding = PaddingValues(),
+        state = PlayingState(
+            runningState = PlayingService.RunningState.PAUSED,
+            formattedDistance = "3.21",
+            formattedAvgPace = "6'15\"",
+            currentSpeedKmh = 9.6f,
+            formattedTime = "20:05",
+            isVolumeOn = false,
+        ),
+        displayedPace = "6'15\"",
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PlayingScreenIdlePreview() {
+    PlayingScreen(
+        padding = PaddingValues(),
+        state = PlayingState(
+            runningState = PlayingService.RunningState.IDLE,
+        ),
+        displayedPace = "--'--\"",
     )
 }
 
 @RequiresPermission(Manifest.permission.VIBRATE)
-fun Context.vibrate(duration: Long = 500L) {
+fun Context.vibrate(duration: Long = 100L) {
     val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
         vibratorManager.defaultVibrator

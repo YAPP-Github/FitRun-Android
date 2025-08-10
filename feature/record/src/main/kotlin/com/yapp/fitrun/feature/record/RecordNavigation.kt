@@ -19,14 +19,21 @@ fun NavController.navigateToRecord(navOptions: NavOptions) {
 }
 
 fun NavController.navigateToRecordDetail(recordId: Int) {
-    navigate(RecordDetailRoute(recordId))
+    navigate(RecordDetailRoute(recordId)) {
+        // 현재 화면을 백스택에서 제거
+        popUpTo(currentBackStackEntry?.destination?.route ?: return@navigate) {
+            inclusive = true
+        }
+    }
 }
 
 fun NavGraphBuilder.recordNavGraph(
     onBackClick: () -> Unit,
+    onNavigateToSetGoalOnBoarding: () -> Unit = {},
     onNavigateToRecordDetail: (Int) -> Unit,
     padding: PaddingValues,
 ) {
+    { onNavigateToSetGoalOnBoarding() }
     composable<RecordRoute> {
         RecordRoute(
             padding = padding,

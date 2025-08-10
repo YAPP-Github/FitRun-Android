@@ -15,6 +15,9 @@ import com.yapp.fitrun.feature.home.navigateToHome
 import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningLevel
 import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningPurpose
 import com.yapp.fitrun.feature.mypage.navigation.navigateToMyPage
+import com.yapp.fitrun.feature.mypage.navigation.onNavigateToConfirmWithdraw
+import com.yapp.fitrun.feature.mypage.navigation.onNavigateToProfile
+import com.yapp.fitrun.feature.mypage.navigation.onNavigateToWithdraw
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingFourth
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingResult
 import com.yapp.fitrun.feature.onboarding.navigation.navigateToOnBoardingSecond
@@ -27,6 +30,7 @@ import com.yapp.fitrun.feature.running.runningonboarding.navigateToRunningOnBoar
 import com.yapp.fitrun.feature.running.runningonboarding.navigateToRunningOnBoardingSecond
 import com.yapp.fitrun.feature.running.runningonboarding.navigateToRunningOnBoardingThird
 import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoal
+import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoalOnBoarding
 
 @Keep
 internal class MainNavigator(
@@ -106,12 +110,28 @@ internal class MainNavigator(
         navController.navigateToSetGoal()
     }
 
+    fun navigateToSetGoalOnBoarding() {
+        navController.navigateToSetGoalOnBoarding()
+    }
+
     fun navigateToPlaying() {
         navController.navigateToPlaying()
     }
 
     fun navigateToRecordDetail(recordId: Int) {
         navController.navigateToRecordDetail(recordId)
+    }
+
+    fun onNavigateToProfile() {
+        navController.onNavigateToProfile()
+    }
+
+    fun onNavigateToWithdraw() {
+        navController.onNavigateToWithdraw()
+    }
+
+    fun onNavigateToConfirmWithdraw() {
+        navController.onNavigateToConfirmWithdraw()
     }
 
     fun navigateToChangeRunningLevel() {

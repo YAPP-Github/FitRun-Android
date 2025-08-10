@@ -63,10 +63,6 @@ import com.yapp.fitrun.core.designsystem.Body_body4_bold
 import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Head_h1_bold
 import com.yapp.fitrun.core.designsystem.Head_h2_bold
-import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingState
-import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingViewModel
-import org.orbitmvi.orbit.compose.collectAsState
-import org.orbitmvi.orbit.compose.collectSideEffect
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 import com.yapp.fitrun.core.ui.FitRunTextButton
@@ -74,6 +70,10 @@ import com.yapp.fitrun.core.ui.FitRunTextIconButton
 import com.yapp.fitrun.core.ui.NavigationTopAppBar
 import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingSideEffect
+import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingState
+import com.yapp.fitrun.feature.running.runningonboarding.viewmodel.RunningOnBoardingViewModel
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun RunningOnBoardingFirstRoute(
