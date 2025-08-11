@@ -1,4 +1,4 @@
-package com.yapp.fitrun.feature.mypage
+package com.yapp.fitrun.feature.mypage.setting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

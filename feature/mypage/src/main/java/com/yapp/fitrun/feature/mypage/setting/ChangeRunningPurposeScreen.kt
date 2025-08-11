@@ -1,4 +1,4 @@
-package com.yapp.fitrun.feature.mypage
+package com.yapp.fitrun.feature.mypage.setting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,6 +54,7 @@ internal fun ChangeRunningPurposeRoute(
         uiState = uiState,
         padding = padding,
         onBackClick = onBackClick,
+        onClickChangeRunningPurpose = viewModel::onClickChangeRunningPurpose,
     )
 }
 
@@ -62,17 +63,16 @@ internal fun ChangeRunningPurposeScreen(
     uiState: MyPageState,
     padding: PaddingValues,
     onBackClick: () -> Unit,
+    onClickChangeRunningPurpose: (String) -> Unit,
 ) {
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(uiState.userRunningPurpose) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.bg_primary)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (uiState.isLoading) {
-            // TODO
-        }
-
         FitRunTextTopAppBar(
             title = "러닝 목적 변경",
             onLeftNavigationClick = onBackClick,
@@ -94,7 +94,8 @@ internal fun ChangeRunningPurposeScreen(
 
         RunningPurposeGroup(
             runningPurposeOption = listOf("다이어트", "건강 관리", "체력 증진", "대회 준비"),
-            selected = "다이어트",
+            selectedOption = selectedOption,
+            onOptionSelected = onOptionSelected,
             iconResources = listOf(
                 painterResource(R.drawable.img_fire),
                 painterResource(R.drawable.img_heart),
@@ -109,7 +110,7 @@ internal fun ChangeRunningPurposeScreen(
             modifier = Modifier
                 .padding(bottom = padding.calculateBottomPadding())
                 .padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
-            onClick = { },
+            onClick = { onClickChangeRunningPurpose(selectedOption) },
             text = "설정하기",
         )
     }
@@ -119,10 +120,9 @@ internal fun ChangeRunningPurposeScreen(
 internal fun RunningPurposeGroup(
     runningPurposeOption: List<String>,
     iconResources: List<Painter>,
-    selected: String,
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit,
 ) {
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf(selected) }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -245,5 +245,6 @@ fun ChangeRunningPurposeScreenPreview() {
         uiState = MyPageState(),
         padding = PaddingValues(),
         onBackClick = {},
+        onClickChangeRunningPurpose = {},
     )
 }

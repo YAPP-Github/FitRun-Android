@@ -50,6 +50,7 @@ import com.yapp.fitrun.core.designsystem.Body_body4_regular
 import com.yapp.fitrun.core.designsystem.Head_h1_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
+import com.yapp.fitrun.core.ui.ToggleSwitch
 
 @Composable
 fun SetRunningCountSection(
@@ -146,45 +147,6 @@ fun RunningCountInput(
                 checked = isAlarm,
             )
         }
-    }
-}
-
-@Composable
-fun ToggleSwitch(
-    checked: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    val switchWidth = 50.dp
-    val switchHeight = 30.dp
-    val padding = 2.dp
-    val transition = updateTransition(checked, label = "switch_transition")
-
-    val thumbSize by transition.animateDp(label = "thumb_size") { isChecked ->
-        if (isChecked) 22.dp else 16.dp
-    }
-
-    val thumbOffsetX by transition.animateDp(label = "thumb_position") { isChecked ->
-        if (isChecked) switchWidth - thumbSize - padding * 3 else padding
-    }
-
-    val backgroundColor by transition.animateColor(label = "bg_color") { isChecked ->
-        if (isChecked) colorResource(R.color.bg_interactive_secondary_hoverd) else Color(0xFFD9D9D9)
-    }
-
-    Box(
-        modifier = modifier
-            .width(switchWidth)
-            .height(switchHeight)
-            .background(backgroundColor)
-            .padding(padding),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Box(
-            modifier = Modifier
-                .size(thumbSize)
-                .offset(x = thumbOffsetX)
-                .background(color = colorResource(R.color.bg_primary), shape = CircleShape),
-        )
     }
 }
 

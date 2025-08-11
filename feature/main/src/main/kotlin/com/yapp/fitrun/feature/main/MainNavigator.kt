@@ -12,9 +12,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.yapp.fitrun.feature.crew.navigateToCrew
 import com.yapp.fitrun.feature.home.navigateToHome
+import com.yapp.fitrun.feature.mypage.navigation.navigateChangeRunningSetting
+import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeNotifications
 import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningLevel
 import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningPurpose
+import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeRunningTimeDistanceGoal
 import com.yapp.fitrun.feature.mypage.navigation.navigateToMyPage
+import com.yapp.fitrun.feature.mypage.navigation.navigateToServiceUsage
+import com.yapp.fitrun.feature.mypage.navigation.navigateToTermsAndConditions
 import com.yapp.fitrun.feature.mypage.navigation.onNavigateToConfirmWithdraw
 import com.yapp.fitrun.feature.mypage.navigation.onNavigateToProfile
 import com.yapp.fitrun.feature.mypage.navigation.onNavigateToWithdraw
@@ -35,6 +40,8 @@ import com.yapp.fitrun.feature.setgoal.navigation.navigateToSetGoalOnBoarding
 @Keep
 internal class MainNavigator(
     val navController: NavHostController,
+    val navigateToLogin: () -> Unit,
+    val navigateToPermission: () -> Unit,
     val startDestination: Any,
 ) {
     private val currentDestination: NavDestination?
@@ -126,6 +133,26 @@ internal class MainNavigator(
         navController.onNavigateToProfile()
     }
 
+    fun onNavigateChangeRunningSetting() {
+        navController.navigateChangeRunningSetting()
+    }
+
+    fun onNavigateToChangeNotifications() {
+        navController.navigateToChangeNotifications()
+    }
+
+    fun onNavigateToTermsAndConditions() {
+        navController.navigateToTermsAndConditions()
+    }
+
+    fun onNavigateToServiceUsage() {
+        navController.navigateToServiceUsage()
+    }
+
+    fun onNavigateToChangeRunningTimeDistanceGoal() {
+        navController.navigateToChangeRunningTimeDistanceGoal()
+    }
+
     fun onNavigateToWithdraw() {
         navController.onNavigateToWithdraw()
     }
@@ -146,7 +173,9 @@ internal class MainNavigator(
 @Composable
 internal fun rememberMainNavigator(
     navController: NavHostController = rememberNavController(),
+    navigateToLogin: () -> Unit,
+    navigateToPermission: () -> Unit,
     startDestination: Any,
 ): MainNavigator = remember(navController, startDestination) {
-    MainNavigator(navController, startDestination)
+    MainNavigator(navController, navigateToLogin, navigateToPermission, startDestination)
 }

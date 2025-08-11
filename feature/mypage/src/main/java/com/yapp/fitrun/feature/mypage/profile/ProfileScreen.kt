@@ -2,16 +2,13 @@ package com.yapp.fitrun.feature.mypage.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +25,7 @@ import com.yapp.fitrun.core.designsystem.Caption_caption2_medium
 import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
+import com.yapp.fitrun.core.ui.noRippleClickable
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -37,6 +35,7 @@ internal fun ProfileRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
 
@@ -44,6 +43,7 @@ internal fun ProfileRoute(
         uiState = uiState,
         onWithdrawClick = onWithdrawClick,
         onBackClick = onBackClick,
+        onLogoutClick = onLogoutClick,
     )
 }
 
@@ -52,6 +52,7 @@ internal fun ProfileScreen(
     uiState: MyPageState,
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
+    onLogoutClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -93,7 +94,6 @@ internal fun ProfileScreen(
                 color = colorResource(R.color.fg_text_tertiary),
                 modifier = Modifier.padding(start = 20.dp, top = 4.dp, bottom = 24.dp),
             )
-
         }
 
         Spacer(
@@ -102,12 +102,11 @@ internal fun ProfileScreen(
                 .height(8.dp)
                 .background(colorResource(R.color.bg_secondary)),
         )
-
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { }
+                .noRippleClickable { onLogoutClick() }
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             style = Body_body3_semiBold,
             text = "로그아웃",
@@ -116,7 +115,7 @@ internal fun ProfileScreen(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onWithdrawClick() }
+                .noRippleClickable { onWithdrawClick() }
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             style = Body_body3_semiBold,
             text = "회원탈퇴",
@@ -139,7 +138,8 @@ private fun ProfileScreenPreview() {
             userNickName = "유저명",
             userEmail = "sample@gmail.com"
         ),
-        {},
-        {},
+        onWithdrawClick = {},
+        onBackClick = {},
+        onLogoutClick = {},
     )
 }

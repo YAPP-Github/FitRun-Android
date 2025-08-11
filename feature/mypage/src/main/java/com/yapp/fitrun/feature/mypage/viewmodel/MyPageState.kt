@@ -12,4 +12,13 @@ data class MyPageState(
     val userGoalTime: String = "",
     val userGoalPace: String = "",
     val userGoalFrequency: String = "",
+
+    // service
+    val terms: String = "",
+    val serviceUsage: String = "",
+
+    // setting
+    val isNotification: Boolean = false,
+    val isAudioCoaching: Boolean = false,
+    val isAudioFeedback: Boolean = false,
 )

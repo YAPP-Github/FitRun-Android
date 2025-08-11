@@ -13,6 +13,10 @@ import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.MainNavigator
 import com.yapp.fitrun.feature.main.MainTab
 import com.yapp.fitrun.feature.mypage.navigation.myPageNavGraph
+import com.yapp.fitrun.feature.mypage.navigation.navigateChangeRunningSetting
+import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeNotifications
+import com.yapp.fitrun.feature.mypage.navigation.navigateToServiceUsage
+import com.yapp.fitrun.feature.mypage.navigation.navigateToTermsAndConditions
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
 import com.yapp.fitrun.feature.record.navigateToRecordDetail
@@ -47,20 +51,20 @@ internal fun MainNavHost(
             },
             popEnterTransition = {
                 slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(400),
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(500),
                 )
             },
         ) {
             homeNavGraph(
                 padding = padding,
-                onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst, // For UT
+                onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst,
                 onNavigateToSetGoal = navigator::navigateToSetGoal,
             )
             recordNavGraph(
@@ -81,6 +85,14 @@ internal fun MainNavHost(
                 onNavigateToConfirmWithdraw = navigator::onNavigateToConfirmWithdraw,
                 onNavigateToChangeRunningLevel = navigator::navigateToChangeRunningLevel,
                 onNavigateToChangeRunningPurpose = navigator::navigateToChangeRunningPurpose,
+                onNavigateChangeRunningSetting = navigator::onNavigateChangeRunningSetting,
+                onNavigateToChangeNotifications = navigator::onNavigateToChangeNotifications,
+                onNavigateToTermsAndConditions = navigator::onNavigateToTermsAndConditions,
+                onNavigateToServiceUsage = navigator::onNavigateToServiceUsage,
+                onNavigateToPermission = navigator.navigateToPermission,
+                onNavigateToChangeRunningTimeDistanceGoal = navigator::onNavigateToChangeRunningTimeDistanceGoal,
+                onNavigateToSetGoal = navigator::navigateToSetGoal,
+                onNavigateToLogin = navigator.navigateToLogin,
             )
             onBoardingNavGraph(
                 padding = padding,
