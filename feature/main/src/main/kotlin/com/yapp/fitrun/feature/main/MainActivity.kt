@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.yapp.fitrun.feature.home.HomeRoute
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,8 +27,8 @@ class MainActivity : ComponentActivity() {
             ),
         )
 
-//        val isNew = intent.getBooleanExtra("isNew", false)
-        val startDestination: Any = OnBoardingRoute // FOR UT
+        val isNew = intent.getBooleanExtra("isNew", false)
+        val startDestination: Any = if (isNew) OnBoardingRoute else HomeRoute
 
         setContent {
             val navigator: MainNavigator = rememberMainNavigator(startDestination = startDestination)
