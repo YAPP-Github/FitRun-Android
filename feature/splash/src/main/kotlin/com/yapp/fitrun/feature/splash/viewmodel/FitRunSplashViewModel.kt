@@ -38,6 +38,12 @@ class FitRunSplashViewModel @Inject constructor(
         R.string.work_through_3_description,
     )
 
+    private val imageList: List<Int> = listOf(
+        R.drawable.img_workthrough1,
+        R.drawable.img_workthrough2,
+        R.drawable.img_workthrough3,
+    )
+
     init {
         checkIsInstalledBefore()
     }
@@ -46,7 +52,7 @@ class FitRunSplashViewModel @Inject constructor(
         reduce { state.copy(showSplash = true, showWorkThrough = false) }
 
         // 최소 스플래시 표시 시간 (UX를 위해)
-        delay(1500)
+        delay(1000)
         workThroughRepository.getIsFirstTime().let {
             if (it) {
                 reduce {
@@ -55,6 +61,7 @@ class FitRunSplashViewModel @Inject constructor(
                         showWorkThrough = true,
                         titleTextList = titleTextList,
                         descriptionTextList = descriptionTextList,
+                        imageList = imageList,
                     )
                 }
                 workThroughRepository.setIsFirstTime(false)
@@ -78,7 +85,7 @@ class FitRunSplashViewModel @Inject constructor(
         }
     }
 
-    private fun validateTokenAndLogin() = intent {
+    fun validateTokenAndLogin() = intent {
         viewModelScope.launch {
             authRepository.updateRefreshToken().fold(
                 onSuccess = { loginResult ->
@@ -100,10 +107,6 @@ class FitRunSplashViewModel @Inject constructor(
                 },
             )
         }
-    }
-
-    fun autoLoginSuccess() = intent {
-        postSideEffect(FitRunSplashSideEffect.AutoLoginSuccess)
     }
 
     fun autoLoginFail() = intent {

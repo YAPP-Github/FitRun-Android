@@ -65,6 +65,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @Composable
 internal fun SetGoalRoute(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
     viewModel: SetGoalViewModel = hiltViewModel(),
     onNavigateToComplete: () -> Unit = {},
 ) {
@@ -95,6 +96,7 @@ internal fun SetGoalRoute(
 
     SetGoalScreen(
         padding = padding,
+        onBackClick = onBackClick,
         state = state,
         showLottie = showLottie,
         onPaceChange = { paceSeconds ->
@@ -119,6 +121,7 @@ internal fun SetGoalRoute(
 @Composable
 internal fun SetGoalScreen(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
     state: SetGoalState,
     showLottie: Boolean,
     onPaceChange: (Int) -> Unit,
@@ -149,6 +152,7 @@ internal fun SetGoalScreen(
             topBar = {
                 NavigationTopAppBar(
                     modifier = Modifier,
+                    onLeftNavigationClick = onBackClick,
                 )
             },
             bottomBar = {
@@ -328,6 +332,7 @@ fun HorizontalPagerIndicator(
 private fun SetGoalScreenPreview() {
     SetGoalScreen(
         PaddingValues(),
+        {},
         SetGoalState(),
         true,
         {},

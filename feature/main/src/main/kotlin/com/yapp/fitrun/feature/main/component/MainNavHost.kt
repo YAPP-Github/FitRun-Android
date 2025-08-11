@@ -110,9 +110,6 @@ internal fun MainNavHost(
             setGoalNavGraph(
                 padding = padding,
                 onBackClick = { navigator.navController.popBackStack() },
-                onNavigateToRecordDetail = { recordId ->
-                    navigator.navController.navigateToRecordDetail(recordId)
-                },
             )
         }
     }

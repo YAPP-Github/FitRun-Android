@@ -7,4 +7,5 @@ data class FitRunSplashState(
     // Work Through
     val titleTextList: List<Int> = emptyList(),
     val descriptionTextList: List<Int> = emptyList(),
+    val imageList: List<Int> = emptyList(),
 )
