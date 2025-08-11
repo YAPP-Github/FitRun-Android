@@ -24,6 +24,11 @@ class RecordDetailViewModel @Inject constructor(
         reduce { state.copy(isLoading = true) }
         recordRepository.getRecordDetail(recordId)
             .onSuccess { response ->
+                var content = ""
+                if (response.isPaceGoalAchieved) content += "페이스"
+                if (response.isDistanceGoalAchieved) content += ", 거리"
+                if (response.isTimeGoalAchieved) content += ", 시간"
+
                 reduce {
                     state.copy(
                         isLoading = false,
@@ -43,6 +48,9 @@ class RecordDetailViewModel @Inject constructor(
                                 averagePace = convertTimeToPace(it.averagePace),
                             )
                         },
+                        goalAchieved =
+                            if (content.isNotEmpty()) "$content 목표를 달성했어요"
+                            else "",
                     )
                 }
             }
