@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption2_medium
+import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
@@ -34,12 +35,11 @@ import org.orbitmvi.orbit.compose.collectAsState
 @Composable
 internal fun ProfileRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
-    padding: PaddingValues,
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
-    padding
+
     ProfileScreen(
         uiState = uiState,
         onWithdrawClick = onWithdrawClick,
@@ -59,10 +59,6 @@ internal fun ProfileScreen(
             .background(colorResource(R.color.bg_primary)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (uiState.isLoading) {
-            // TODO
-        }
-
         FitRunTextTopAppBar(
             title = "프로필",
             onLeftNavigationClick = onBackClick,
@@ -71,17 +67,18 @@ internal fun ProfileScreen(
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 24.dp),
             ) {
                 Text(
                     text = uiState.userNickName,
-                    style = Body_body3_semiBold,
-                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    style = Head_h4_bold,
+                    color = colorResource(R.color.fg_text_primary),
                 )
 
                 Image(
                     modifier = Modifier
-                        .size(22.dp)
                         .padding(start = 4.dp),
                     painter = painterResource(R.drawable.ic_mypage_kakao_logo),
                     contentDescription = "kakao account",
@@ -94,8 +91,9 @@ internal fun ProfileScreen(
                 text = uiState.userEmail,
                 style = Caption_caption2_medium,
                 color = colorResource(R.color.fg_text_tertiary),
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(start = 20.dp, top = 4.dp, bottom = 24.dp),
             )
+
         }
 
         Spacer(
@@ -137,7 +135,10 @@ internal fun ProfileScreen(
 @Composable
 private fun ProfileScreenPreview() {
     ProfileScreen(
-        uiState = MyPageState(),
+        uiState = MyPageState(
+            userNickName = "유저명",
+            userEmail = "sample@gmail.com"
+        ),
         {},
         {},
     )

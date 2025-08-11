@@ -110,7 +110,6 @@ fun NavGraphBuilder.myPageNavGraph(
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
 
             ProfileRoute(
-                padding = padding,
                 onWithdrawClick = onWithdrawClick,
                 onBackClick = onBackClick,
                 viewModel = viewModel,

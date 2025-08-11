@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object HomeRoute // route to ForYou screen
+data object HomeRoute
 
 fun NavController.navigateToHome(navOptions: NavOptions) {
     navigate(HomeRoute, navOptions)
