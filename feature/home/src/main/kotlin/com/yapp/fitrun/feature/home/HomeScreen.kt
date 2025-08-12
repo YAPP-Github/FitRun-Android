@@ -61,6 +61,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberMarkerState
 import com.naver.maps.map.overlay.OverlayImage
+import com.yapp.fitrun.core.common.convertTimeToPace
+import com.yapp.fitrun.core.common.interpolateColor
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
@@ -238,7 +240,7 @@ internal fun HomeScreen(
                     )
                 } else {
                     Row(
-                        modifier = Modifier.padding(horizontal = 20.dp)
+                        modifier = Modifier.padding(horizontal = 20.dp),
                     ) {
                         repeat(state.homeResult.userGoalEntity.weeklyRunningCount!!) { index ->
                             Box(
@@ -254,13 +256,13 @@ internal fun HomeScreen(
                                                 startColor = Color(0xFFFFE3CA),
                                                 endColor = Color(0xFFFF6600),
                                                 fraction = index.toFloat() / (state.homeResult.recordEntity.thisWeekRunningCount - 1).coerceAtLeast(
-                                                    1
-                                                )
+                                                    1,
+                                                ),
                                             )
                                         } else {
                                             // 회색 (나머지)
                                             colorResource(R.color.fg_nuetral_gray300)
-                                        }
+                                        },
                                     ),
                             )
                         }
@@ -289,7 +291,7 @@ internal fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = formatPace(state.homeResult?.userGoalEntity?.paceGoal),
+                            text = convertTimeToPace(state.homeResult?.userGoalEntity?.paceGoal?.toLong()),
                             style = Caption_caption3_semiBold,
                         )
                     }
@@ -312,7 +314,7 @@ internal fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = formatPace(state.homeResult?.recordEntity?.recentPace),
+                            text = convertTimeToPace(state.homeResult?.recordEntity?.recentPace?.toLong()),
                             style = Caption_caption3_semiBold,
                         )
                     }
@@ -373,7 +375,7 @@ internal fun HomeScreen(
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 8.dp,
                 ),
-                enabled = allPermissionsState.allPermissionsGranted
+                enabled = allPermissionsState.allPermissionsGranted,
             ) {
                 Text(
                     text = "달리기",
@@ -486,40 +488,6 @@ fun PermissionDeniedComponent() {
         Spacer(modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.height(124.dp))
     }
-}
-
-fun interpolateColor(startColor: Color, endColor: Color, fraction: Float): Color {
-    val startR = startColor.red
-    val startG = startColor.green
-    val startB = startColor.blue
-
-    val endR = endColor.red
-    val endG = endColor.green
-    val endB = endColor.blue
-
-    val r = lerp(startR, endR, fraction)
-    val g = lerp(startG, endG, fraction)
-    val b = lerp(startB, endB, fraction)
-
-    return Color(r, g, b)
-}
-
-/**
- * 선형 보간 함수
- */
-fun lerp(start: Float, end: Float, fraction: Float): Float {
-    return start + (end - start) * fraction
-}
-
-
-fun formatPace(paceMillis: Int?): String {
-    if (paceMillis == null || paceMillis <= 0) return "--'--''"
-
-    val totalSeconds = paceMillis / 1000
-    val minutes = totalSeconds / 60
-    val seconds = totalSeconds % 60
-
-    return String.format("%d'%02d''", minutes, seconds)
 }
 
 @Preview

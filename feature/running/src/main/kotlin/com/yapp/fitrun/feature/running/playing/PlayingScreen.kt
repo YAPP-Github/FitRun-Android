@@ -100,7 +100,7 @@ internal fun PlayingRoute(
                 },
                 onConfirm = {
                     viewModel.onStopClicked()
-                }
+                },
             )
         }
     }

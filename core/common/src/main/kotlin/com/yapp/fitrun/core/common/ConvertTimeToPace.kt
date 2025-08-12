@@ -2,9 +2,9 @@ package com.yapp.fitrun.core.common
 
 import java.util.Locale
 
-fun convertTimeToPace(milliseconds: Long): String {
-    if (milliseconds <= 0) {
-        return "-'-''"
+fun convertTimeToPace(milliseconds: Long?): String {
+    if (milliseconds == null || milliseconds <= 0) {
+        return "-'--''"
     }
 
     val seconds = milliseconds / 1000

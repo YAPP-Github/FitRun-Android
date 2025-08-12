@@ -18,22 +18,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Head_h5_bold
 import com.yapp.fitrun.core.designsystem.R
 
-
 @Composable
 fun CancelRunningDialog(
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit
+    onConfirm: () -> Unit,
 ) {
-
     Dialog(
-        onDismissRequest = onDismiss
+        onDismissRequest = onDismiss,
     ) {
         Card(
             modifier = Modifier
@@ -41,8 +38,8 @@ fun CancelRunningDialog(
                 .padding(horizontal = 12.dp),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            )
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
         ) {
             Column(
                 modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
@@ -51,13 +48,13 @@ fun CancelRunningDialog(
                 Text(
                     text = "러닝을 종료하시겠어요?",
                     color = colorResource(R.color.fg_text_primary),
-                    style = Head_h5_bold
+                    style = Head_h5_bold,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "러닝을 종료하면 지금까지 달린 기록까지 저장돼요.",
                     color = colorResource(R.color.fg_text_primary),
-                    style = Body_body3_medium
+                    style = Body_body3_medium,
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -70,13 +67,13 @@ fun CancelRunningDialog(
                         onClick = onConfirm,
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(R.color.bg_interactive_selected)
-                        )
+                            containerColor = colorResource(R.color.bg_interactive_selected),
+                        ),
                     ) {
                         Text(
                             modifier = Modifier.padding(vertical = 6.dp),
                             text = "종료하기",
-                            color = colorResource(R.color.fg_text_interactive_primary)
+                            color = colorResource(R.color.fg_text_interactive_primary),
                         )
                     }
                     Spacer(modifier = Modifier.width(6.dp))
@@ -85,27 +82,17 @@ fun CancelRunningDialog(
                         onClick = onDismiss,
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = colorResource(R.color.fg_text_interactive_primary)
-                        )
+                            containerColor = colorResource(R.color.fg_text_interactive_primary),
+                        ),
                     ) {
                         Text(
                             modifier = Modifier.padding(vertical = 6.dp),
                             text = "달리기",
-                            color = colorResource(R.color.fg_text_interactive_inverse)
+                            color = colorResource(R.color.fg_text_interactive_inverse),
                         )
                     }
                 }
             }
         }
     }
-}
-
-// AlertDialog 사용 예제
-@Preview
-@Composable
-fun AlertDialogExample() {
-
-    CancelRunningDialog({}) { }
-
-
 }
