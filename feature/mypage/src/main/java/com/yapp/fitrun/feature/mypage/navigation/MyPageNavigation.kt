@@ -245,6 +245,7 @@ fun NavGraphBuilder.myPageNavGraph(
             ConfirmWithdrawRoute(
                 viewModel = viewModel,
                 padding = padding,
+                onNavigateToLogin = onNavigateToLogin,
                 onBackClick = onBackClick,
             )
         }

@@ -6,6 +6,7 @@ import com.yapp.fitrun.core.domain.entity.RunnerEntity
 import com.yapp.fitrun.core.domain.entity.UserInfoEntity
 import com.yapp.fitrun.core.domain.repository.UserRepository
 import com.yapp.fitrun.core.network.UserDataSource
+import com.yapp.fitrun.core.network.model.request.DeleteAccountRequest
 import com.yapp.fitrun.core.network.model.request.OnBoardingAnswers
 import com.yapp.fitrun.core.network.model.request.OnBoardingRequest
 import com.yapp.fitrun.core.network.model.request.RunnerRequest
@@ -30,7 +31,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteAccount() {
-        userDataSource.deleteAccount()
+        userDataSource.deleteAccount(DeleteAccountRequest())
     }
 
     override suspend fun getOnBoardingInfo(): Result<OnBoardingEntity> {

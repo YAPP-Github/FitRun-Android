@@ -51,18 +51,27 @@ import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageSideEffect
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun ConfirmWithdrawRoute(
     padding: PaddingValues,
     onBackClick: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+        }
+    }
 
     ConfirmWithdrawScreen(
         uiState = uiState,

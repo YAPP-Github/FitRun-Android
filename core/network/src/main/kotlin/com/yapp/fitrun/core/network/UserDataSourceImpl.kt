@@ -1,6 +1,7 @@
 package com.yapp.fitrun.core.network
 
 import com.yapp.fitrun.core.network.api.UserApiService
+import com.yapp.fitrun.core.network.model.request.DeleteAccountRequest
 import com.yapp.fitrun.core.network.model.request.OnBoardingRequest
 import com.yapp.fitrun.core.network.model.request.RunnerRequest
 import com.yapp.fitrun.core.network.model.response.OnBoardingResponse
@@ -23,8 +24,8 @@ class UserDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteAccount() {
-        service.deleteAccount()
+    override suspend fun deleteAccount(deleteAccountRequest: DeleteAccountRequest) {
+        service.deleteAccount(deleteAccountRequest)
     }
 
     override suspend fun getOnBoardingInfo(): OnBoardingResponse {

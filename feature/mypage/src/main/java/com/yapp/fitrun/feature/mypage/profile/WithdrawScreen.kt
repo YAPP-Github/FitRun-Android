@@ -68,10 +68,6 @@ internal fun WithdrawScreen(
             .fillMaxSize()
             .background(colorResource(R.color.bg_primary)),
     ) {
-        if (uiState.isLoading) {
-            // TODO
-        }
-
         FitRunTextTopAppBar(
             title = "탈퇴 약관동의",
             onLeftNavigationClick = onBackClick,
