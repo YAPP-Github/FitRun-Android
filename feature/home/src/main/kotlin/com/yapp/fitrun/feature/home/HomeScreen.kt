@@ -225,18 +225,47 @@ internal fun HomeScreen(
                             },
                     )
                 }
-
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth()
-                        .height(4.dp)
-                        .background(
-                            shape = RoundedCornerShape(10.dp),
-                            color = colorResource(R.color.fg_nuetral_gray300),
-                        ),
-                )
-
+                if (state.homeResult?.userGoalEntity?.weeklyRunningCount == null) {
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxWidth()
+                            .height(4.dp)
+                            .background(
+                                shape = RoundedCornerShape(10.dp),
+                                color = colorResource(R.color.fg_nuetral_gray300),
+                            ),
+                    )
+                } else {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 20.dp)
+                    ) {
+                        repeat(state.homeResult.userGoalEntity.weeklyRunningCount!!) { index ->
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 1.dp)
+                                    .weight(1f)
+                                    .height(4.dp)
+                                    .background(
+                                        shape = RoundedCornerShape(10.dp),
+                                        color = if (index < state.homeResult.recordEntity.thisWeekRunningCount) {
+                                            // 그라데이션 계산: #FFE3CA -> #FF6600
+                                            interpolateColor(
+                                                startColor = Color(0xFFFFE3CA),
+                                                endColor = Color(0xFFFF6600),
+                                                fraction = index.toFloat() / (state.homeResult.recordEntity.thisWeekRunningCount - 1).coerceAtLeast(
+                                                    1
+                                                )
+                                            )
+                                        } else {
+                                            // 회색 (나머지)
+                                            colorResource(R.color.fg_nuetral_gray300)
+                                        }
+                                    ),
+                            )
+                        }
+                    }
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -260,7 +289,7 @@ internal fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = "-'--\"",
+                            text = formatPace(state.homeResult?.userGoalEntity?.paceGoal),
                             style = Caption_caption3_semiBold,
                         )
                     }
@@ -283,7 +312,7 @@ internal fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = "-'--\"",
+                            text = formatPace(state.homeResult?.recordEntity?.recentPace),
                             style = Caption_caption3_semiBold,
                         )
                     }
@@ -344,6 +373,7 @@ internal fun HomeScreen(
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 8.dp,
                 ),
+                enabled = allPermissionsState.allPermissionsGranted
             ) {
                 Text(
                     text = "달리기",
@@ -456,6 +486,40 @@ fun PermissionDeniedComponent() {
         Spacer(modifier = Modifier.weight(1f))
         Spacer(modifier = Modifier.height(124.dp))
     }
+}
+
+fun interpolateColor(startColor: Color, endColor: Color, fraction: Float): Color {
+    val startR = startColor.red
+    val startG = startColor.green
+    val startB = startColor.blue
+
+    val endR = endColor.red
+    val endG = endColor.green
+    val endB = endColor.blue
+
+    val r = lerp(startR, endR, fraction)
+    val g = lerp(startG, endG, fraction)
+    val b = lerp(startB, endB, fraction)
+
+    return Color(r, g, b)
+}
+
+/**
+ * 선형 보간 함수
+ */
+fun lerp(start: Float, end: Float, fraction: Float): Float {
+    return start + (end - start) * fraction
+}
+
+
+fun formatPace(paceMillis: Int?): String {
+    if (paceMillis == null || paceMillis <= 0) return "--'--''"
+
+    val totalSeconds = paceMillis / 1000
+    val minutes = totalSeconds / 60
+    val seconds = totalSeconds % 60
+
+    return String.format("%d'%02d''", minutes, seconds)
 }
 
 @Preview
