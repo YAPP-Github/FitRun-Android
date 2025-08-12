@@ -67,16 +67,14 @@ internal fun OnBoardingResultScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = padding.calculateTopPadding(),
-                    bottom = padding.calculateBottomPadding(),
-                )
                 .background(Color.White),
         ) {
             Spacer(modifier = Modifier.height(72.dp))
 
             Text(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = padding.calculateTopPadding()),
                 text = stringResource(id = R.string.on_boarding_result_title),
                 textAlign = TextAlign.Center,
                 color = colorResource(R.color.fg_text_primary),
@@ -116,7 +114,9 @@ internal fun OnBoardingResultScreen(
             Spacer(modifier = Modifier.weight(1f))
 
             FitRunTextButton(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 25.dp),
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp, bottom = 25.dp)
+                    .padding(bottom = padding.calculateBottomPadding()),
                 onClick = navigateToHome,
                 text = stringResource(R.string.on_boarding_result_go_to_home),
             )

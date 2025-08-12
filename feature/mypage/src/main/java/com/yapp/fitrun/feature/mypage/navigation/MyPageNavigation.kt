@@ -224,7 +224,7 @@ fun NavGraphBuilder.myPageNavGraph(
                 onWithdrawClick = onWithdrawClick,
                 onBackClick = onBackClick,
                 viewModel = viewModel,
-                onLogoutClick = onNavigateToLogin,
+                onNavigateToLogin = onNavigateToLogin,
             )
         }
 

@@ -58,10 +58,6 @@ internal fun OnBoardingFourthScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                top = padding.calculateTopPadding(),
-                bottom = padding.calculateBottomPadding(),
-            )
             .background(Color.White)
             .verticalScroll(scrollState),
     ) {
@@ -74,7 +70,8 @@ internal fun OnBoardingFourthScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp),
+                    .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 105.dp)
+                    .padding(bottom = padding.calculateBottomPadding()),
             ) {
                 Text(
                     text = stringResource(id = R.string.on_boarding_fourth_title),

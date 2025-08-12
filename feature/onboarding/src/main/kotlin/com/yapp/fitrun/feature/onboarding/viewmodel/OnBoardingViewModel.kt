@@ -3,6 +3,7 @@ package com.yapp.fitrun.feature.onboarding.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.yapp.fitrun.core.common.RunningPurpose
+import com.yapp.fitrun.core.common.convertRunnerType
 import com.yapp.fitrun.core.domain.entity.OnBoardingAnswers
 import com.yapp.fitrun.core.domain.entity.OnBoardingEntity
 import com.yapp.fitrun.core.domain.repository.GoalRepository
@@ -103,7 +104,7 @@ class OnBoardingViewModel @Inject constructor(
                 }
                 userRepository.getUserRunnerType()
                     .onSuccess { response ->
-                        reduce { state.copy(isLoading = false, runnerTypeResult = response.runnerType) }
+                        reduce { state.copy(isLoading = false, runnerTypeResult = convertRunnerType(response.runnerType)) }
                     }
                     .onFailure { e ->
                         reduce { state.copy(isLoading = false) }

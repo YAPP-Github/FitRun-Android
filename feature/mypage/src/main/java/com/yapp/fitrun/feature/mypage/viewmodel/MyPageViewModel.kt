@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModel
 import com.yapp.fitrun.core.common.RunningPurpose
+import com.yapp.fitrun.core.common.convertRunnerType
 import com.yapp.fitrun.core.common.convertRunningPurpose
 import com.yapp.fitrun.core.common.convertTimeToPace
 import com.yapp.fitrun.core.designsystem.R
@@ -28,7 +29,6 @@ class MyPageViewModel @Inject constructor(
     override val container = container<MyPageState, MyPageSideEffect>(MyPageState())
 
     fun getUserInfo() = intent {
-        val noGoalMessage = "설정되지 않았어요"
         reduce { state.copy(isLoading = true) }
 
         userRepository.getUserInfo().onSuccess { response ->
@@ -55,13 +55,13 @@ class MyPageViewModel @Inject constructor(
                         userRunningPurposeImageId = getUserRunningPurposeImageId(purpose),
                         userGoalDistance = response.goal?.distanceMeterGoal?.let {
                             "${(it.div(1000f))}"
-                        } ?: noGoalMessage,
+                        } ?: "",
                         userGoalTime = response.goal?.timeGoal?.let { "${it / 60000}" }
-                            ?: noGoalMessage,
+                            ?: "",
                         userGoalPace = response.goal?.paceGoal?.let { convertTimeToPace(it) }
-                            ?: noGoalMessage,
+                            ?: "",
                         userGoalFrequency = response.goal?.weeklyRunCount?.let { "주 ${it}회" }
-                            ?: noGoalMessage,
+                            ?: "",
                     )
                 }
             }
@@ -76,6 +76,11 @@ class MyPageViewModel @Inject constructor(
 
     fun onClickDeleteAccount() = intent {
         userRepository.deleteAccount()
+        tokenRepository.clear()
+        postSideEffect(MyPageSideEffect.NavigateToLogin)
+    }
+
+    fun onClickLogout() = intent {
         tokenRepository.clear()
         postSideEffect(MyPageSideEffect.NavigateToLogin)
     }
@@ -138,15 +143,6 @@ class MyPageViewModel @Inject constructor(
 
     fun onClickAudioFeedback() = intent {
         reduce { state.copy(isAudioFeedback = !state.isAudioFeedback) }
-    }
-
-    private fun convertRunnerType(response: String): String {
-        return when (response) {
-            "BEGINNER" -> "워밍업 러너"
-            "INTERMEDIATE" -> "루틴 러너"
-            "EXPERT" -> "챌린저 러너"
-            else -> "워밍업 러너"
-        }
     }
 
     private fun getUserRunningPurposeImageId(purpose: String): Int {

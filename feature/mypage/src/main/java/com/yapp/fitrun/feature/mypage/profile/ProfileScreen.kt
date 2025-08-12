@@ -26,24 +26,32 @@ import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
 import com.yapp.fitrun.core.ui.noRippleClickable
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageSideEffect
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun ProfileRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
-    onLogoutClick: () -> Unit,
+    onNavigateToLogin: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+        }
+    }
 
     ProfileScreen(
         uiState = uiState,
         onWithdrawClick = onWithdrawClick,
         onBackClick = onBackClick,
-        onLogoutClick = onLogoutClick,
+        onClickLogout = viewModel::onClickLogout,
     )
 }
 
@@ -52,7 +60,7 @@ internal fun ProfileScreen(
     uiState: MyPageState,
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
-    onLogoutClick: () -> Unit,
+    onClickLogout: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -106,7 +114,7 @@ internal fun ProfileScreen(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .noRippleClickable { onLogoutClick() }
+                .noRippleClickable { onClickLogout() }
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             style = Body_body3_semiBold,
             text = "로그아웃",
@@ -140,6 +148,6 @@ private fun ProfileScreenPreview() {
         ),
         onWithdrawClick = {},
         onBackClick = {},
-        onLogoutClick = {},
+        onClickLogout = {},
     )
 }
