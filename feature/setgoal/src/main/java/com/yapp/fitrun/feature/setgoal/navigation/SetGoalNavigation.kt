@@ -32,7 +32,6 @@ fun NavGraphBuilder.setGoalNavGraph(
             onBackClick = onBackClick,
         )
     }
-    
     composable<SetGoalOnBoardingRoute> {
         SetGoalOnBoardingRoute(
             onBackClick = onBackClick,

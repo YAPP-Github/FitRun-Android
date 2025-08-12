@@ -13,13 +13,8 @@ import com.yapp.fitrun.feature.home.homeNavGraph
 import com.yapp.fitrun.feature.main.MainNavigator
 import com.yapp.fitrun.feature.main.MainTab
 import com.yapp.fitrun.feature.mypage.navigation.myPageNavGraph
-import com.yapp.fitrun.feature.mypage.navigation.navigateChangeRunningSetting
-import com.yapp.fitrun.feature.mypage.navigation.navigateToChangeNotifications
-import com.yapp.fitrun.feature.mypage.navigation.navigateToServiceUsage
-import com.yapp.fitrun.feature.mypage.navigation.navigateToTermsAndConditions
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
-import com.yapp.fitrun.feature.record.navigateToRecordDetail
 import com.yapp.fitrun.feature.record.recordNavGraph
 import com.yapp.fitrun.feature.running.runningNavGraph
 import com.yapp.fitrun.feature.running.runningonboarding.runningOnBoardingNavGraph
@@ -117,7 +112,7 @@ internal fun MainNavHost(
             runningNavGraph(
                 padding = padding,
                 onNavigateToPlay = navigator::navigateToPlaying,
-                onNavigateToSetGoalOnBoarding = { navigator.navigateToRecordDetail(1) },
+                onNavigateToSetGoalOnBoarding = navigator::navigateToSetGoalOnBoarding,
             )
             setGoalNavGraph(
                 padding = padding,

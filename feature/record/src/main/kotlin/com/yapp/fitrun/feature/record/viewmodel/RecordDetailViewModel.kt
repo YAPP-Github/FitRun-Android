@@ -48,9 +48,7 @@ class RecordDetailViewModel @Inject constructor(
                                 averagePace = convertTimeToPace(it.averagePace),
                             )
                         },
-                        goalAchieved =
-                            if (content.isNotEmpty()) "$content 목표를 달성했어요"
-                            else "",
+                        goalAchieved = if (content.isNotEmpty()) "$content 목표를 달성했어요" else "",
                     )
                 }
             }

@@ -462,7 +462,6 @@ internal fun RecordDetailLabSection(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun RecordDetailScreenPreview() {

@@ -137,15 +137,15 @@ internal fun ChangeRunningTimeDistanceGoalScreen(
                 .padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
                 .imePadding(),
             onClick = {
-                if (pagerState.currentPage == 0)
+                if (pagerState.currentPage == 0) {
                     onClickChangeRunningTimeGoal(timeGoalValue.value)
-                else
+                } else {
                     onClickChangeRunningDistanceGoal(distanceGoalValue.value)
+                }
             },
             text = "설정하기",
         )
     }
-
 }
 
 @Composable
@@ -222,7 +222,6 @@ internal fun SettingGoalSection(
         }
     }
 }
-
 
 @SuppressLint("UnusedBoxWithConstraintsScope", "UseOfNonLambdaOffsetOverload")
 @Composable

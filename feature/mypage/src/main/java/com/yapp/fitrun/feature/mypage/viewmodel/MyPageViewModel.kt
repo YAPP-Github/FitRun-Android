@@ -1,7 +1,6 @@
 package com.yapp.fitrun.feature.mypage.viewmodel
 
 import android.util.Log
-import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.ViewModel
 import com.yapp.fitrun.core.common.RunningPurpose
 import com.yapp.fitrun.core.common.convertRunnerType
@@ -29,44 +28,36 @@ class MyPageViewModel @Inject constructor(
     override val container = container<MyPageState, MyPageSideEffect>(MyPageState())
 
     fun getUserInfo() = intent {
-        reduce { state.copy(isLoading = true) }
-
         userRepository.getUserInfo().onSuccess { response ->
             reduce {
                 state.copy(
-                    isLoading = false,
                     userNickName = response.user.nickname,
                     userEmail = response.user.email ?: "",
                 )
             }
-
-            response.goal?.let {
-                val purpose = response.goal?.runningPurpose?.let {
-                    convertRunningPurpose(it)
-                } ?: ""
+            response.goal?.let { goal ->
+                val purpose = convertRunningPurpose(goal.runningPurpose)
                 reduce {
                     state.copy(
-                        isLoading = false,
                         userLevel = convertRunnerType(response.user.runnerType ?: ""),
                         userLevelImageId = getUserLevelImageId(response.user.runnerType ?: ""),
                         userNickName = response.user.nickname,
                         userEmail = response.user.email ?: "",
                         userRunningPurpose = purpose,
                         userRunningPurposeImageId = getUserRunningPurposeImageId(purpose),
-                        userGoalDistance = response.goal?.distanceMeterGoal?.let {
+                        userGoalDistance = goal.distanceMeterGoal?.let {
                             "${(it.div(1000f))}"
                         } ?: "",
-                        userGoalTime = response.goal?.timeGoal?.let { "${it / 60000}" }
+                        userGoalTime = goal.timeGoal?.let { "${it / 60000}" }
                             ?: "",
-                        userGoalPace = response.goal?.paceGoal?.let { convertTimeToPace(it) }
+                        userGoalPace = goal.paceGoal?.let { convertTimeToPace(it) }
                             ?: "",
-                        userGoalFrequency = response.goal?.weeklyRunCount?.let { "주 ${it}회" }
+                        userGoalFrequency = goal.weeklyRunCount?.let { "주 ${it}회" }
                             ?: "",
                     )
                 }
             }
         }.onFailure {
-            reduce { state.copy(isLoading = false) }
             Log.e(
                 this@MyPageViewModel.javaClass.name,
                 "getUserInfo: " + it.message.toString(),
@@ -92,7 +83,6 @@ class MyPageViewModel @Inject constructor(
             "체력 증진" -> RunningPurpose.C.purpose
             "대회 준비" -> RunningPurpose.D.purpose
             else -> RunningPurpose.A.purpose
-
         }
         val imageId = getUserRunningPurposeImageId(purpose)
         goalRepository.updateRunningPurpose(param).onSuccess {
@@ -112,7 +102,7 @@ class MyPageViewModel @Inject constructor(
             runnerTypeEntity = RunnerEntity(
                 runnerType = param,
                 userId = 0,
-            )
+            ),
         ).onSuccess { response ->
             val type = convertRunnerType(response.runnerType)
             reduce { state.copy(userLevel = type, userLevelImageId = imageId) }

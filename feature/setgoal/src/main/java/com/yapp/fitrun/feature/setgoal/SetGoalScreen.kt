@@ -48,13 +48,10 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.yapp.fitrun.core.designsystem.Body_body2_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
-import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
 import com.yapp.fitrun.core.ui.FitRunTopAppBar
-import com.yapp.fitrun.core.ui.NavigationTopAppBar
 import com.yapp.fitrun.core.ui.advancedImePadding
 import com.yapp.fitrun.feature.setgoal.component.SetPaceSection
 import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection

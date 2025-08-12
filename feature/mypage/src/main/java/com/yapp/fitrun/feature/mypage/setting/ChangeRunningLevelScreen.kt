@@ -68,8 +68,9 @@ internal fun ChangeRunningLevelScreen(
     val options = listOf("가볍게 달리는\n워밍업 러너", "꾸준히 달리는\n루틴 러너", "성장 중인\n챌린저 러너")
     var runnerType = options[0]
     options.forEach {
-        if (it.contains(uiState.userLevel))
+        if (it.contains(uiState.userLevel)) {
             runnerType = it
+        }
     }
 
     Column(

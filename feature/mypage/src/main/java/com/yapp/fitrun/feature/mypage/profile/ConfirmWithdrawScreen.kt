@@ -17,11 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -41,7 +38,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_regular
@@ -90,7 +86,6 @@ fun ConfirmWithdrawScreen(
     onConfirmClick: () -> Unit,
 ) {
     var selectedReason by remember { mutableStateOf("") }
-    var otherReason by remember { mutableStateOf("") }
     val withdrawalReasons = listOf(
         "앱 기능이 생각보다 별로예요",
         "자주 사용하지 않아요",

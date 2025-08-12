@@ -8,16 +8,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.toRoute
 import com.yapp.fitrun.core.common.extension.sharedViewModel
-import com.yapp.fitrun.feature.mypage.setting.ChangeRunningLevelRoute
-import com.yapp.fitrun.feature.mypage.setting.ChangeRunningPurposeRoute
 import com.yapp.fitrun.feature.mypage.MyPageRoute
 import com.yapp.fitrun.feature.mypage.profile.ConfirmWithdrawRoute
 import com.yapp.fitrun.feature.mypage.profile.ProfileRoute
 import com.yapp.fitrun.feature.mypage.profile.WithdrawRoute
-import com.yapp.fitrun.feature.mypage.setting.ChangeNotificationRoute
-import com.yapp.fitrun.feature.mypage.setting.ChangeRunningSettingRoute
 import com.yapp.fitrun.feature.mypage.service.ServiceUsageRoute
 import com.yapp.fitrun.feature.mypage.service.TermsAndConditionsRoute
+import com.yapp.fitrun.feature.mypage.setting.ChangeNotificationRoute
+import com.yapp.fitrun.feature.mypage.setting.ChangeRunningLevelRoute
+import com.yapp.fitrun.feature.mypage.setting.ChangeRunningPurposeRoute
+import com.yapp.fitrun.feature.mypage.setting.ChangeRunningSettingRoute
 import com.yapp.fitrun.feature.mypage.setting.ChangeRunningTimeDistanceGoalRoute
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import kotlinx.serialization.Serializable
@@ -129,7 +129,6 @@ fun NavGraphBuilder.myPageNavGraph(
     ) {
         composable<MyPageRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             MyPageRoute(
                 padding = padding,
                 onNavigateToProfile = onNavigateToProfile,
@@ -150,7 +149,6 @@ fun NavGraphBuilder.myPageNavGraph(
         composable<ChangeRunningTimeDistanceGoalRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
             val args = entry.toRoute<ChangeRunningTimeDistanceGoalRoute>()
-
             ChangeRunningTimeDistanceGoalRoute(
                 initialPage = args.initialPage,
                 padding = padding,
@@ -162,7 +160,6 @@ fun NavGraphBuilder.myPageNavGraph(
         // setting
         composable<ChangeRunningLevelRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             ChangeRunningLevelRoute(
                 padding = padding,
                 onBackClick = onBackClick,
@@ -172,7 +169,6 @@ fun NavGraphBuilder.myPageNavGraph(
 
         composable<ChangeRunningPurposeRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             ChangeRunningPurposeRoute(
                 padding = padding,
                 onBackClick = onBackClick,
@@ -182,7 +178,6 @@ fun NavGraphBuilder.myPageNavGraph(
 
         composable<ChangeRunningSettingRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             ChangeRunningSettingRoute(
                 onBackClick = onBackClick,
                 viewModel = viewModel,
@@ -191,35 +186,27 @@ fun NavGraphBuilder.myPageNavGraph(
 
         composable<ChangeNotificationRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             ChangeNotificationRoute(
                 onBackClick = onBackClick,
                 viewModel = viewModel,
             )
         }
 
-        composable<TermsAndConditionsRoute> { entry ->
-            val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
+        composable<TermsAndConditionsRoute> {
             TermsAndConditionsRoute(
                 onBackClick = onBackClick,
-                viewModel = viewModel,
             )
         }
 
-        composable<ServiceUsageRoute> { entry ->
-            val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
+        composable<ServiceUsageRoute> {
             ServiceUsageRoute(
                 onBackClick = onBackClick,
-                viewModel = viewModel,
             )
         }
 
         // profile
         composable<ProfileRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             ProfileRoute(
                 onWithdrawClick = onWithdrawClick,
                 onBackClick = onBackClick,
@@ -228,11 +215,8 @@ fun NavGraphBuilder.myPageNavGraph(
             )
         }
 
-        composable<WithdrawRoute> { entry ->
-            val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
+        composable<WithdrawRoute> {
             WithdrawRoute(
-                viewModel = viewModel,
                 padding = padding,
                 onNextClick = onNavigateToConfirmWithdraw,
                 onBackClick = onBackClick,
@@ -241,7 +225,6 @@ fun NavGraphBuilder.myPageNavGraph(
 
         composable<ConfirmWithdrawRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
-
             ConfirmWithdrawRoute(
                 viewModel = viewModel,
                 padding = padding,

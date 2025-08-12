@@ -144,7 +144,7 @@ private fun ProfileScreenPreview() {
     ProfileScreen(
         uiState = MyPageState(
             userNickName = "유저명",
-            userEmail = "sample@gmail.com"
+            userEmail = "sample@gmail.com",
         ),
         onWithdrawClick = {},
         onBackClick = {},
