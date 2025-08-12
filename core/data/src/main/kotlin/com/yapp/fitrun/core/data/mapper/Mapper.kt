@@ -117,6 +117,7 @@ internal fun GoalResponse.toEntity() =
         paceGoal = paceGoal,
         distanceMeterGoal = distanceMeterGoal,
         timeGoal = timeGoal,
+        runnerType = runnerType,
     )
 
 internal fun RecordListResponse.toEntity() =

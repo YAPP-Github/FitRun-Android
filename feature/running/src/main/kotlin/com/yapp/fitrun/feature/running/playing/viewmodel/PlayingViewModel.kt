@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yapp.fitrun.core.domain.repository.AudioRepository
+import com.yapp.fitrun.core.domain.repository.GoalRepository
 import com.yapp.fitrun.feature.running.audio.AudioPlayer
 import com.yapp.fitrun.feature.running.service.PlayingService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,6 +32,7 @@ class PlayingViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val audioRepository: AudioRepository,
     private val audioCoachPlayer: AudioPlayer,
+    private val goalRepository: GoalRepository,
 ) : ViewModel(), ContainerHost<PlayingState, PlayingSideEffect> {
 
     override val container: Container<PlayingState, PlayingSideEffect> = container(
@@ -62,6 +64,8 @@ class PlayingViewModel @Inject constructor(
     private var lastDistanceFeedback = 0f
     private var lastPaceFeedbackTime = 0L
     private var lastTimeFeedbackTime = 0L
+    private var lastCoachDistanceKm = 0
+    private var hasPlayedHalfTime = false
 
     // 목표 설정 (실제로는 Goal Repository에서 가져와야 함)
     private var goalPace: Float? = null // 분/km
@@ -69,10 +73,40 @@ class PlayingViewModel @Inject constructor(
     private var goalTime: Int? = null // 분
 
     init {
+        getGoal()
         observeServiceState()
         observeRecordId()
         startServiceAutomatically()
         preloadCoachAudio() // 코치 오디오 미리 로드
+    }
+
+    private fun getGoal() = intent {
+        goalRepository.getGoal()
+            .onSuccess { goalEntity ->
+                reduce {
+                    state.copy(
+                        paceGoal = goalEntity.paceGoal,
+                        distanceMeterGoal = goalEntity.distanceMeterGoal,
+                        timeGoal = goalEntity.timeGoal,
+                        runnerType = goalEntity.runnerType
+                    )
+                }
+
+                // 클래스 레벨 변수도 업데이트 (오디오 피드백용)
+                goalEntity.paceGoal?.let {
+                    goalPace = it / 1000f / 60f  // 밀리초를 분으로 변환
+                }
+                goalEntity.distanceMeterGoal?.let {
+                    goalDistance = it.toFloat() / 1000f  // 미터를 킬로미터로 변환
+                }
+                goalEntity.timeGoal?.let {
+                    goalTime = (it / 1000 / 60).toInt()  // 밀리초를 분으로 변환
+                }
+            }
+            .onFailure { throwable ->
+                // 에러 처리 - 필요시 로깅이나 사용자에게 알림
+                Log.e("PlayingViewModel", "Failed to get goal", throwable)
+            }
     }
 
     private fun observeServiceState() = intent {
@@ -156,37 +190,129 @@ class PlayingViewModel @Inject constructor(
 
             audioCoachingJob?.cancel()
             audioCoachingJob = viewModelScope.launch {
-                // 1. 코치 음성 (1분마다)
-                if (currentTime - lastCoachTime >= COACH_INTERVAL) {
-                    playCoachAudio()
-                    lastCoachTime = currentTime
-                }
+                // 1. 코치 음성 (동기부여)
+                checkAndPlayCoachAudio(currentDistance, currentTime)
 
-                // 2. 러닝 정보 피드백 (5분마다)
-                if (currentTime - lastRunningInfoTime >= RUNNING_INFO_INTERVAL) {
-                    playRunningInfo(currentPace)
-                    lastRunningInfoTime = currentTime
-                }
+                // 2. 목표 설정에 따른 피드백 우선순위 적용
+                val hasDistanceGoal = state.distanceMeterGoal != null
+                val hasTimeGoal = state.timeGoal != null
+                val hasPaceGoal = state.paceGoal != null
 
-                // 3. 거리 피드백 (1km마다)
-                if (currentDistance - lastDistanceFeedback >= 1f) {
-                    playDistanceFeedback(currentDistance)
-                    lastDistanceFeedback = currentDistance.toInt().toFloat()
-                }
-
-                // 4. 페이스 피드백 (3분마다, 목표 페이스와 비교)
-                if (currentTime - lastPaceFeedbackTime >= PACE_FEEDBACK_INTERVAL) {
-                    playPaceFeedback(currentPace)
-                    lastPaceFeedbackTime = currentTime
-                }
-
-                // 5. 시간 피드백 (10분마다)
-                if (currentTime - lastTimeFeedbackTime >= TIME_FEEDBACK_INTERVAL) {
-                    playTimeFeedback(currentTime)
-                    lastTimeFeedbackTime = currentTime
+                when {
+                    // 거리 & 시간 & 페이스 목표가 모두 설정된 경우: 페이스 피드백만
+                    hasDistanceGoal && hasTimeGoal && hasPaceGoal -> {
+                        checkAndPlayPaceFeedback(currentPace, currentTime)
+                    }
+                    // 거리 & 시간 목표 설정: 페이스 피드백
+                    hasDistanceGoal && hasTimeGoal -> {
+                        checkAndPlayPaceFeedback(currentPace, currentTime)
+                    }
+                    // 거리 & 페이스 목표 설정: 거리 & 페이스 피드백
+                    hasDistanceGoal && hasPaceGoal -> {
+                        checkAndPlayDistanceFeedback(currentDistance)
+                        delay(1000) // 피드백 간 딜레이
+                        checkAndPlayPaceFeedback(currentPace, currentTime)
+                    }
+                    // 시간 & 페이스 목표 설정: 시간 & 페이스 피드백
+                    hasTimeGoal && hasPaceGoal -> {
+                        checkAndPlayTimeFeedback(currentTime)
+                        delay(1000) // 피드백 간 딜레이
+                        checkAndPlayPaceFeedback(currentPace, currentTime)
+                    }
+                    // 페이스 목표만 설정: 페이스 피드백
+                    hasPaceGoal -> {
+                        checkAndPlayPaceFeedback(currentPace, currentTime)
+                    }
+                    // 거리 목표만 설정: 거리 피드백
+                    hasDistanceGoal -> {
+                        checkAndPlayDistanceFeedback(currentDistance)
+                    }
+                    // 시간 목표만 설정: 시간 피드백
+                    hasTimeGoal -> {
+                        checkAndPlayTimeFeedback(currentTime)
+                    }
                 }
             }
         }
+
+    private suspend fun checkAndPlayCoachAudio(currentDistance: Float, currentTime: Long) = intent {
+        val distanceKm = currentDistance.toInt()
+
+        // runnerType에 따라 코치 오디오 재생 간격 결정
+        val shouldPlayCoach = when (state.runnerType) {
+            "BEGINNER" -> distanceKm > 0 && distanceKm % 1 == 0 && distanceKm != lastCoachDistanceKm // 1km마다
+            "INTERMEDIATE" -> distanceKm > 0 && distanceKm % 3 == 0 && distanceKm != lastCoachDistanceKm // 3km마다
+            "EXPERT" -> distanceKm > 0 && distanceKm % 5 == 0 && distanceKm != lastCoachDistanceKm // 5km마다
+            else -> false
+        }
+
+        if (shouldPlayCoach) {
+            playCoachAudio()
+            lastCoachDistanceKm = distanceKm
+        }
+    }
+
+    private suspend fun checkAndPlayDistanceFeedback(currentDistance: Float) = intent {
+        if (state.distanceMeterGoal == null) return@intent
+
+        val goalDistanceKm = state.distanceMeterGoal!! / 1000f
+        val distanceKm = currentDistance.toInt()
+
+        // 1km마다 피드백
+        if (distanceKm > lastDistanceFeedback.toInt()) {
+            val type = when {
+                currentDistance >= goalDistanceKm -> "DISTANCE_FINISH" // 목표 완주
+                goalDistanceKm - currentDistance <= 1f -> "DISTANCE_LEFT_1KM" // 마지막 1km
+                else -> when (distanceKm) {
+                    1 -> "DISTANCE_1KM"
+                    2 -> "DISTANCE_2KM"
+                    3 -> "DISTANCE_3KM"
+                    else -> "DISTANCE_PASS_${distanceKm}KM"
+                }
+            }
+
+            playDistanceFeedback(type)
+            lastDistanceFeedback = distanceKm.toFloat()
+        }
+    }
+
+    private suspend fun checkAndPlayPaceFeedback(currentPace: Float, currentTime: Long) = intent {
+        if (state.paceGoal == null) return@intent
+        if (currentTime - lastPaceFeedbackTime < PACE_FEEDBACK_INTERVAL) return@intent
+
+        val goalPaceMinPerKm = state.paceGoal!! / 1000f / 60f
+        val paceDiff = currentPace - goalPaceMinPerKm
+
+        val type = when {
+            paceDiff < -0.25f -> "PACE_FAST" // 15초/km 이상 빠름
+            paceDiff > 0.5f -> "PACE_SLOW" // 30초/km 이상 느림
+            kotlin.math.abs(paceDiff) <= 0.1f -> "PACE_GOOD" // 목표 페이스 유지
+            else -> return@intent
+        }
+
+        playPaceFeedback(type)
+        lastPaceFeedbackTime = currentTime
+    }
+
+    private suspend fun checkAndPlayTimeFeedback(currentTime: Long) = intent {
+        if (state.timeGoal == null) return@intent
+
+        val elapsedMinutes = currentTime / 1000 / 60
+        val goalMinutes = state.timeGoal!! / 1000 / 60
+
+        val type = when {
+            elapsedMinutes >= goalMinutes -> "TIME_FINISH" // 목표 시간 도달
+            goalMinutes - elapsedMinutes <= 5 -> "TIME_LEFT_5MIN" // 5분 전
+            elapsedMinutes >= goalMinutes / 2 && !hasPlayedHalfTime -> {
+                hasPlayedHalfTime = true
+                "TIME_PASS_HALF" // 50% 지점
+            }
+
+            else -> return@intent
+        }
+
+        playTimeFeedback(type)
+    }
 
     private fun updatePaceDisplay(avgPaceMinPerKm: Float) {
         val currentTime = System.currentTimeMillis()
@@ -255,61 +381,41 @@ class PlayingViewModel @Inject constructor(
         )
     }
 
-    private fun playDistanceFeedback(currentDistance: Float) = intent {
-        val feedbackType = when {
-            goalDistance != null && currentDistance >= goalDistance!! -> "DISTANCE_LEFT_1KM"
-            currentDistance.toInt() % 5 == 0 -> "MILESTONE" // 5km마다 특별 피드백
-            else -> "NORMAL"
-        }
-
-        audioRepository.getDistanceFeedback(feedbackType).fold(
+    private fun playDistanceFeedback(type: String) = intent {
+        audioRepository.getDistanceFeedback(type).fold(
             onSuccess = { audioEntity ->
                 if (state.isVolumeOn && state.runningState == PlayingService.RunningState.RUNNING) {
                     audioCoachPlayer.playWithMediaPlayer(audioEntity.audioData)
                 }
             },
-            onFailure = {
-                // 에러 처리
+            onFailure = { exception ->
+                Log.e("PlayingViewModel", "Failed to play distance feedback", exception)
             },
         )
     }
 
-    private fun playPaceFeedback(currentPace: Float) = intent {
-        val feedbackType = when {
-            goalPace == null -> "NORMAL"
-            currentPace < goalPace!! * 0.9f -> "TOO_FAST"
-            currentPace > goalPace!! * 1.1f -> "TOO_SLOW"
-            else -> "ON_PACE"
-        }
-
-        audioRepository.getPaceFeedback(feedbackType).fold(
+    private fun playPaceFeedback(type: String) = intent {
+        audioRepository.getPaceFeedback(type).fold(
             onSuccess = { audioEntity ->
                 if (state.isVolumeOn && state.runningState == PlayingService.RunningState.RUNNING) {
                     audioCoachPlayer.playWithMediaPlayer(audioEntity.audioData)
                 }
             },
-            onFailure = {
-                // 에러 처리
+            onFailure = { exception ->
+                Log.e("PlayingViewModel", "Failed to play pace feedback", exception)
             },
         )
     }
 
-    private fun playTimeFeedback(elapsedTime: Long) = intent {
-        val elapsedMinutes = (elapsedTime / 1000 / 60).toInt()
-        val feedbackType = when {
-            goalTime != null && elapsedMinutes >= goalTime!! -> "GOAL_ACHIEVED"
-            elapsedMinutes % 30 == 0 -> "MILESTONE" // 30분마다 특별 피드백
-            else -> "NORMAL"
-        }
-
-        audioRepository.getTimeFeedback(feedbackType).fold(
+    private fun playTimeFeedback(type: String) = intent {
+        audioRepository.getTimeFeedback(type).fold(
             onSuccess = { audioEntity ->
                 if (state.isVolumeOn && state.runningState == PlayingService.RunningState.RUNNING) {
                     audioCoachPlayer.playWithMediaPlayer(audioEntity.audioData)
                 }
             },
-            onFailure = {
-                // 에러 처리
+            onFailure = { exception ->
+                Log.e("PlayingViewModel", "Failed to play time feedback", exception)
             },
         )
     }
@@ -389,7 +495,6 @@ class PlayingViewModel @Inject constructor(
     }
 }
 
-// State
 data class PlayingState(
     val runningState: PlayingService.RunningState = PlayingService.RunningState.IDLE,
     val recordId: Int? = null,
@@ -406,6 +511,11 @@ data class PlayingState(
     val formattedAvgPace: String = "--'--\"",
     // 오디오 코칭
     val preloadedCoachAudio: ByteArray? = null,
+    // 목표 관련 필드 추가
+    val paceGoal: Long? = null,  // 밀리초 단위
+    val distanceMeterGoal: Double? = null,  // 미터 단위
+    val timeGoal: Long? = null,  // 밀리초 단위
+    val runnerType: String? = null,
 ) {
     // 경로를 그릴 수 있는지 확인하는 헬퍼 메서드
     fun canDrawPath(): Boolean = recentLocations.size >= 2

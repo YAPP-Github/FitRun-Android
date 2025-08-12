@@ -19,4 +19,6 @@ data class GoalResponse(
     val distanceMeterGoal: Double? = null,
     @SerialName("timeGoal")
     val timeGoal: Long? = null,
+    @SerialName("runnerType")
+    val runnerType: String? = null,
 )
