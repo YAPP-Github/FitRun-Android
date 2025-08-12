@@ -149,8 +149,8 @@ internal class MainNavigator(
         navController.navigateToServiceUsage()
     }
 
-    fun onNavigateToChangeRunningTimeDistanceGoal() {
-        navController.navigateToChangeRunningTimeDistanceGoal()
+    fun onNavigateToChangeRunningTimeDistanceGoal(initialPage: Int) {
+        navController.navigateToChangeRunningTimeDistanceGoal(initialPage)
     }
 
     fun onNavigateToWithdraw() {

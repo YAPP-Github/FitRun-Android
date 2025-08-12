@@ -70,6 +70,7 @@ internal fun UserResponse.toEntity() =
         nickname = nickname,
         email = email,
         provider = provider,
+        runnerType = runnerType,
     )
 
 internal fun OnBoardingResponse.toEntity() =

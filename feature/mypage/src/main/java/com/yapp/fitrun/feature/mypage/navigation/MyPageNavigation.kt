@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.toRoute
 import com.yapp.fitrun.core.common.extension.sharedViewModel
 import com.yapp.fitrun.feature.mypage.setting.ChangeRunningLevelRoute
 import com.yapp.fitrun.feature.mypage.setting.ChangeRunningPurposeRoute
@@ -28,7 +29,7 @@ data object MyPageSettingRoute
 data object MyPageRoute
 
 @Serializable
-data object ChangeRunningTimeDistanceGoalRoute
+data class ChangeRunningTimeDistanceGoalRoute(val initialPage: Int)
 
 // setting
 @Serializable
@@ -63,8 +64,8 @@ fun NavController.navigateToMyPage(navOptions: NavOptions) {
     navigate(MyPageRoute, navOptions)
 }
 
-fun NavController.navigateToChangeRunningTimeDistanceGoal() {
-    navigate(ChangeRunningTimeDistanceGoalRoute)
+fun NavController.navigateToChangeRunningTimeDistanceGoal(initialPage: Int) {
+    navigate(ChangeRunningTimeDistanceGoalRoute(initialPage))
 }
 
 // setting
@@ -119,7 +120,7 @@ fun NavGraphBuilder.myPageNavGraph(
     onNavigateToServiceUsage: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToPermission: () -> Unit,
-    onNavigateToChangeRunningTimeDistanceGoal: () -> Unit,
+    onNavigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
     onNavigateToSetGoal: () -> Unit,
     padding: PaddingValues,
 ) {
@@ -148,8 +149,10 @@ fun NavGraphBuilder.myPageNavGraph(
 
         composable<ChangeRunningTimeDistanceGoalRoute> { entry ->
             val viewModel = entry.sharedViewModel<MyPageViewModel>(navController)
+            val args = entry.toRoute<ChangeRunningTimeDistanceGoalRoute>()
 
             ChangeRunningTimeDistanceGoalRoute(
+                initialPage = args.initialPage,
                 padding = padding,
                 onBackClick = onBackClick,
                 viewModel = viewModel,
@@ -220,8 +223,8 @@ fun NavGraphBuilder.myPageNavGraph(
             ProfileRoute(
                 onWithdrawClick = onWithdrawClick,
                 onBackClick = onBackClick,
-                onLogoutClick = onNavigateToLogin,
                 viewModel = viewModel,
+                onLogoutClick = onNavigateToLogin,
             )
         }
 

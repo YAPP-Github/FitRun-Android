@@ -11,4 +11,5 @@ interface UserRepository {
     suspend fun setOnBoardingInfo(onBoardingEntity: OnBoardingEntity)
     suspend fun updateOnBoardingInfo(onBoardingEntity: OnBoardingEntity)
     suspend fun getUserRunnerType(): Result<RunnerEntity>
+    suspend fun updateUserRunnerType(runnerTypeEntity: RunnerEntity): Result<RunnerEntity>
 }

@@ -81,7 +81,7 @@ class GoalRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun setTimeGoal(time: Int): Result<GoalEntity> {
+    override suspend fun setTimeGoal(time: Long): Result<GoalEntity> {
         return runCatching {
             val response = goalDatasource.setTimeGoal(TimeGoalRequest(time))
             response.result.toEntity()
@@ -94,7 +94,7 @@ class GoalRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun updateTimeGoal(time: Int): Result<GoalEntity> {
+    override suspend fun updateTimeGoal(time: Long): Result<GoalEntity> {
         return runCatching {
             val response = goalDatasource.updateTimeGoal(TimeGoalRequest(time))
             response.result.toEntity()

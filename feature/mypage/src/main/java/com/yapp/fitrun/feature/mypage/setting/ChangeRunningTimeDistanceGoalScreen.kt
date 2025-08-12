@@ -31,6 +31,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,6 +66,7 @@ import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun ChangeRunningTimeDistanceGoalRoute(
+    initialPage: Int,
     padding: PaddingValues,
     onBackClick: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
@@ -73,18 +75,26 @@ internal fun ChangeRunningTimeDistanceGoalRoute(
 
     ChangeRunningTimeDistanceGoalScreen(
         uiState = state,
+        initialPage = initialPage,
         padding = padding,
         onBackClick = onBackClick,
+        onClickChangeRunningTimeGoal = viewModel::onClickChangeRunningTimeGoal,
+        onClickChangeRunningDistanceGoal = viewModel::onClickChangeRunningDistanceGoal,
     )
 }
 
 @Composable
 internal fun ChangeRunningTimeDistanceGoalScreen(
     uiState: MyPageState,
+    initialPage: Int,
     padding: PaddingValues,
     onBackClick: () -> Unit,
+    onClickChangeRunningTimeGoal: (String) -> Unit,
+    onClickChangeRunningDistanceGoal: (String) -> Unit,
 ) {
-    val pagerState = rememberPagerState(pageCount = { 2 })
+    val pagerState = rememberPagerState(initialPage = initialPage, pageCount = { 2 })
+    val timeGoalValue = remember { mutableStateOf(uiState.userGoalTime) }
+    val distanceGoalValue = remember { mutableStateOf(uiState.userGoalDistance) }
 
     Column(
         modifier = Modifier
@@ -109,10 +119,12 @@ internal fun ChangeRunningTimeDistanceGoalScreen(
             when (page) {
                 0 -> SettingGoalSection(
                     unit = "분",
+                    timeGoalValue,
                 )
 
                 1 -> SettingGoalSection(
                     unit = "km",
+                    distanceGoalValue,
                 )
             }
         }
@@ -124,7 +136,12 @@ internal fun ChangeRunningTimeDistanceGoalScreen(
                 .padding(bottom = padding.calculateBottomPadding())
                 .padding(start = 20.dp, end = 20.dp, bottom = 12.dp)
                 .imePadding(),
-            onClick = { },
+            onClick = {
+                if (pagerState.currentPage == 0)
+                    onClickChangeRunningTimeGoal(timeGoalValue.value)
+                else
+                    onClickChangeRunningDistanceGoal(distanceGoalValue.value)
+            },
             text = "설정하기",
         )
     }
@@ -134,9 +151,8 @@ internal fun ChangeRunningTimeDistanceGoalScreen(
 @Composable
 internal fun SettingGoalSection(
     unit: String,
+    goalValue: MutableState<String>,
 ) {
-    val goalValue = remember { mutableStateOf("3") }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -287,7 +303,10 @@ internal fun HorizontalPagerIndicator(
 internal fun ChangeRunningTimeDistanceGoalScreenPreview() {
     ChangeRunningTimeDistanceGoalScreen(
         uiState = MyPageState(),
+        initialPage = 0,
         padding = PaddingValues(),
         onBackClick = {},
+        onClickChangeRunningTimeGoal = {},
+        onClickChangeRunningDistanceGoal = {},
     )
 }

@@ -64,7 +64,7 @@ internal fun MyPageRoute(
     onNavigateToLogin: () -> Unit,
     onNavigateToPermission: () -> Unit,
     onNavigateToSetGoal: () -> Unit,
-    onNavigateToChangeRunningTimeDistanceGoal: () -> Unit,
+    onNavigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
@@ -76,7 +76,6 @@ internal fun MyPageRoute(
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
-            else -> {}
         }
     }
 
@@ -109,7 +108,7 @@ internal fun MyPageScreen(
     onNavigateToServiceUsage: () -> Unit,
     onNavigateToPermission: () -> Unit,
     onNavigateToSetGoal: () -> Unit,
-    onNavigateToChangeRunningTimeDistanceGoal: () -> Unit,
+    onNavigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -258,14 +257,14 @@ internal fun UserInfoSection(
             UserDataComponent(
                 modifier = Modifier.fillMaxWidth(fraction = 0.5f),
                 onClick = onNavigateToChangeRunningLevel,
-                iconResource = painterResource(R.drawable.img_chicken),
+                iconResource = painterResource(uiState.userLevelImageId),
                 title = stringResource(R.string.my_page_user_level),
                 content = uiState.userLevel,
             )
 
             UserDataComponent(
                 onClick = onNavigateToChangeRunningPurpose,
-                iconResource = painterResource(R.drawable.img_fire),
+                iconResource = painterResource(uiState.userRunningPurposeImageId),
                 title = stringResource(R.string.my_page_user_goal),
                 content = uiState.userRunningPurpose,
             )
@@ -277,7 +276,7 @@ internal fun UserInfoSection(
 internal fun RunningGoalSection(
     uiState: MyPageState,
     navigateToSetGoal: () -> Unit,
-    navigateToChangeRunningTimeDistanceGoal: () -> Unit,
+    navigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -302,9 +301,9 @@ internal fun RunningGoalSection(
             Spacer(Modifier.height(16.dp))
 
             SettingGoalComponent(
-                onClick = navigateToChangeRunningTimeDistanceGoal,
+                onClick = { navigateToChangeRunningTimeDistanceGoal(1) },
                 title = stringResource(R.string.my_page_user_goal_distance),
-                content = uiState.userGoalDistance,
+                content = "${uiState.userGoalDistance}km",
                 iconResource = painterResource(R.drawable.ic_track),
                 iconSize = DpSize(width = 31.dp, height = 21.dp),
             )
@@ -312,9 +311,9 @@ internal fun RunningGoalSection(
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
-                onClick = navigateToChangeRunningTimeDistanceGoal,
+                onClick = { navigateToChangeRunningTimeDistanceGoal(0) },
                 title = stringResource(R.string.my_page_user_goal_time),
-                content = uiState.userGoalTime,
+                content = "${uiState.userGoalTime}분",
                 iconResource = painterResource(R.drawable.ic_clock),
                 iconSize = DpSize(width = 20.dp, height = 21.dp),
             )

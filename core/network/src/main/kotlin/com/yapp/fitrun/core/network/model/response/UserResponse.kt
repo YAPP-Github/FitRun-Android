@@ -13,4 +13,6 @@ data class UserResponse(
     val email: String? = null,
     @SerialName("provider")
     val provider: String? = null,
+    @SerialName("runnerType")
+    val runnerType: String? = null,
 )

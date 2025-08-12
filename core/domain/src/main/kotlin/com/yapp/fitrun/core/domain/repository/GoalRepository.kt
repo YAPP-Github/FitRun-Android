@@ -15,8 +15,8 @@ interface GoalRepository {
     suspend fun updatePaceGoal(pace: Int): Result<GoalEntity>
 
     // Time Goal
-    suspend fun setTimeGoal(time: Int): Result<GoalEntity>
-    suspend fun updateTimeGoal(time: Int): Result<GoalEntity>
+    suspend fun setTimeGoal(time: Long): Result<GoalEntity>
+    suspend fun updateTimeGoal(time: Long): Result<GoalEntity>
 
     // Weekly Running Count Goal
     suspend fun setWeeklyRunningCountGoal(count: Int, isRemindEnabled: Boolean): Result<GoalEntity>

@@ -90,7 +90,7 @@ internal fun MainNavHost(
                 onNavigateToTermsAndConditions = navigator::onNavigateToTermsAndConditions,
                 onNavigateToServiceUsage = navigator::onNavigateToServiceUsage,
                 onNavigateToPermission = navigator.navigateToPermission,
-                onNavigateToChangeRunningTimeDistanceGoal = navigator::onNavigateToChangeRunningTimeDistanceGoal,
+                onNavigateToChangeRunningTimeDistanceGoal = { initialPage -> navigator.onNavigateToChangeRunningTimeDistanceGoal(initialPage) },
                 onNavigateToSetGoal = navigator::navigateToSetGoal,
                 onNavigateToLogin = navigator.navigateToLogin,
             )
