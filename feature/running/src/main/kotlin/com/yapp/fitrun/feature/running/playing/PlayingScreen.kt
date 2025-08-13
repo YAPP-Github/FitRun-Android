@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +32,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,25 +67,43 @@ internal fun PlayingRoute(
 ) {
     val state by viewModel.collectAsState()
     val displayedPace by viewModel.displayedPace.collectAsStateWithLifecycle()
+    var showDialog by remember { mutableStateOf(false) }
 
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is PlayingSideEffect.NavigateToResult -> {
                 onNavigateToSetGoalOnBoarding()
             }
+
             else -> {}
         }
     }
 
-    PlayingScreen(
-        padding = padding,
-        state = state,
-        displayedPace = displayedPace,
-        onPauseClicked = viewModel::onPauseClicked,
-        onResumeClicked = viewModel::onResumeClicked,
-        onStopClicked = viewModel::onStopClicked,
-        onVolumeToggle = viewModel::toggleVolume,
-    )
+    BackHandler(true) {
+        showDialog = !showDialog
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        PlayingScreen(
+            padding = padding,
+            state = state,
+            displayedPace = displayedPace,
+            onPauseClicked = viewModel::onPauseClicked,
+            onResumeClicked = viewModel::onResumeClicked,
+            onStopClicked = viewModel::onStopClicked,
+            onVolumeToggle = viewModel::toggleVolume,
+        )
+        if (showDialog) {
+            CancelRunningDialog(
+                onDismiss = {
+                    showDialog = false
+                },
+                onConfirm = {
+                    viewModel.onStopClicked()
+                },
+            )
+        }
+    }
 }
 
 @SuppressLint("MissingPermission")

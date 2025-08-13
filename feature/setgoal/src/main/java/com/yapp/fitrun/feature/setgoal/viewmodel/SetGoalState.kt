@@ -1,9 +1,11 @@
 package com.yapp.fitrun.feature.setgoal.viewmodel
 
+import com.yapp.fitrun.core.domain.entity.GoalEntity
+
 data class SetGoalState(
     val isLoading: Boolean = false,
     val isLoadingRecommendPace: Boolean = false,
-    val goalEntity: com.yapp.fitrun.core.domain.entity.GoalEntity? = null,
+    val goalEntity: GoalEntity? = null,
     val paceGoal: Int? = null, // 초 단위
     val weeklyRunCount: Int? = null,
     val isRemindEnabled: Boolean = false,

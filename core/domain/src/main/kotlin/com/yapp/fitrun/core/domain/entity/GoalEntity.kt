@@ -8,4 +8,5 @@ data class GoalEntity(
     val paceGoal: Long? = null,
     val distanceMeterGoal: Double? = null,
     val timeGoal: Long? = null,
+    val runnerType: String? = null,
 )

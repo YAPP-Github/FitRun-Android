@@ -61,6 +61,8 @@ import com.naver.maps.map.compose.NaverMap
 import com.naver.maps.map.compose.rememberCameraPositionState
 import com.naver.maps.map.compose.rememberMarkerState
 import com.naver.maps.map.overlay.OverlayImage
+import com.yapp.fitrun.core.common.convertTimeToPace
+import com.yapp.fitrun.core.common.interpolateColor
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_medium
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
@@ -225,18 +227,47 @@ internal fun HomeScreen(
                             },
                     )
                 }
-
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth()
-                        .height(4.dp)
-                        .background(
-                            shape = RoundedCornerShape(10.dp),
-                            color = colorResource(R.color.fg_nuetral_gray300),
-                        ),
-                )
-
+                if (state.homeResult?.userGoalEntity?.weeklyRunningCount == null) {
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxWidth()
+                            .height(4.dp)
+                            .background(
+                                shape = RoundedCornerShape(10.dp),
+                                color = colorResource(R.color.fg_nuetral_gray300),
+                            ),
+                    )
+                } else {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                    ) {
+                        repeat(state.homeResult.userGoalEntity.weeklyRunningCount!!) { index ->
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 1.dp)
+                                    .weight(1f)
+                                    .height(4.dp)
+                                    .background(
+                                        shape = RoundedCornerShape(10.dp),
+                                        color = if (index < state.homeResult.recordEntity.thisWeekRunningCount) {
+                                            // 그라데이션 계산: #FFE3CA -> #FF6600
+                                            interpolateColor(
+                                                startColor = Color(0xFFFFE3CA),
+                                                endColor = Color(0xFFFF6600),
+                                                fraction = index.toFloat() / (state.homeResult.recordEntity.thisWeekRunningCount - 1).coerceAtLeast(
+                                                    1,
+                                                ),
+                                            )
+                                        } else {
+                                            // 회색 (나머지)
+                                            colorResource(R.color.fg_nuetral_gray300)
+                                        },
+                                    ),
+                            )
+                        }
+                    }
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -260,7 +291,7 @@ internal fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = "-'--\"",
+                            text = convertTimeToPace(state.homeResult?.userGoalEntity?.paceGoal?.toLong()),
                             style = Caption_caption3_semiBold,
                         )
                     }
@@ -283,7 +314,7 @@ internal fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Text(
-                            text = "-'--\"",
+                            text = convertTimeToPace(state.homeResult?.recordEntity?.recentPace?.toLong()),
                             style = Caption_caption3_semiBold,
                         )
                     }
@@ -344,6 +375,7 @@ internal fun HomeScreen(
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 8.dp,
                 ),
+                enabled = allPermissionsState.allPermissionsGranted,
             ) {
                 Text(
                     text = "달리기",
