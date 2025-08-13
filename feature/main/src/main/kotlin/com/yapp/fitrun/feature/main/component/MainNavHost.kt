@@ -15,7 +15,6 @@ import com.yapp.fitrun.feature.main.MainTab
 import com.yapp.fitrun.feature.mypage.navigation.myPageNavGraph
 import com.yapp.fitrun.feature.onboarding.navigation.OnBoardingRoute
 import com.yapp.fitrun.feature.onboarding.navigation.onBoardingNavGraph
-import com.yapp.fitrun.feature.record.navigateToRecordDetail
 import com.yapp.fitrun.feature.record.recordNavGraph
 import com.yapp.fitrun.feature.running.runningNavGraph
 import com.yapp.fitrun.feature.running.runningonboarding.runningOnBoardingNavGraph
@@ -47,20 +46,20 @@ internal fun MainNavHost(
             },
             popEnterTransition = {
                 slideIntoContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(400),
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
-                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(500),
                 )
             },
         ) {
             homeNavGraph(
                 padding = padding,
-                onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst, // For UT
+                onNavigateToRunning = navigator::navigateToRunningOnBoardingFirst,
                 onNavigateToSetGoal = navigator::navigateToSetGoal,
             )
             recordNavGraph(
@@ -81,6 +80,14 @@ internal fun MainNavHost(
                 onNavigateToConfirmWithdraw = navigator::onNavigateToConfirmWithdraw,
                 onNavigateToChangeRunningLevel = navigator::navigateToChangeRunningLevel,
                 onNavigateToChangeRunningPurpose = navigator::navigateToChangeRunningPurpose,
+                onNavigateChangeRunningSetting = navigator::onNavigateChangeRunningSetting,
+                onNavigateToChangeNotifications = navigator::onNavigateToChangeNotifications,
+                onNavigateToTermsAndConditions = navigator::onNavigateToTermsAndConditions,
+                onNavigateToServiceUsage = navigator::onNavigateToServiceUsage,
+                onNavigateToPermission = navigator.navigateToPermission,
+                onNavigateToChangeRunningTimeDistanceGoal = { initialPage -> navigator.onNavigateToChangeRunningTimeDistanceGoal(initialPage) },
+                onNavigateToSetGoal = navigator::navigateToSetGoal,
+                onNavigateToLogin = navigator.navigateToLogin,
             )
             onBoardingNavGraph(
                 padding = padding,
@@ -105,14 +112,11 @@ internal fun MainNavHost(
             runningNavGraph(
                 padding = padding,
                 onNavigateToPlay = navigator::navigateToPlaying,
-                onNavigateToSetGoalOnBoarding = { navigator.navigateToRecordDetail(1) },
+                onNavigateToSetGoalOnBoarding = navigator::navigateToSetGoalOnBoarding,
             )
             setGoalNavGraph(
                 padding = padding,
                 onBackClick = { navigator.navController.popBackStack() },
-                onNavigateToRecordDetail = { recordId ->
-                    navigator.navController.navigateToRecordDetail(recordId)
-                },
             )
         }
     }

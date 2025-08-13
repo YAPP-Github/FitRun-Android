@@ -2,16 +2,13 @@ package com.yapp.fitrun.feature.mypage.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,25 +22,36 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_semiBold
 import com.yapp.fitrun.core.designsystem.Caption_caption2_medium
+import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
+import com.yapp.fitrun.core.ui.noRippleClickable
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageSideEffect
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun ProfileRoute(
     viewModel: MyPageViewModel = hiltViewModel(),
-    padding: PaddingValues,
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
+    onNavigateToLogin: () -> Unit,
 ) {
     val uiState by viewModel.collectAsState()
-    padding
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+        }
+    }
+
     ProfileScreen(
         uiState = uiState,
         onWithdrawClick = onWithdrawClick,
         onBackClick = onBackClick,
+        onClickLogout = viewModel::onClickLogout,
     )
 }
 
@@ -52,6 +60,7 @@ internal fun ProfileScreen(
     uiState: MyPageState,
     onWithdrawClick: () -> Unit,
     onBackClick: () -> Unit,
+    onClickLogout: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -59,10 +68,6 @@ internal fun ProfileScreen(
             .background(colorResource(R.color.bg_primary)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (uiState.isLoading) {
-            // TODO
-        }
-
         FitRunTextTopAppBar(
             title = "프로필",
             onLeftNavigationClick = onBackClick,
@@ -71,17 +76,18 @@ internal fun ProfileScreen(
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 24.dp),
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 24.dp),
             ) {
                 Text(
                     text = uiState.userNickName,
-                    style = Body_body3_semiBold,
-                    color = colorResource(R.color.fg_text_interactive_inverse),
+                    style = Head_h4_bold,
+                    color = colorResource(R.color.fg_text_primary),
                 )
 
                 Image(
                     modifier = Modifier
-                        .size(22.dp)
                         .padding(start = 4.dp),
                     painter = painterResource(R.drawable.ic_mypage_kakao_logo),
                     contentDescription = "kakao account",
@@ -94,7 +100,7 @@ internal fun ProfileScreen(
                 text = uiState.userEmail,
                 style = Caption_caption2_medium,
                 color = colorResource(R.color.fg_text_tertiary),
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(start = 20.dp, top = 4.dp, bottom = 24.dp),
             )
         }
 
@@ -104,12 +110,11 @@ internal fun ProfileScreen(
                 .height(8.dp)
                 .background(colorResource(R.color.bg_secondary)),
         )
-
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { }
+                .noRippleClickable { onClickLogout() }
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             style = Body_body3_semiBold,
             text = "로그아웃",
@@ -118,7 +123,7 @@ internal fun ProfileScreen(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onWithdrawClick() }
+                .noRippleClickable { onWithdrawClick() }
                 .padding(horizontal = 20.dp, vertical = 16.dp),
             style = Body_body3_semiBold,
             text = "회원탈퇴",
@@ -137,8 +142,12 @@ internal fun ProfileScreen(
 @Composable
 private fun ProfileScreenPreview() {
     ProfileScreen(
-        uiState = MyPageState(),
-        {},
-        {},
+        uiState = MyPageState(
+            userNickName = "유저명",
+            userEmail = "sample@gmail.com",
+        ),
+        onWithdrawClick = {},
+        onBackClick = {},
+        onClickLogout = {},
     )
 }

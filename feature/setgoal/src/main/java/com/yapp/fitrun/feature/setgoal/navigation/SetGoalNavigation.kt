@@ -25,19 +25,18 @@ fun NavController.navigateToSetGoalOnBoarding() {
 fun NavGraphBuilder.setGoalNavGraph(
     padding: PaddingValues,
     onBackClick: () -> Unit,
-    onNavigateToRecordDetail: (Int) -> Unit,
 ) {
     composable<SetGoalRoute> {
         SetGoalRoute(
             padding = padding,
+            onBackClick = onBackClick,
         )
     }
-
     composable<SetGoalOnBoardingRoute> {
         SetGoalOnBoardingRoute(
             onBackClick = onBackClick,
             padding = padding,
-            onNavigateToComplete = onNavigateToRecordDetail,
+            onNavigateToComplete = {},
         )
     }
 }

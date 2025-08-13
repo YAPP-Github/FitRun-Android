@@ -63,7 +63,7 @@ fun NavGraphBuilder.onBoardingNavGraph(
     onNavigateToOnBoardingResult: () -> Unit,
 ) {
     navigation<OnBoardingRoute>(
-        startDestination = OnBoardingResultRoute, // FOR UT
+        startDestination = OnBoardingFirstRoute,
     ) {
         composable<OnBoardingFirstRoute> { entry ->
             val viewModel = entry.sharedViewModel<OnBoardingViewModel>(navController)

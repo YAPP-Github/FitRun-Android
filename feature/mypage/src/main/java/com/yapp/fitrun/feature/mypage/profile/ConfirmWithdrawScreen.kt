@@ -17,11 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
@@ -41,7 +38,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.Body_body3_regular
@@ -51,23 +47,33 @@ import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageSideEffect
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun ConfirmWithdrawRoute(
     padding: PaddingValues,
     onBackClick: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
+
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+        }
+    }
 
     ConfirmWithdrawScreen(
         uiState = uiState,
         padding = padding,
         onBackClick = onBackClick,
+        onConfirmClick = viewModel::onClickDeleteAccount,
     )
 }
 
@@ -77,9 +83,9 @@ fun ConfirmWithdrawScreen(
     uiState: MyPageState,
     padding: PaddingValues,
     onBackClick: () -> Unit,
+    onConfirmClick: () -> Unit,
 ) {
     var selectedReason by remember { mutableStateOf("") }
-    var otherReason by remember { mutableStateOf("") }
     val withdrawalReasons = listOf(
         "앱 기능이 생각보다 별로예요",
         "자주 사용하지 않아요",
@@ -165,55 +171,55 @@ fun ConfirmWithdrawScreen(
                 )
             }
         }
-
-        // 기타 사유 입력 필드
-        if (selectedReason == "기타") {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 8.dp),
-            ) {
-                OutlinedTextField(
-                    value = otherReason,
-                    onValueChange = {
-                        if (it.toByteArray().size <= 100) {
-                            otherReason = it
-                        }
-                    },
-                    placeholder = {
-                        Text(
-                            "이유를 작성합니다 최대 100byte",
-                            color = Color(0xFF999999),
-                            fontSize = 14.sp,
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFF999999),
-                        unfocusedBorderColor = Color(0xFFDDDDDD),
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        cursorColor = Color.Black,
-                    ),
-                    singleLine = false,
-                    minLines = 4,
-                    textStyle = LocalTextStyle.current.copy(
-                        fontSize = 14.sp,
-                        color = Color.Black,
-                    ),
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "${otherReason.toByteArray().size} / 100",
-                    fontSize = 12.sp,
-                    color = Color(0xFF999999),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Start,
-                )
-            }
-        }
+//
+//        // 기타 사유 입력 필드
+//        if (selectedReason == "기타") {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(horizontal = 12.dp, vertical = 8.dp),
+//            ) {
+//                OutlinedTextField(
+//                    value = otherReason,
+//                    onValueChange = {
+//                        if (it.toByteArray().size <= 100) {
+//                            otherReason = it
+//                        }
+//                    },
+//                    placeholder = {
+//                        Text(
+//                            "이유를 작성합니다 최대 100byte",
+//                            color = Color(0xFF999999),
+//                            fontSize = 14.sp,
+//                        )
+//                    },
+//                    modifier = Modifier.fillMaxWidth(),
+//                    colors = OutlinedTextFieldDefaults.colors(
+//                        focusedBorderColor = Color(0xFF999999),
+//                        unfocusedBorderColor = Color(0xFFDDDDDD),
+//                        focusedContainerColor = Color.Transparent,
+//                        unfocusedContainerColor = Color.Transparent,
+//                        cursorColor = Color.Black,
+//                    ),
+//                    singleLine = false,
+//                    minLines = 4,
+//                    textStyle = LocalTextStyle.current.copy(
+//                        fontSize = 14.sp,
+//                        color = Color.Black,
+//                    ),
+//                )
+//
+//                Spacer(modifier = Modifier.height(4.dp))
+//
+//                Text(
+//                    text = "${otherReason.toByteArray().size} / 100",
+//                    fontSize = 12.sp,
+//                    color = Color(0xFF999999),
+//                    modifier = Modifier.fillMaxWidth(),
+//                    textAlign = TextAlign.Start,
+//                )
+//            }
+//        }
 
         Spacer(modifier = Modifier.weight(1f))
         FitRunTextButton(
@@ -264,8 +270,8 @@ fun ConfirmWithdrawScreen(
                     scope.launch {
                         bottomSheetState.hide()
                         showBottomSheet = false
-//                        onWithdrawClick()
                     }
+                    onConfirmClick()
                 },
             )
         }
@@ -364,6 +370,7 @@ private fun ConfirmWithdrawScreenPreview() {
     ConfirmWithdrawScreen(
         uiState = MyPageState(),
         padding = PaddingValues(0.dp),
+        {},
         {},
     )
 }

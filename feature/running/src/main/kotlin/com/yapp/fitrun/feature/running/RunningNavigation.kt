@@ -26,7 +26,6 @@ fun NavController.navigateToReady() {
 
 fun NavController.navigateToPlaying() {
     navigate(PlayingRoute) {
-        // 현재 화면을 백스택에서 제거
         popUpTo(currentBackStackEntry?.destination?.route ?: return@navigate) {
             inclusive = true
         }
@@ -35,7 +34,7 @@ fun NavController.navigateToPlaying() {
 
 fun NavGraphBuilder.runningNavGraph(
     padding: PaddingValues,
-    onNavigateToPlay: () -> Unit = {},
+    onNavigateToPlay: () -> Unit,
     onNavigateToSetGoalOnBoarding: () -> Unit,
 ) {
     composable<ReadyRoute> {

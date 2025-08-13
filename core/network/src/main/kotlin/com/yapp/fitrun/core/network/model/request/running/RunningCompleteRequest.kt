@@ -21,8 +21,12 @@ data class RunningCompleteRequest(
 
 @Serializable
 data class RunningPoint(
+    @SerialName("lat")
     val lat: Double,
+    @SerialName("lon")
     val lon: Double,
+    @SerialName("timeStamp")
     val timeStamp: String,
+    @SerialName("totalRunningTimeMills")
     val totalRunningTimeMills: Int,
 )

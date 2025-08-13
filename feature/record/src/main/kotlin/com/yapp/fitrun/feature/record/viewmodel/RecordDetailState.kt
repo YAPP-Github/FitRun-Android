@@ -10,6 +10,7 @@ data class RecordDetailState(
     val totalTime: String = "",
     val averagePace: String = "",
     val totalDistance: Double = 0.0,
+    val goalAchieved: String = "",
     val runningPoint: List<LatLng> = emptyList(),
     val segments: List<RecordDetailInfo> = emptyList(),
 )

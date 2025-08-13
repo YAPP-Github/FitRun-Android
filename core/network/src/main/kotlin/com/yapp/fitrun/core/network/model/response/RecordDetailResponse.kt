@@ -21,6 +21,12 @@ data class RecordDetailResponse(
     val averagePace: Long,
     @SerialName("startAt")
     val startAt: String,
+    @SerialName("isTimeGoalAchieved")
+    val isTimeGoalAchieved: Boolean,
+    @SerialName("isPaceGoalAchieved")
+    val isPaceGoalAchieved: Boolean,
+    @SerialName("isDistanceGoalAchieved")
+    val isDistanceGoalAchieved: Boolean,
     @SerialName("segments")
     val segments: List<RecordDetailSegments>,
 )

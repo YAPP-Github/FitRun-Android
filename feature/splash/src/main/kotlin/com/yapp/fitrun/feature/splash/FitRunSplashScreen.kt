@@ -50,7 +50,7 @@ internal fun FitRunsSplashRoute(
                             }
                         } else {
                             Log.d("FitRunSplashRoute", "valid accessToken!")
-                            viewModel.autoLoginSuccess()
+                            viewModel.validateTokenAndLogin()
                         }
                     }
                 } else {
@@ -98,6 +98,7 @@ internal fun FitRunSplashScreen(
         WorkThroughScreen(
             titleTextList = uiState.titleTextList,
             descriptionTextList = uiState.descriptionTextList,
+            imageList = uiState.imageList,
             onButtonClick = onClickWorkThroughStart,
         )
     }

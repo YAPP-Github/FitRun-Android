@@ -45,9 +45,11 @@ import com.yapp.fitrun.core.designsystem.Head_h4_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.designsystem.pretendardFamily
 import com.yapp.fitrun.core.ui.noRippleClickable
+import com.yapp.fitrun.feature.mypage.viewmodel.MyPageSideEffect
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
 import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 internal fun MyPageRoute(
@@ -55,6 +57,14 @@ internal fun MyPageRoute(
     onNavigateToProfile: () -> Unit,
     onNavigateToChangeRunningLevel: () -> Unit,
     onNavigateToChangeRunningPurpose: () -> Unit,
+    onNavigateChangeRunningSetting: () -> Unit,
+    onNavigateToChangeNotifications: () -> Unit,
+    onNavigateToTermsAndConditions: () -> Unit,
+    onNavigateToServiceUsage: () -> Unit,
+    onNavigateToLogin: () -> Unit,
+    onNavigateToPermission: () -> Unit,
+    onNavigateToSetGoal: () -> Unit,
+    onNavigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.collectAsState()
@@ -63,12 +73,25 @@ internal fun MyPageRoute(
         viewModel.getUserInfo()
     }
 
+    viewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+        }
+    }
+
     MyPageScreen(
         uiState = uiState,
         padding = padding,
         onNavigateToProfile = onNavigateToProfile,
         onNavigateToChangeRunningLevel = onNavigateToChangeRunningLevel,
         onNavigateToChangeRunningPurpose = onNavigateToChangeRunningPurpose,
+        onNavigateChangeRunningSetting = onNavigateChangeRunningSetting,
+        onNavigateToChangeNotifications = onNavigateToChangeNotifications,
+        onNavigateToTermsAndConditions = onNavigateToTermsAndConditions,
+        onNavigateToServiceUsage = onNavigateToServiceUsage,
+        onNavigateToPermission = onNavigateToPermission,
+        onNavigateToSetGoal = onNavigateToSetGoal,
+        onNavigateToChangeRunningTimeDistanceGoal = onNavigateToChangeRunningTimeDistanceGoal,
     )
 }
 
@@ -79,10 +102,14 @@ internal fun MyPageScreen(
     onNavigateToProfile: () -> Unit,
     onNavigateToChangeRunningLevel: () -> Unit,
     onNavigateToChangeRunningPurpose: () -> Unit,
+    onNavigateChangeRunningSetting: () -> Unit,
+    onNavigateToChangeNotifications: () -> Unit,
+    onNavigateToTermsAndConditions: () -> Unit,
+    onNavigateToServiceUsage: () -> Unit,
+    onNavigateToPermission: () -> Unit,
+    onNavigateToSetGoal: () -> Unit,
+    onNavigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
 ) {
-    if (uiState.isLoading) {
-        // TODO
-    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -120,17 +147,26 @@ internal fun MyPageScreen(
         item {
             RunningGoalSection(
                 uiState = uiState,
+                navigateToSetGoal = onNavigateToSetGoal,
+                navigateToChangeRunningTimeDistanceGoal = onNavigateToChangeRunningTimeDistanceGoal,
             )
         }
 
         // 설정 섹션
         item {
-            SettingSection()
+            SettingSection(
+                onNavigateChangeRunningSetting = onNavigateChangeRunningSetting,
+                onNavigateToChangeNotifications = onNavigateToChangeNotifications,
+                onNavigateToPermission = onNavigateToPermission,
+            )
         }
 
         // 서비스 섹션
         item {
-            ServiceSection()
+            ServiceSection(
+                onNavigateToTermsAndConditions = onNavigateToTermsAndConditions,
+                onNavigateToServiceUsage = onNavigateToServiceUsage,
+            )
         }
 
         item {
@@ -221,14 +257,14 @@ internal fun UserInfoSection(
             UserDataComponent(
                 modifier = Modifier.fillMaxWidth(fraction = 0.5f),
                 onClick = onNavigateToChangeRunningLevel,
-                iconResource = painterResource(R.drawable.img_chicken),
+                iconResource = painterResource(uiState.userLevelImageId),
                 title = stringResource(R.string.my_page_user_level),
                 content = uiState.userLevel,
             )
 
             UserDataComponent(
                 onClick = onNavigateToChangeRunningPurpose,
-                iconResource = painterResource(R.drawable.img_fire),
+                iconResource = painterResource(uiState.userRunningPurposeImageId),
                 title = stringResource(R.string.my_page_user_goal),
                 content = uiState.userRunningPurpose,
             )
@@ -239,6 +275,8 @@ internal fun UserInfoSection(
 @Composable
 internal fun RunningGoalSection(
     uiState: MyPageState,
+    navigateToSetGoal: () -> Unit,
+    navigateToChangeRunningTimeDistanceGoal: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -263,8 +301,9 @@ internal fun RunningGoalSection(
             Spacer(Modifier.height(16.dp))
 
             SettingGoalComponent(
+                onClick = { navigateToChangeRunningTimeDistanceGoal(1) },
                 title = stringResource(R.string.my_page_user_goal_distance),
-                content = uiState.userGoalDistance,
+                content = "${uiState.userGoalDistance}km",
                 iconResource = painterResource(R.drawable.ic_track),
                 iconSize = DpSize(width = 31.dp, height = 21.dp),
             )
@@ -272,8 +311,9 @@ internal fun RunningGoalSection(
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
+                onClick = { navigateToChangeRunningTimeDistanceGoal(0) },
                 title = stringResource(R.string.my_page_user_goal_time),
-                content = uiState.userGoalTime,
+                content = "${uiState.userGoalTime}분",
                 iconResource = painterResource(R.drawable.ic_clock),
                 iconSize = DpSize(width = 20.dp, height = 21.dp),
             )
@@ -281,6 +321,7 @@ internal fun RunningGoalSection(
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
+                onClick = navigateToSetGoal,
                 title = stringResource(R.string.my_page_user_goal_pace),
                 content = uiState.userGoalPace,
                 iconResource = painterResource(R.drawable.ic_target),
@@ -290,6 +331,7 @@ internal fun RunningGoalSection(
             Spacer(Modifier.height(4.dp))
 
             SettingGoalComponent(
+                onClick = navigateToSetGoal,
                 title = stringResource(R.string.my_page_user_goal_frequency),
                 content = uiState.userGoalFrequency,
                 iconResource = painterResource(R.drawable.ic_frequency),
@@ -302,7 +344,11 @@ internal fun RunningGoalSection(
 }
 
 @Composable
-internal fun SettingSection() {
+internal fun SettingSection(
+    onNavigateChangeRunningSetting: () -> Unit,
+    onNavigateToChangeNotifications: () -> Unit,
+    onNavigateToPermission: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -325,11 +371,20 @@ internal fun SettingSection() {
         ) {
             Spacer(Modifier.height(12.dp))
 
-            SettingTextComponent(title = stringResource(R.string.my_page_setting_running))
+            SettingTextComponent(
+                title = stringResource(R.string.my_page_setting_running),
+                onClick = onNavigateChangeRunningSetting,
+            )
             Spacer(Modifier.height(4.dp))
-            SettingTextComponent(title = stringResource(R.string.my_page_setting_notification))
+            SettingTextComponent(
+                title = stringResource(R.string.my_page_setting_notification),
+                onClick = onNavigateToChangeNotifications,
+            )
             Spacer(Modifier.height(4.dp))
-            SettingTextComponent(title = stringResource(R.string.my_page_setting_permission))
+            SettingTextComponent(
+                title = stringResource(R.string.my_page_setting_permission),
+                onClick = onNavigateToPermission,
+            )
 
             Spacer(Modifier.height(12.dp))
         }
@@ -337,7 +392,10 @@ internal fun SettingSection() {
 }
 
 @Composable
-internal fun ServiceSection() {
+internal fun ServiceSection(
+    onNavigateToTermsAndConditions: () -> Unit,
+    onNavigateToServiceUsage: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -360,9 +418,15 @@ internal fun ServiceSection() {
         ) {
             Spacer(Modifier.height(12.dp))
 
-            SettingTextComponent(title = stringResource(R.string.my_page_service_policy))
+            SettingTextComponent(
+                title = stringResource(R.string.my_page_service_policy),
+                onClick = onNavigateToTermsAndConditions,
+            )
             Spacer(Modifier.height(4.dp))
-            SettingTextComponent(title = stringResource(R.string.my_page_service_usage))
+            SettingTextComponent(
+                title = stringResource(R.string.my_page_service_usage),
+                onClick = onNavigateToServiceUsage,
+            )
             Spacer(Modifier.height(4.dp))
             AppVersionComponent(versionInfo = "1.0.0")
 
@@ -392,7 +456,7 @@ internal fun FooterSection() {
 
         Text(
             modifier = Modifier.padding(top = 18.dp),
-            text = "sample@gmail.com",
+            text = "fitruncs@gmail.com",
             style = Caption_caption2_medium,
             color = colorResource(R.color.gray_700),
         )
@@ -445,8 +509,11 @@ internal fun SettingGoalComponent(
     content: String,
     iconResource: Painter,
     iconSize: DpSize,
+    onClick: () -> Unit,
 ) {
-    BaseSettingComponent {
+    BaseSettingComponent(
+        onClick = onClick,
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -492,8 +559,11 @@ internal fun SettingGoalComponent(
 @Composable
 internal fun SettingTextComponent(
     title: String,
+    onClick: () -> Unit,
 ) {
-    BaseSettingComponent {
+    BaseSettingComponent(
+        onClick = onClick,
+    ) {
         Text(
             text = title,
             style = Body_body3_semiBold,
@@ -523,13 +593,15 @@ internal fun BaseSettingComponent(
     modifier: Modifier = Modifier,
     isInfoText: Boolean = false,
     infoText: String = "",
+    onClick: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     Row(
         modifier = modifier
             .height(56.dp)
             .padding(vertical = 4.dp)
-            .padding(horizontal = 16.dp),
+            .padding(horizontal = 16.dp)
+            .noRippleClickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         content()
@@ -544,9 +616,7 @@ internal fun BaseSettingComponent(
             )
         } else {
             Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .noRippleClickable { },
+                modifier = Modifier.size(44.dp),
             ) {
                 Image(
                     modifier = Modifier
@@ -554,7 +624,7 @@ internal fun BaseSettingComponent(
                         .align(Alignment.CenterEnd)
                         .padding(start = 4.dp),
                     painter = painterResource(R.drawable.ic_arrow_next),
-                    contentDescription = "kakao account",
+                    contentDescription = "next",
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.CenterEnd,
                     colorFilter = ColorFilter.tint(
@@ -575,6 +645,13 @@ fun MyPageScreenPreview() {
         onNavigateToProfile = {},
         onNavigateToChangeRunningLevel = {},
         onNavigateToChangeRunningPurpose = {},
+        onNavigateChangeRunningSetting = {},
+        onNavigateToChangeNotifications = {},
+        onNavigateToTermsAndConditions = {},
+        onNavigateToServiceUsage = {},
+        onNavigateToSetGoal = {},
+        onNavigateToPermission = {},
+        onNavigateToChangeRunningTimeDistanceGoal = {},
     )
 }
 
@@ -583,6 +660,7 @@ fun MyPageScreenPreview() {
 fun SettingTextComponentPreview() {
     SettingTextComponent(
         title = "러닝 설정",
+        onClick = {},
     )
 }
 
@@ -590,6 +668,7 @@ fun SettingTextComponentPreview() {
 @Composable
 fun SettingGoalComponentPreview() {
     SettingGoalComponent(
+        onClick = {},
         title = "목표 거리",
         content = "5km",
         iconResource = painterResource(R.drawable.ic_clock),

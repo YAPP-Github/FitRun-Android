@@ -70,6 +70,7 @@ internal fun UserResponse.toEntity() =
         nickname = nickname,
         email = email,
         provider = provider,
+        runnerType = runnerType,
     )
 
 internal fun OnBoardingResponse.toEntity() =
@@ -153,6 +154,9 @@ internal fun RecordDetailResponse.toEntity() =
         totalDistance = totalDistance,
         averagePace = averagePace,
         startAt = startAt,
+        isTimeGoalAchieved = isTimeGoalAchieved,
+        isPaceGoalAchieved = isPaceGoalAchieved,
+        isDistanceGoalAchieved = isDistanceGoalAchieved,
         segments = segments.map {
             RecordDetailSegmentsEntity(
                 it.orderNo,
@@ -160,6 +164,7 @@ internal fun RecordDetailResponse.toEntity() =
                 it.averagePace,
             )
         },
+
     )
 
 internal fun Location.toEntity() =

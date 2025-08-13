@@ -1,4 +1,4 @@
-package com.yapp.fitrun.feature.mypage
+package com.yapp.fitrun.feature.mypage.setting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -54,6 +54,7 @@ internal fun ChangeRunningLevelRoute(
         uiState = uiState,
         padding = padding,
         onBackClick = onBackClick,
+        onClickChangeRunningLevel = viewModel::onClickChangeRunningLevel,
     )
 }
 
@@ -62,17 +63,22 @@ internal fun ChangeRunningLevelScreen(
     uiState: MyPageState,
     padding: PaddingValues,
     onBackClick: () -> Unit,
+    onClickChangeRunningLevel: (Int) -> Unit,
 ) {
+    val options = listOf("가볍게 달리는\n워밍업 러너", "꾸준히 달리는\n루틴 러너", "성장 중인\n챌린저 러너")
+    var runnerType = options[0]
+    options.forEach {
+        if (it.contains(uiState.userLevel)) {
+            runnerType = it
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.bg_primary)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (uiState.isLoading) {
-            // TODO
-        }
-
         FitRunTextTopAppBar(
             title = "러닝 레벨 변경",
             onLeftNavigationClick = onBackClick,
@@ -93,14 +99,14 @@ internal fun ChangeRunningLevelScreen(
         )
 
         RunningLevelGroup(
-            userLevelOption = listOf("가볍게 달리는\n워밍업 러너", "꾸준히 달리는\n루틴 러너", "성장 중인\n챌린지 러너"),
-            selected = "가볍게 달리는\n워밍업 러너",
+            userLevelOption = options,
+            selected = runnerType,
             iconResource = listOf(
                 painterResource(R.drawable.img_chicken),
                 painterResource(R.drawable.img_stopwatch),
                 painterResource(R.drawable.img_rocket),
             ),
-            onClick = {},
+            onClick = onClickChangeRunningLevel,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -195,5 +201,6 @@ fun ChangeRunningLevelScreenPreview() {
         uiState = MyPageState(),
         padding = PaddingValues(),
         onBackClick = {},
+        onClickChangeRunningLevel = {},
     )
 }

@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TimeGoalRequest(
     @SerialName("time")
-    val time: Int,
+    val time: Long,
 )

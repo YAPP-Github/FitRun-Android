@@ -1,5 +1,6 @@
 package com.yapp.fitrun.feature.splash
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -87,6 +90,7 @@ fun PagerIndicator(
 internal fun WorkThroughScreen(
     titleTextList: List<Int>,
     descriptionTextList: List<Int>,
+    imageList: List<Int>,
     onButtonClick: () -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -105,13 +109,13 @@ internal fun WorkThroughScreen(
             targetPage = pagerState.currentPage,
         )
 
-        Spacer(modifier = Modifier.height(70.dp))
-        HorizontalPager(state = pagerState) { page ->
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.padding(top = 70.dp, bottom = 12.dp).weight(1f),
+        ) { page ->
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
             ) {
                 Text(
                     text = stringResource(id = titleTextList[page]),
@@ -126,10 +130,14 @@ internal fun WorkThroughScreen(
                     color = colorResource(R.color.fg_text_secondary),
                     style = Body_body3_medium,
                 )
-                // TODO: Image
+                Spacer(modifier = Modifier.weight(1f))
+                Image(
+                    painter = painterResource(id = imageList[page]),
+                    contentDescription = "WorkThrough Image",
+                    contentScale = ContentScale.FillBounds,
+                )
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
 
         FitRunTextButton(
             modifier = Modifier
@@ -171,5 +179,6 @@ fun WorkThroughScreenPreview() {
         titleTextList = listOf(R.string.work_through_1_title),
         descriptionTextList = listOf(R.string.work_through_1_description),
         onButtonClick = {},
+        imageList = listOf(R.drawable.img_workthrough1),
     )
 }

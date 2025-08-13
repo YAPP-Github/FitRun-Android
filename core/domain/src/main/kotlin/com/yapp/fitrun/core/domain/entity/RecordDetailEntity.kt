@@ -9,6 +9,9 @@ data class RecordDetailEntity(
     val totalDistance: Double,
     val averagePace: Long,
     val startAt: String,
+    val isTimeGoalAchieved: Boolean,
+    val isPaceGoalAchieved: Boolean,
+    val isDistanceGoalAchieved: Boolean,
     val segments: List<RecordDetailSegmentsEntity>,
 )
 

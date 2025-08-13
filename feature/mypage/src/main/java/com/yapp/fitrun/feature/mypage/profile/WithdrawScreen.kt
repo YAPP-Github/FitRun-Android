@@ -25,28 +25,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.yapp.fitrun.core.designsystem.Body_body3_regular
 import com.yapp.fitrun.core.designsystem.Caption_caption2_semiBold
 import com.yapp.fitrun.core.designsystem.Head_h2_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
 import com.yapp.fitrun.core.ui.FitRunTextTopAppBar
-import com.yapp.fitrun.feature.mypage.viewmodel.MyPageState
-import com.yapp.fitrun.feature.mypage.viewmodel.MyPageViewModel
-import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 internal fun WithdrawRoute(
     padding: PaddingValues,
     onNextClick: () -> Unit,
     onBackClick: () -> Unit,
-    viewModel: MyPageViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.collectAsState()
-
     WithdrawScreen(
-        uiState = uiState,
         padding = padding,
         onNextClick = onNextClick,
         onBackClick = onBackClick,
@@ -55,7 +47,6 @@ internal fun WithdrawRoute(
 
 @Composable
 internal fun WithdrawScreen(
-    uiState: MyPageState,
     padding: PaddingValues,
     onNextClick: () -> Unit,
     onBackClick: () -> Unit,
@@ -67,10 +58,6 @@ internal fun WithdrawScreen(
             .fillMaxSize()
             .background(colorResource(R.color.bg_primary)),
     ) {
-        if (uiState.isLoading) {
-            // TODO
-        }
-
         FitRunTextTopAppBar(
             title = "탈퇴 약관동의",
             onLeftNavigationClick = onBackClick,
@@ -166,7 +153,6 @@ internal fun WithdrawScreen(
 @Composable
 private fun WithdrawScreenPreview() {
     WithdrawScreen(
-        uiState = MyPageState(),
         padding = PaddingValues(0.dp),
         {},
         {},

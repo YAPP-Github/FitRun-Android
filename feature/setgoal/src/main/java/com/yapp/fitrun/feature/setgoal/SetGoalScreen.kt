@@ -48,10 +48,10 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.yapp.fitrun.core.designsystem.Body_body2_bold
+import com.yapp.fitrun.core.designsystem.Body_body3_bold
 import com.yapp.fitrun.core.designsystem.R
 import com.yapp.fitrun.core.ui.FitRunTextButton
-import com.yapp.fitrun.core.ui.NavigationTopAppBar
+import com.yapp.fitrun.core.ui.FitRunTopAppBar
 import com.yapp.fitrun.core.ui.advancedImePadding
 import com.yapp.fitrun.feature.setgoal.component.SetPaceSection
 import com.yapp.fitrun.feature.setgoal.component.SetRunningCountSection
@@ -65,6 +65,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @Composable
 internal fun SetGoalRoute(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
     viewModel: SetGoalViewModel = hiltViewModel(),
     onNavigateToComplete: () -> Unit = {},
 ) {
@@ -95,6 +96,7 @@ internal fun SetGoalRoute(
 
     SetGoalScreen(
         padding = padding,
+        onBackClick = onBackClick,
         state = state,
         showLottie = showLottie,
         onPaceChange = { paceSeconds ->
@@ -119,6 +121,7 @@ internal fun SetGoalRoute(
 @Composable
 internal fun SetGoalScreen(
     padding: PaddingValues,
+    onBackClick: () -> Unit,
     state: SetGoalState,
     showLottie: Boolean,
     onPaceChange: (Int) -> Unit,
@@ -147,8 +150,8 @@ internal fun SetGoalScreen(
                     bottom = padding.calculateBottomPadding(),
                 ),
             topBar = {
-                NavigationTopAppBar(
-                    modifier = Modifier,
+                FitRunTopAppBar(
+                    onLeftNavigationClick = onBackClick,
                 )
             },
             bottomBar = {
@@ -263,7 +266,7 @@ fun HorizontalPagerIndicator(
                 shape = RoundedCornerShape(100f),
             )
             .padding(4.dp)
-            .height(38.dp)
+            .height(46.dp)
             .fillMaxWidth(),
     ) {
         val tabWidth = maxWidth / pageCount
@@ -280,7 +283,7 @@ fun HorizontalPagerIndicator(
             modifier = Modifier
                 .offset(x = animatedOffset)
                 .width(tabWidth)
-                .height(38.dp)
+                .height(46.dp)
                 .shadow(
                     elevation = 4.dp,
                     shape = RoundedCornerShape(100.dp),
@@ -315,7 +318,7 @@ fun HorizontalPagerIndicator(
                         } else {
                             colorResource(R.color.fg_nuetral_gray700)
                         },
-                        style = Body_body2_bold,
+                        style = Body_body3_bold,
                     )
                 }
             }
@@ -328,6 +331,7 @@ fun HorizontalPagerIndicator(
 private fun SetGoalScreenPreview() {
     SetGoalScreen(
         PaddingValues(),
+        {},
         SetGoalState(),
         true,
         {},

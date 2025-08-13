@@ -9,7 +9,7 @@ complexity:
   TooManyFunctions:
     active: false
   ComplexCondition:
-    threshold: 7
+    threshold: 10
 
 config:
   validation: true

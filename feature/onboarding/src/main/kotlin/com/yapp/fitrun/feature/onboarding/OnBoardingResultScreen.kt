@@ -67,10 +67,6 @@ internal fun OnBoardingResultScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = padding.calculateTopPadding(),
-                    bottom = padding.calculateBottomPadding(),
-                )
                 .background(Color.White),
         ) {
             Spacer(modifier = Modifier.height(72.dp))
@@ -87,7 +83,7 @@ internal fun OnBoardingResultScreen(
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "나는 워밍업 러너에 가까워요",
+                text = "나는 ${uiState.runnerTypeResult} 러너에 가까워요",
                 textAlign = TextAlign.Center,
                 color = colorResource(R.color.fg_text_primary),
                 style = Head_h1_bold,
@@ -119,8 +115,8 @@ internal fun OnBoardingResultScreen(
 
             FitRunTextButton(
                 modifier = Modifier
-                    .padding(bottom = padding.calculateBottomPadding())
-                    .padding(start = 20.dp, end = 20.dp, bottom = 25.dp),
+                    .padding(start = 20.dp, end = 20.dp, bottom = 25.dp)
+                    .padding(bottom = padding.calculateBottomPadding()),
                 onClick = navigateToHome,
                 text = stringResource(R.string.on_boarding_result_go_to_home),
             )

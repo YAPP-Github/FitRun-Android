@@ -5,4 +5,5 @@ data class UserEntity(
     val nickname: String,
     val email: String? = null,
     val provider: String? = null,
+    val runnerType: String? = null,
 )

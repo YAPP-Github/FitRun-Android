@@ -105,9 +105,13 @@ internal fun RecordDetailScreen(
         }
 
         // 목표 달성 섹션
-        item {
-            Spacer(modifier = Modifier.height(28.dp))
-            RecordDetailGoalSection()
+        if (uiState.goalAchieved.isNotEmpty()) {
+            item {
+                Spacer(modifier = Modifier.height(28.dp))
+                RecordDetailGoalSection(
+                    content = uiState.goalAchieved,
+                )
+            }
         }
 
         // 총 러닝 거리 섹션
@@ -194,7 +198,9 @@ internal fun RecordDetailTitleSection(
 }
 
 @Composable
-internal fun RecordDetailGoalSection() {
+internal fun RecordDetailGoalSection(
+    content: String,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -214,7 +220,7 @@ internal fun RecordDetailGoalSection() {
         )
 
         Text(
-            text = "페이스, 거리, 시간 목표를 달성했어요!",
+            text = content,
             style = Caption_caption2_semiBold,
             color = colorResource(R.color.fg_text_primary),
             modifier = Modifier.padding(start = 16.dp),
@@ -335,29 +341,38 @@ internal fun RecordDetailRouteSection(
                     shape = RoundedCornerShape(12.dp),
                 ),
         ) {
-            NaverMap(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        shape = RoundedCornerShape(12.dp),
-                        color = Color.Unspecified,
+            if (uiState.runningPoint.size >= 2) {
+                NaverMap(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            shape = RoundedCornerShape(12.dp),
+                            color = Color.Unspecified,
+                        ),
+                    uiSettings = MapUiSettings(
+                        isZoomControlEnabled = false,
+                        isCompassEnabled = false,
+                        isScaleBarEnabled = false,
+                        isLocationButtonEnabled = false,
+                        isScrollGesturesEnabled = true,
+                        isZoomGesturesEnabled = true,
+                        isRotateGesturesEnabled = false,
+                        isTiltGesturesEnabled = false,
                     ),
-                uiSettings = MapUiSettings(
-                    isZoomControlEnabled = false,
-                    isCompassEnabled = false,
-                    isScaleBarEnabled = false,
-                    isLocationButtonEnabled = false,
-                    isScrollGesturesEnabled = true,
-                    isZoomGesturesEnabled = true,
-                    isRotateGesturesEnabled = false,
-                    isTiltGesturesEnabled = false,
-                ),
-            ) {
-                PathOverlay(
-                    coords = uiState.runningPoint,
-                    width = 4.dp,
-                    outlineWidth = 0.dp,
-                    color = colorResource(R.color.bg_interactive_primary),
+                ) {
+                    PathOverlay(
+                        coords = uiState.runningPoint,
+                        width = 4.dp,
+                        outlineWidth = 0.dp,
+                        color = colorResource(R.color.bg_interactive_primary),
+                    )
+                }
+            } else {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(R.drawable.img_running_route_error),
+                    contentDescription = "running route error",
+                    contentScale = ContentScale.Fit,
                 )
             }
         }
